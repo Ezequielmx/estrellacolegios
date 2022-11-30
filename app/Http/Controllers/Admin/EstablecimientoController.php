@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Establecimiento;
+use Yajra\DataTables\Contracts\DataTable;
 
 class EstablecimientoController extends Controller
 {
@@ -12,8 +14,16 @@ class EstablecimientoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->ajax()){
+            $establecimientos = Establecimiento::All()->take(1000);
+            return datatables()->of($establecimientos)
+            ->addColumn('editar', '<a  href="{{route(\'admin.servicios.create\', [\'establ_id\' => $id])}}" class="btn btn-primary btn-sm">' . ('Crear Servicio') . '</a>')
+            ->rawColumns(['editar']) 
+            ->toJson();
+
+        }
         return view('admin.establecimientos.index');
     }
 
@@ -55,9 +65,9 @@ class EstablecimientoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($establ_id)
     {
-        //
+        return ("editando establecimiento" .  $establ_id );
     }
 
     /**

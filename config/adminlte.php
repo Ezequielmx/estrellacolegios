@@ -251,6 +251,18 @@ return [
             'text'        => 'Inicio',
             'route'       => 'admin',
             'icon'        => 'fas fa-fw fa-tools',
+        ],
+
+        [
+            'text'        => 'Establecimientos',
+            'route'       => 'admin.establecimientos.index',
+            'icon'        => 'fas fa-school',
+        ],
+
+        [
+            'text'        => 'Servicios',
+            'route'       => 'admin.servicios.index',
+            'icon'        => 'fas fa-truck',
         ]
         
     ],
