@@ -73,9 +73,9 @@ class ServicioController extends Controller
         $serv->establecimiento_id = $request->establecimiento_id;
         $serv->cont_1 = $request->cont_1;
         $serv->cel_cont_1 = $request->cel_cont_1;
-        $serv->puesto_cont1 = $request->puesto_cont1;
+        $serv->puesto_cont1 = $request->puesto_cont_1;
         $serv->cont_2 = $request->cont_2;
-        $serv->puesto_cont2 = $request->puesto_cont2;
+        $serv->puesto_cont2 = $request->puesto_cont_2;
         $serv->cel_cont_2 = $request->cel_cont_2;
         $serv->matricula_tmj = $request->matricula_tmj;
         $serv->matricula_ttj = $request->matricula_ttj;

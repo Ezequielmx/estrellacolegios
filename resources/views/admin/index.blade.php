@@ -4,6 +4,9 @@
 
 @section('content')
     <h1 style="padding:7px">Inicio</h1>  
+
+
+
 @stop
 
 @section('css')

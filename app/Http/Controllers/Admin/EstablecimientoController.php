@@ -17,7 +17,8 @@ class EstablecimientoController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $establecimientos = Establecimiento::All()->take(1000);
+            $establecimientos = Establecimiento::All()->take(500);
+            
             return datatables()->of($establecimientos)
             ->addColumn('editar', '<a  href="{{route(\'admin.servicios.create\', [\'establ_id\' => $id])}}" class="btn btn-primary btn-sm">' . ('Crear Servicio') . '</a>')
             ->rawColumns(['editar']) 
