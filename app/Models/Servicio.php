@@ -14,7 +14,7 @@ class Servicio extends Model
     }
 
     public function asesor(){
-        return $this->belongsTo('App\Models\Asesore');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function planetario(){

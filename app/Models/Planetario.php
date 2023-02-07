@@ -9,6 +9,12 @@ class Planetario extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'numero',
+        'tamaño',
+        'activo',
+    ];
+
     public function servicios(){
         return $this->hasMany('App\Models\Servicio');
     }

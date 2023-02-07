@@ -200,8 +200,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        {!! Form::label('espacio_montaje_id', 'Espacio Montaje') !!}
-                        {!! Form::select('espacio_montaje_id', $espacios, null, ['class'=> 'form-control']) !!}
+                        {!! Form::label('espacio_montaje', 'Espacio Montaje') !!}
+                        {!! Form::select('espacio_montaje', $espacios, null, ['class'=> 'form-control']) !!}
                     </div>
                 </div>
 

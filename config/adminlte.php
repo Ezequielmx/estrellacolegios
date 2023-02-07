@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>Estrella del Plata</b>',
+    'logo' => '',
     'logo_img' => 'img/isocirc.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -83,9 +83,9 @@ return [
     |
     */
 
-    'layout_topnav' => null,
+    'layout_topnav' => true,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => true,
+    'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
@@ -129,7 +129,7 @@ return [
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'navbar-dark',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -251,6 +251,18 @@ return [
             'text'        => 'Inicio',
             'route'       => 'admin',
             'icon'        => 'fas fa-fw fa-tools',
+        ],
+
+        [
+            'text'        => 'Usuarios',
+            'route'       => 'admin.usuarios.index',
+            'icon'        => 'fas fa-user-tie',
+        ],
+
+        [
+            'text'        => 'Planetarios',
+            'route'       => 'admin.planetarios.index',
+            'icon'        => 'fas fa-igloo',
         ],
 
         [

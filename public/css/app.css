@@ -1146,6 +1146,12 @@ select {
 .z-50 {
 	z-index: 50;
 }
+.order-1 {
+	order: 1;
+}
+.order-3 {
+	order: 3;
+}
 .col-span-6 {
 	grid-column: span 6 / span 6;
 }
@@ -1246,6 +1252,9 @@ select {
 }
 .ml-auto {
 	margin-left: auto;
+}
+.mr-1 {
+	margin-right: 0.25rem;
 }
 .block {
 	display: block;

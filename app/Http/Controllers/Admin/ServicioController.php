@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Servicio;
-use App\Models\Asesore;
 use App\Models\Espacio;
 use App\Models\Planetario;
 use App\Models\Establecimiento;
 use App\Models\Estado;
+use App\Models\User;
 use App\Services\mensWpp;
 use Illuminate\Support\Collection;
 
@@ -34,7 +34,7 @@ class ServicioController extends Controller
     public function create()
     {
         $est_id = $_GET["establ_id"];
-        $asesores = Asesore::pluck('asesor', 'id');
+        $asesores = User::role('Asesor')->get()->pluck('name','id');
         $asesores->prepend(NULL);
         $planetarios = Planetario::pluck('numero', 'id');
         $planetarios->prepend(NULL);
@@ -123,7 +123,7 @@ class ServicioController extends Controller
     public function edit(Servicio $servicio)
     {
         //dd($servicio);
-        $asesores = Asesore::pluck('asesor', 'id');
+        $asesores = User::role('Asesor')->get()->pluck('name','id');
         $asesores->prepend(NULL);
         //dd($asesores);
         $planetarios = Planetario::pluck('numero', 'id');
@@ -177,7 +177,7 @@ class ServicioController extends Controller
         isset($request->servicio_tt)? $servicio->servicio_tt = 1 : $servicio->servicio_tt = 0;
         isset($request->servicio_tn)? $servicio->servicio_tn = 1 : $servicio->servicio_tn = 0;
 
-        $servicio->espacio_montaje_id = $request->espacio_montaje_id;
+        $servicio->espacio_montaje = $request->espacio_montaje;
         ($request->planetario_id == 0)? $servicio->planetario_id = null : $servicio->planetario_id = $request->planetario_id;
         ($request->asesor_id == 0)?$servicio->asesor_id = null: $servicio->asesor_id = $request->asesor_id;
         $servicio->precio_alumno = $request->precio_alumno;

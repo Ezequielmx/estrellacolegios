@@ -4,20 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Establecimiento;
-use Yajra\DataTables\Contracts\DataTable;
 
-class EstablecimientoController extends Controller
+class PlanetarioController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-    
-        return view('admin.establecimientos.index');
+        return view('admin.planetarios.index');
     }
 
     /**
@@ -58,9 +55,9 @@ class EstablecimientoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($establ_id)
+    public function edit($id)
     {
-        return ("editando establecimiento" .  $establ_id );
+        //
     }
 
     /**
