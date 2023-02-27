@@ -10,6 +10,6 @@ class Establecimiento extends Model
     use HasFactory;
 
     public function servicios(){
-        return $this->hasMany('App\Models\Servicio');
+        return $this->belongsToMany('App\Models\Servicio');
     }
 }

@@ -7,17 +7,8 @@ use Livewire\Component;
 
 class Planetarios extends Component
 {
-    public $numero;
-    public $tamaño;
-    public $activo = true;
-    public $observaciones;
-
-    protected $rules = [
-        'numero' => 'required',
-        'tamaño' => 'required'
-    ];
-
-    protected $listeners = ['deletePlanetario'];
+    
+    public $cantidad;
 
     public function render()
     {
@@ -25,44 +16,14 @@ class Planetarios extends Component
         return view('livewire.admin.planetarios', compact('planetarios'));
     }
 
-    public function deletePlanetario(Planetario $planetario)
-    {
-        $planetario->delete();
-    }
 
-    public function changeNumero(Planetario $planetario, $numero)
-    {
-        $planetario->numero = $numero;
+    public function changeCantidad(Planetario $planetario, $cantidad)
+    { 
+        if($cantidad == "") {
+            $cantidad = 0;
+        }    
+        $planetario->cantidad = $cantidad;   
         $planetario->save();
     }
-
-    public function changeTamaño(Planetario $planetario, $tamaño)
-    {
-        $planetario->tamaño = $tamaño;
-        $planetario->save();
-    }
-
-    public function changeActivo(Planetario $planetario, $activo)
-    {
-        $planetario->activo = $activo;
-        $planetario->save();
-    }
-
-    public function store()
-    {
-        $this->validate();
-
-        Planetario::create([
-            'numero' => $this->numero,
-            'tamaño' => $this->tamaño,
-            'activo' => $this->activo,
-        ]);
-
-    
-        $this->reset(['numero', 'tamaño', 'activo', 'observaciones']);
-    }
-
-
-
 
 }

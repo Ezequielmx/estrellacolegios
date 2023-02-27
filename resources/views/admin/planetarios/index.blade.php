@@ -4,9 +4,12 @@
 
 @section('content')
     <h1 style="padding:7px"><i class="fas fa-igloo"></i> </i>&nbsp;&nbsp;Planetarios</h1>
-    <div class="card">
-        @livewire('admin.planetarios')
+    <div class="row">
+        <div class="col-md-3">
+            @livewire('admin.planetarios')
+        </div>
     </div>
+        
 @stop
 
 @section('css')

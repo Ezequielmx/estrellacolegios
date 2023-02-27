@@ -1,5 +1,13 @@
 
     <div class="row">
+
+        <div class="col">
+            <div class="form-group">
+                {!! Form::label('vendedor_id', 'Vendedor') !!}
+                {!! Form::select('vendedor_id', $vendedores, null, ['class'=> 'form-control']) !!}
+            </div>
+        </div>
+
         <div class="col">
             {!! Form::label('fecha_venta', 'Fecha de Venta') !!}
             {!! Form::date('fecha_venta', date('Y-m-d'), ['class' => 'form-control', 'placeholder' => 'Fecha de Venta']) !!}
@@ -7,6 +15,7 @@
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
+
         <div class="col">
             {!! Form::label('fecha_ini_serv', 'Fecha de Inicio Servicio') !!}
             {!! Form::date('fecha_ini_serv', null, ['class' => 'form-control', 'placeholder' => 'Fecha de Inicio']) !!}
@@ -14,6 +23,7 @@
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
+
         <div class="col">
             {!! Form::label('fecha_fin_serv', 'Fecha de Fin Servicio') !!}
             {!! Form::date('fecha_fin_serv', null, ['class' => 'form-control', 'placeholder' => 'Fecha de Fin']) !!}
@@ -249,5 +259,3 @@
             </div>           
         </div>
     </div>
-
-    {!! Form::text('establecimiento_id', $establecimiento->id, ['class' => 'd-none']) !!}

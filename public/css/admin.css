@@ -19,4 +19,147 @@
     color: #007bff;
     font-size: 80px;
 }
+
+.establRealiz{
+    background-color: rgb(241, 219, 146) !important;
+    border-bottom: 2px solid #949494;
+}
+
+.navbar-dark {
+    background-color: #0767c8;
+    border-color: #044177;
+}
+
+.inputdisabled{
+    background: transparent;
+    color: lightgray;
+}	
+
+.fc-event-title-container {
+    white-space: pre-wrap;
+}
+
+.leyenda_lineas {
+    position: fixed;
+    bottom: 0px;
+    left: 20px;
+    width: 160px;
+    font-size: smaller;
+    z-index: 2;
+}
+
+.leyenda_estados {
+    position: fixed;
+    bottom: 0px;
+    right: 20px;
+    width: 160px;
+    font-size: smaller;
+    z-index: 2;
+}
+
+.est1{
+    background-color: #ffffff!important;
+}
+
+.est2{
+    background-color: #f0f182!important;
+}
+
+.est3{
+    background-color: #82f1eb!important;
+}
+
+.est4{
+    background-color: #f59a5d!important;
+}
+
+.est5{
+    background-color: #8bd475!important;
+}
+
+.est6{
+    background-color: #047a31!important;
+    color: white;
+}
+
+.est7{
+    background-color: #da4343!important;
+    color: #d3d3d3;
+}
+
+.contSpans{
+    display: flex;
+    flex-direction: column;
+}
+
+.spanServ{
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid white;
+    margin-bottom: 2px;
+}
+
+.fc-daygrid-event {
+    border-right: 20px solid!important;
+    border-top: 0!important;
+    border-bottom: 0!important;
+    border-left: 0!important;
+}
+
+.calEst1{
+    border-color: #ffffff!important;
+    outline: 1px solid rgb(136, 136, 136);
+}
+
+
+.calEst2{
+    border-color: #f0f182!important;
+}
+
+.calEst3{
+    border-color: #82f1eb!important;
+}
+
+.calEst4{
+    border-color: #f59a5d!important;
+}
+
+.calEst5{
+    border-color: #8bd475!important;
+}
+
+.calEst6{
+    border-color: #047a31!important;
+}
+
+.calEst7{
+    border-color: #da4343!important;
+}
+
+.outl{
+    outline: 1px solid rgb(136, 136, 136);
+}
+
+.estado_color{
+    border: 1px solid;
+    border-color:  rgb(105, 105, 105);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.color{
+    padding: 6px;
+    color: white;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    margin-bottom: 2px;
+}
+
+.ley_est{
+    border: 1px solid rgb(105, 105, 105);
+    padding: 5px;
+    border-right: none;
+    margin-bottom: 2px;
+    margin-left: 10px;
+}
   

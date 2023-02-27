@@ -266,6 +266,12 @@ return [
         ],
 
         [
+            'text'        => 'Lineas',
+            'route'       => 'admin.lineas.index',
+            'icon'        => 'fas fa-igloo',
+        ],
+
+        [
             'text'        => 'Establecimientos',
             'route'       => 'admin.establecimientos.index',
             'icon'        => 'fas fa-school',

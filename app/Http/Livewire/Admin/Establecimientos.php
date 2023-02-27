@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Log;
 
 class Establecimientos extends Component
 {
-    public $filtCue;
+
     public $filtProv;
     public $filtDepto;
     public $filtCiudad;
     public $estabFilt;
 
-    public $cueSel = "all";
+
     public $nomBusq = "";
     public $provSel = "all";
     public $deptoSel = "all";
@@ -39,16 +39,9 @@ class Establecimientos extends Component
 
     function listarFiltros()
     {
-        $this->filtCue = $this->estabFilt->pluck('cue')->unique();
         $this->filtProv = $this->estabFilt->pluck('prov')->unique();
         $this->filtDepto = $this->estabFilt->pluck('depto')->unique();
         $this->filtCiudad = $this->estabFilt->pluck('ciudad')->unique();
-    }
-
-    public function updCue($cueSel)
-    {
-        $this->cueSel = $cueSel;
-        $this->filtrarTabla();
     }
 
     public function busqNombre()
@@ -85,18 +78,10 @@ class Establecimientos extends Component
 
     public function filtrarTabla()
     {
+        $this->nomBusq = str_replace("ñ","Ñ",$this->nomBusq);
         $filter = false;
         if ($this->provSel != "all") {
             $this->estabFilt = Establecimiento::all()->where('prov', '===', $this->provSel);
-            $filter = true;
-        }
-
-        if ($this->cueSel != "all") {
-            if ($filter) {
-                $this->estabFilt = $this->estabFilt->where('cue', '==', $this->cueSel);
-            } else {
-                $this->estabFilt = Establecimiento::all()->where('cue', '==', $this->cueSel);
-            }
             $filter = true;
         }
 

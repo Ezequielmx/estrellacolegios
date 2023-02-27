@@ -9,11 +9,15 @@ class Servicio extends Model
 {
     use HasFactory;
 
-    public function establecimiento(){
-        return $this->belongsTo('App\Models\Establecimiento');
+    public function establecimientos(){
+        return $this->belongsToMany('App\Models\Establecimiento');
     }
 
     public function asesor(){
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function vendedor(){
         return $this->belongsTo('App\Models\User');
     }
 
@@ -27,6 +31,10 @@ class Servicio extends Model
 
     public function espacio(){
         return $this->belongsTo('App\Models\Espacio');
+    }
+
+    public function linea(){
+        return $this->belongsTo('App\Models\Linea');
     }
 
 }

@@ -1,16 +1,6 @@
 <div>
     <div class="card-body">
         <div class="row">
-            <div class="col">
-                <b><label for="cue">CUE</label></b>
-                <select class="form-control" name="cue" wire:change="updCue($event.target.value)">
-                    <option value="all" {{ ('all'==$cueSel)? 'selected' : '' }}>TODO</option>
-                    @foreach ($filtCue as $cue)
-                    <option value={{ $cue }} {{ ($cue==$cueSel)? 'selected' : '' }}>{{
-                        $cue }}</option>
-                    @endforeach
-                </select>
-            </div>
 
             <div class="col">
                 <b><label for="nombre">Nombre</label></b>
@@ -79,13 +69,14 @@
                     <th>Ámbito</th>
                     <th>Tipo</th>
                     <th>Niveles</th>
+                    <th>Fecha Serv</th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($estabFilt as $establ)
-                <tr>
+                <tr class={{ $establ->servicios->max('fecha_ini_serv')? 'establRealiz' : '' }}>
                     <td>{{ $establ->cue }}</td>
                     <td>{{ $establ->nombre }}</td>
                     <td>{{ $establ->domicilio }}</td>
@@ -96,9 +87,26 @@
                     <td>{{ $establ->ambito }}</td>
                     <td>{{ $establ->tipo }}</td>
                     <td>{{ $establ->niveles }}</td>
+                    <td style="white-space: nowrap;">
+                        <div class="contSpans">
+                            @foreach ($establ->servicios as $serv)
+                            <a href="{{ route('admin.servicios.edit', $serv) }}" 
+                            style="color: inherit!important; margin-bottom: 10px">
+                                <span title="{{ $serv->estado()->first()->estado }}" class="spanServ {{ 'est' . $serv->estado_id }}">
+                                    {{ strftime("%d/%m/%Y", strtotime($serv->fecha_ini_serv)) }}
+                                </span>
+                            </a>
+                            @endforeach
+                        </div>
+                    </td>
                     <td width="10px">
                         <a class="btn btn-primary btn-sm"
                             href="{{ route('admin.establecimientos.edit', $establ->cue) }}">Editar</a>
+                    </td>
+                    <td style="white-space: nowrap; width:150px">
+                        <a class="btn btn-success btn-sm"
+                            href="{{ route('admin.servicios.create', ['estab_id' => $establ->id]) }}">Nuevo
+                            Servicio</a>
                     </td>
                 </tr>
                 @endforeach
