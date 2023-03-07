@@ -37,4 +37,8 @@ class Servicio extends Model
         return $this->belongsTo('App\Models\Linea');
     }
 
+    public function mensajes(){
+        return $this->hasMany('App\Models\Mensaje');
+    }
+
 }

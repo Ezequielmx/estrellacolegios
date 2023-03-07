@@ -10,6 +10,7 @@ use App\Models\Establecimiento;
 use App\Models\Estado;
 use App\Models\User;
 use App\Models\Linea;
+use App\Services\mensWpp;
 
 class EditServicio extends Component
 {
@@ -132,14 +133,14 @@ class EditServicio extends Component
         $this->servicio->fecha_fin_serv = $this->servicio->fecha_ini_serv;
     }
 
-
-
     public function guardar()
     {
         $this->validate();
 
         $this->servicio->save();
 
+        new mensWpp($this->servicio);
+        
         //redirect to admin.servicios.index with info "Servicio creado"
         return redirect()->route('admin.servicios.index')->with('info', 'Servicio guardado con éxito');
     }

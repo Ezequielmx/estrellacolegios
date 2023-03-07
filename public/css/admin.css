@@ -162,4 +162,78 @@
     margin-bottom: 2px;
     margin-left: 10px;
 }
-  
+
+.badge {
+    position: relative;
+    border-radius: 50%;
+    background-color: #dc3545;
+    color: white;
+    border: 1px solid white;
+    width: 20px;
+    height: 20px;
+   }
+
+.btnwpp {
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+
+  .badge-notification .badge:after {
+    content: "100";
+    position: absolute;
+    background: blue;
+    height: 2rem;
+    top: 1rem;
+    right: 1.5rem;
+    width: 2rem;
+    text-align: center;
+    line-height: 2rem;
+    font-size: 1rem;
+    border-radius: 50%;
+    color: white;
+    border: 1px solid blue;
+  }
+
+  #ex2 .fa-stack[data-count]:after {
+    position: absolute;
+    right: -15%;
+    top: -15%;
+    content: attr(data-count);
+    font-size: 60%;
+    padding: .6em;
+    border-radius: 999px;
+    line-height: .75em;
+    color: white;
+    background: rgba(255, 0, 0, 0.85);
+    text-align: center;
+    min-width: 2em;
+    font-weight: bold;
+  }
+
+.left{
+    padding-right: 100px;
+}
+
+.right{
+    padding-left: 100px;
+    
+}
+
+.right .direct-chat-text {
+    margin-right: 5px;
+}
+
+.direct-chat-text{
+    margin: 0px 0 0 0px;
+}
+
+.direct-chat-infos{
+    padding: 0 5px 0 5px;
+}

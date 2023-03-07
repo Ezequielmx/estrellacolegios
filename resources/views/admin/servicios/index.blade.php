@@ -16,7 +16,13 @@
 @stop
 
 @section('css')
-
     <link rel="stylesheet" href="/css/admin.css">
+@stop
 
+@section('js')
+    <script>
+        window.addEventListener('show-form', event => {
+            $('#form').modal('show');
+        });
+    </script>
 @stop
