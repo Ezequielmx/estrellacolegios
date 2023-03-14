@@ -29,7 +29,9 @@
                         <th>Establecimiento/s</th>
                         <th>Provincia</th>
                         <th>Localidad</th>
+                        <th>Asesor</th>
                         <th>Estado</th>
+                        <th>Cambio Estado</th>
                         <th colspan="3"></th>
                     </tr>
                 </thead>
@@ -45,7 +47,9 @@
                     </td>
                     <td>{{ $servicio->establecimientos->first()->prov }}</td>
                     <td>{{ $servicio->establecimientos->first()->ciudad }}</td>
+                    <td>{{ $servicio->asesor? $servicio->asesor->name : '' }}</td>
                     <td>{{ $servicio->estado()->first()->estado }}</td>
+                    <td>{{ floor((strtotime(now()) - strtotime($servicio->cambio_estado))  / 86400) . ' días' }}</td>
 
                     @if ($servicio->unreadwpp > 0)
                     <td>

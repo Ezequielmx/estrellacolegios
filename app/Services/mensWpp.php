@@ -18,20 +18,30 @@ class mensWpp
     {
         $id = $servicio->id;
         $cel = '+549' . $servicio->cel_cont_1;
-        if($servicio->asesor_id && $servicio->estado->estado == 'VENDIDO'){
+        if($servicio->estado->estado == 'VENDIDO'){
 
             $servicio->estado_id = 2;
             $servicio->save();
 
+            if($servicio->precio_total){
+                $precio = "$" . $servicio->precio_total;
+            }
+            else{
+                $precio = "$" . $servicio->precio_alumno . " x alumno";
+            }
+
             setlocale(LC_TIME, "spanish");
 
-            $header = "*¡Hola " . $servicio->cont_1 . "!*";
-
+            $header = "¡Hola " . $servicio->cont_1 . "!";
+            
             $mensaje = "🤖Este es un mensaje automatizado. Recibimos una solicitud de servicio para llevar el Planetario móvil a tu institución: \\n\\n";            
             $mensaje .= "🗓️ *Fecha:* " . utf8_encode(strftime('%A %d de %B', strtotime($servicio->fecha_ini_serv))) . "\\n\\n";
             $mensaje .= "🏫 *Establecimiento:* {$servicio->establecimientos->first()->nombre} \\n\\n";
             $mensaje .= "📍 *Dirección:* {$servicio->establecimientos->first()->domicilio} \\n\\n";
             $mensaje .= "🏙️ *Ciudad:* {$servicio->establecimientos->first()->ciudad} , {$servicio->establecimientos->first()->depto}, {$servicio->establecimientos->first()->prov}\\n\\n";
+            $mensaje .= "👨‍👩‍👦‍👦 *Cantidad de Alumnos:* " .  $servicio->matricula_total_j + $servicio->matricula_total_p + $servicio->matricula_total_s . "\\n\\n";
+            $mensaje .= " 💵 *Valor:* " . $precio . "\\n\\n";
+
             $mensaje .= "Confirmanos por favor si es correcta esta información 🤔";
 
             $postFields = '{

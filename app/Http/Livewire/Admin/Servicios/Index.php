@@ -19,10 +19,10 @@ class Index extends Component
     {
         $this->servicios = Servicio::orderBy('fecha_ini_serv')->get();
         if (!$this->showCaida) {
-            $this->servicios = $this->servicios->where('estado_id','!=', 7);
+            $this->servicios = $this->servicios->where('estado_id','!=', 8);
         }
         if (!$this->showFinal) {
-            $this->servicios = $this->servicios->where('estado_id','!=', 6);
+            $this->servicios = $this->servicios->where('estado_id','!=', 7);
         }
         return view('livewire.admin.servicios.index');
     }

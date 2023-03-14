@@ -78,11 +78,15 @@
 }
 
 .est6{
+    background-color: #0099ff!important;
+}
+
+.est7{
     background-color: #047a31!important;
     color: white;
 }
 
-.est7{
+.est8{
     background-color: #da4343!important;
     color: #d3d3d3;
 }
@@ -129,10 +133,14 @@
 }
 
 .calEst6{
-    border-color: #047a31!important;
+    border-color: #0099ff!important;
 }
 
 .calEst7{
+    border-color: #047a31!important;
+}
+
+.calEst8{
     border-color: #da4343!important;
 }
 

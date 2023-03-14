@@ -11,6 +11,7 @@ use App\Models\Espacio;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Servicio;
 use App\Models\Linea;
+use App\Services\mensWpp;
 
 class NewServicio extends Component
 {
@@ -208,12 +209,15 @@ class NewServicio extends Component
         $servicio->asesor_id = $this->asesor_id;
         $servicio->vendedor_id = $this->vendedor_id;
         $servicio->estado_id = $this->estado_id;
+        $servicio->cambio_estado = now();
         $servicio->linea_id = $this->linea_id;
         
         $servicio->save();
         foreach ($this->establecimientos as $est) {
             $servicio->establecimientos()->attach($est['id']);
         }
+
+        new mensWpp($servicio);
         
         //redirect to admin.servicios.index with info "Servicio creado"
         return redirect()->route('admin.servicios.index')->with('info', 'Servicio creado');

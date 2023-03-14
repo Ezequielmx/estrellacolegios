@@ -136,11 +136,12 @@ class EditServicio extends Component
     public function guardar()
     {
         $this->validate();
-
         $this->servicio->save();
-
-        new mensWpp($this->servicio);
-        
+        if (isset($this->servicio->getchanges()['estado_id'])){
+            $this->servicio->cambio_estado = now();
+            $this->servicio->save();
+        }
+            
         //redirect to admin.servicios.index with info "Servicio creado"
         return redirect()->route('admin.servicios.index')->with('info', 'Servicio guardado con éxito');
     }
