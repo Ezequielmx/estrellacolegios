@@ -13,6 +13,10 @@ class Servicio extends Model
         return $this->belongsToMany('App\Models\Establecimiento');
     }
 
+    public function horarios(){
+        return $this->hasMany('App\Models\Horarioservicio');
+    }
+
     public function asesor(){
         return $this->belongsTo('App\Models\User');
     }

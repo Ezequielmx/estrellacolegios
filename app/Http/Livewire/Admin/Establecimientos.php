@@ -30,10 +30,6 @@ class Establecimientos extends Component
 
     public function render()
     {
-
-        /*$this->estabFilt = $establecimientos->filter(function ($item) {
-            return false !== stristr($item->nombre, 'SARMIENTO');
-        });*/
         return view('livewire.admin.establecimientos');
     }
 

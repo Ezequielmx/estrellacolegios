@@ -3,9 +3,8 @@
 @section('title','Estrella del Plata')
 
 @section('content')
-    <h1 style="padding:7px"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Crear Servicio</h1>
-   
-    @livewire('admin.servicios.new-servicio', ['est_id' => $est_id])
+       
+    @livewire('admin.servicios.new-servicio', ['est_id' => $est_id, 'serv_tipo' => $serv_tipo])
    
 @stop
 

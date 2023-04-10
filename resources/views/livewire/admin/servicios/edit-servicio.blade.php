@@ -1,5 +1,17 @@
 <div>
+    <h1 style="padding:7px"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Editar Servicio 
+        @if ($servicio->tipo == 1)
+        <span style="background-color: rgb(44, 129, 199); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Colegios</span>
+    @else
+        @if ($servicio->tipo == 2)
+            <span style="background-color: rgb(34, 163, 88); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento Pago</span>
+        @else
+            <span style="background-color: rgb(216, 99, 64); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento al Cobro</span>
+        @endif
+    @endif  
+    </h1>  
     <div class="card">
+        @if ($servicio->tipo == 1)
         <div class="card-header">
             <h3><b> Establecimientos</h3></b>
 
@@ -158,6 +170,22 @@
 
             </div>
         </div>
+        @else
+        <div class="card-header">
+            <h3><b> Lugar </h3></b>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <input type="text" class="form-control" wire:model.defer="servicio.lugar" placeholder="Lugar">
+                    </div>
+                    @error('servicio.lugar')
+                    <span class=" text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+        @endif
+
     </div>
     <div class="card">
         <div class="card-body {{'est' . $servicio->estado_id }}">
@@ -312,8 +340,13 @@
                     </div>
                 </div>
             </div>
-            <hr>
+        </div>
+    </div>
 
+
+    @if($servicio->tipo == 1)
+    <div class="card">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
                     <h4>Matricula Jardín</h4>
@@ -450,8 +483,12 @@
                     </label>
                 </div>
             </div>
+        </div>
+    </div>
+    @endif
 
-            <hr>
+    <div class="card">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-9">
                     <div class="row">
@@ -510,6 +547,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
+                    @if($servicio->tipo ==1)
                     <div class="form-group">
                         <label for="precio_alumno">Precio por alumno</label>
                         <div class="input-group mb-2">
@@ -519,6 +557,9 @@
                             <input type="number" class="form-control" wire:model.defer="servicio.precio_alumno">
                         </div>
                     </div>
+                    @endif
+
+                    @if($servicio->tipo < 3)
                     <div class="form-group">
                         <label for="precio_total">Precio Total</label>
                         <div class="input-group mb-2">
@@ -528,13 +569,20 @@
                             <input type="number" class="form-control" wire:model.defer="servicio.precio_total">
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <button class="btn btn-primary" wire:click="guardar()">Guardar</button>
-            <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>
+    </div>    
 
-        </div>
+    @livewire('admin.servicios.horarios.horario-servicio', ['servicio' => $servicio], key($servicio->id))
+    
+    <div class="basebot">
+        <button class="btn btn-primary" wire:click="guardar()">Guardar</button>&nbsp;&nbsp;
+        <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>
     </div>
+
+    
+            
+
 </div>

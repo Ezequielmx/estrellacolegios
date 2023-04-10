@@ -245,3 +245,10 @@
 .direct-chat-infos{
     padding: 0 5px 0 5px;
 }
+
+
+.basebot {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}

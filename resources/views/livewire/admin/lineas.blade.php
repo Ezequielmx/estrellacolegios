@@ -40,7 +40,7 @@
                             wire:change='changeActiva({{ $linea->id }}, $event.target.checked)'>
                         </td>
                         <td>
-                            <button class="btn btn-danger" wire:click="$emit('deleteLin'), {{ $linea->id }}">Eliminar</button>
+                            <button class="btn btn-danger" wire:click="$emit('deleteLin', {{ $linea->id }})">Eliminar</button>
                         </td>
 
                     </tr>

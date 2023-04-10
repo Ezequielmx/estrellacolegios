@@ -105,7 +105,7 @@
                     </td>
                     <td style="white-space: nowrap; width:150px">
                         <a class="btn btn-success btn-sm"
-                            href="{{ route('admin.servicios.create', ['estab_id' => $establ->id]) }}">Nuevo
+                            href="{{ route('admin.servicios.create', ['estab_id' => $establ->id, 'serv_tipo' => 1]) }}">Nuevo
                             Servicio</a>
                     </td>
                 </tr>

@@ -2,7 +2,20 @@
     @php
     setlocale(LC_TIME, "spanish");
     @endphp
+    <h1 style="padding:7px"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Crear Servicio 
+        @if ($serv_tipo == 1)
+            <span style="background-color: rgb(44, 129, 199); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Colegios</span>
+        @else
+            @if ($serv_tipo == 2)
+                <span style="background-color: rgb(34, 163, 88); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento Pago</span>
+            @else
+                <span style="background-color: rgb(216, 99, 64); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento al Cobro</span>
+            @endif
+        @endif  
+    </h1>    
     <div class="card">
+
+        @if ($serv_tipo == 1)
         <div class="card-header">
             <h3><b> Establecimientos</h3></b>
 
@@ -161,7 +174,23 @@
 
             </div>
         </div>
+        @else
+        <div class="card-header">
+            <h3><b> Lugar </h3></b>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <input type="text" class="form-control" wire:model.defer="lugar" placeholder="Lugar">
+                    </div>
+                    @error('lugar')
+                    <span class=" text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
+
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -232,7 +261,8 @@
                             <option value="">Seleccione una línea</option>
                             @foreach ($lineas as $linea)
                             <option value="{{ $linea->id }}">
-                                {{ $linea->nombre . "- ". utf8_encode(strftime("%d/%m/%Y", strtotime($linea->inicio)))
+                                {{ $linea->nombre . "- ". utf8_encode(strftime("%d/%m/%Y",
+                                strtotime($linea->inicio)))
                                 ."-". utf8_encode(strftime("%d/%m/%Y", strtotime($linea->fin))) }}
                             </option>
                             @endforeach
@@ -274,7 +304,6 @@
                 </div>
             </div>
 
-
             <h4>Contacto 2</h4>
             <div class="row">
                 <div class="col-md-4">
@@ -300,6 +329,7 @@
             </div>
             <hr>
 
+            @if($serv_tipo == 1)
             <div class="row">
                 <div class="col-md-3">
                     <h4>Matricula Jardín</h4>
@@ -436,6 +466,7 @@
                     </label>
                 </div>
             </div>
+            @endif
 
             <hr>
             <div class="row">
@@ -495,6 +526,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
+                    @if($serv_tipo ==1)
                     <div class="form-group">
                         <label for="precio_alumno">Precio por alumno</label>
                         <div class="input-group mb-2">
@@ -504,6 +536,8 @@
                             <input type="number" class="form-control" wire:model.defer="precio_alumno">
                         </div>
                     </div>
+                    @endif
+                    @if($serv_tipo < 3)
                     <div class="form-group">
                         <label for="precio_total">Precio Total</label>
                         <div class="input-group mb-2">
@@ -513,6 +547,7 @@
                             <input type="number" class="form-control" wire:model.defer="precio_total">
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

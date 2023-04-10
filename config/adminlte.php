@@ -266,21 +266,41 @@ return [
         ],
 
         [
-            'text'        => 'Lineas',
-            'route'       => 'admin.lineas.index',
+            'text'        => 'Temas',
+            'route'       => 'admin.temas.index',
             'icon'        => 'fas fa-igloo',
         ],
 
         [
-            'text'        => 'Establecimientos',
+            'text'        => 'Lineas',
+            'route'       => 'admin.lineas.index',
+            'icon'        => 'fas fa-map',
+        ],
+
+        [
+            'text'        => 'Colegios',
             'route'       => 'admin.establecimientos.index',
             'icon'        => 'fas fa-school',
         ],
 
         [
             'text'        => 'Servicios',
-            'route'       => 'admin.servicios.index',
             'icon'        => 'fas fa-truck',
+            'submenu'     => [
+                [
+                    'text' => 'Lista Servicios',
+                    'route'       => 'admin.servicios.index',
+                ],
+                [
+                    'text' => 'Nuevo Evento Pago',
+                    'route'  => ['admin.servicios.create', ['serv_tipo' => 2]],
+                ],
+                [
+                    'text' => 'Nuevo Evento al Cobro',
+                    'route'  => ['admin.servicios.create', ['serv_tipo' => 3]],
+                ],
+            ],
+            
         ]
         
     ],

@@ -70,6 +70,7 @@ class EditServicio extends Component
         'servicio.precio_total' => 'nullable|numeric',
         'servicio.observaciones' => 'nullable',
         'servicio.linea_id' => 'required',
+        'servicio.lugar'    => 'exclude_if:serv_tipo,1|required'
     ];
 
     public function render()

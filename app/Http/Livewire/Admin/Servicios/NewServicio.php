@@ -67,8 +67,11 @@ class NewServicio extends Component
     public $estados;
     public $espacios;
     public $lineas;
+    public $tipo;
+    public $lugar;
 
     public $userReg;
+    public $serv_tipo;
 
     protected $listeners = ['deleteEst'];
 
@@ -76,13 +79,14 @@ class NewServicio extends Component
         'fecha_venta' => 'required',
         'fecha_ini_serv' => 'required',
         'fecha_fin_serv' => 'required',
-        'cont_1' => 'required',
-        'cel_cont_1' => 'required|digits:10',
-        'puesto_cont1' => 'required',
+        'cont_1' => 'exclude_if:serv_tipo,3|required',
+        'cel_cont_1' => 'exclude_if:serv_tipo,3|required|digits:10',
+        'puesto_cont1' => 'exclude_if:serv_tipo,3|required',
         'espacio_montaje' => 'required',
         'planetario_id' => 'required',
         'vendedor_id' => 'required',
         'estado_id' => 'required',
+        'lugar' => 'exclude_if:serv_tipo,1|required',
     ];
 
     public function render()
@@ -90,9 +94,13 @@ class NewServicio extends Component
         return view('livewire.admin.servicios.new-servicio');
     }
 
-    public function mount($est_id)
+    public function mount($est_id, $serv_tipo)
     {
-        array_push($this->establecimientos, Establecimiento::find($est_id)->toArray());
+        $this->serv_tipo = $serv_tipo;
+        if ($serv_tipo == 1){
+            array_push($this->establecimientos, Establecimiento::find($est_id)->toArray());
+        }
+        
 
         $this->asesores = User::role('Asesor')->get();
 
@@ -171,6 +179,8 @@ class NewServicio extends Component
 
         $servicio = new Servicio();
         $servicio->fecha_venta = $this->fecha_venta;
+        $servicio->tipo = $this->serv_tipo;
+        $servicio->lugar = $this->lugar;
         $servicio->fecha_ini_serv = $this->fecha_ini_serv;
         $servicio->fecha_fin_serv = $this->fecha_fin_serv;
         $servicio->fecha_orig_ini = $this->fecha_orig_ini;
@@ -213,11 +223,15 @@ class NewServicio extends Component
         $servicio->linea_id = $this->linea_id;
         
         $servicio->save();
-        foreach ($this->establecimientos as $est) {
-            $servicio->establecimientos()->attach($est['id']);
-        }
 
-        new mensWpp($servicio);
+        if($this->serv_tipo == 1)
+        {
+            foreach ($this->establecimientos as $est) {
+                $servicio->establecimientos()->attach($est['id']);
+            }
+
+            new mensWpp($servicio);
+        }
         
         //redirect to admin.servicios.index with info "Servicio creado"
         return redirect()->route('admin.servicios.index')->with('info', 'Servicio creado');

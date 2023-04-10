@@ -33,10 +33,18 @@ class ServicioController extends Controller
      */
     public function create()
     {   
+        if (isset($_GET["estab_id"]))
+        {
+            $est_id = $_GET["estab_id"];
+        }
+        else
+        {
+            $est_id = 0;
+        }
         
-        $est_id = $_GET["estab_id"];
+        $serv_tipo = $_GET["serv_tipo"];
        
-        return view ('admin.servicios.create', compact('est_id'));
+        return view ('admin.servicios.create', compact('est_id', 'serv_tipo'));
 
     }
 
