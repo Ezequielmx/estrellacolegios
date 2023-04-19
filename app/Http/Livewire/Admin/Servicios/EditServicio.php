@@ -10,7 +10,9 @@ use App\Models\Establecimiento;
 use App\Models\Estado;
 use App\Models\User;
 use App\Models\Linea;
+use App\Models\Tamano;
 use App\Services\mensWpp;
+use Spatie\Permission\Models\Role;
 
 class EditServicio extends Component
 {
@@ -21,6 +23,11 @@ class EditServicio extends Component
     public $provinciaNew;
     public $deptoNew;
     public $localidadNew;
+    public $personal;
+    public $puestos;
+
+    public $newpers_id;
+    public $newpers_rol_id;
 
     public $validCue;
 
@@ -30,8 +37,9 @@ class EditServicio extends Component
     public $estados;
     public $espacios;
     public $lineas;
+    public $tamanos;
 
-    protected $listeners = ['deleteEst'];
+    protected $listeners = ['deleteEst', 'render'];
 
 
     protected $rules = [
@@ -42,7 +50,8 @@ class EditServicio extends Component
         'servicio.cel_cont_1' => 'required|digits:10',
         'servicio.puesto_cont1' => 'required',
         'servicio.espacio_montaje' => 'required',
-        'servicio.planetario_id' => 'required',
+        'servicio.tamano_id' => 'required',
+        'servicio.planetario_id' => 'nullable',
         'servicio.vendedor_id' => 'required',
         'servicio.estado_id' => 'required',
         'servicio.fecha_orig_ini' => 'required',
@@ -50,7 +59,7 @@ class EditServicio extends Component
         'servicio.asesor_id' => 'nullable',
         'servicio.cont_2' => 'nullable',
         'servicio.puesto_cont2' => 'nullable',
-        'servicio.cel_cont_2' => 'nullable|digits:10',
+        'servicio.cel_cont_2' => 'nullable',
         'servicio.matricula_tmj' => 'nullable|numeric',
         'servicio.matricula_ttj' => 'nullable|numeric',
         'servicio.matricula_tnj' => 'nullable|numeric',
@@ -70,7 +79,8 @@ class EditServicio extends Component
         'servicio.precio_total' => 'nullable|numeric',
         'servicio.observaciones' => 'nullable',
         'servicio.linea_id' => 'required',
-        'servicio.lugar'    => 'exclude_if:serv_tipo,1|required'
+        'servicio.lugar'    => 'exclude_if:servicio.tipo,1|required',
+        'servicio.tamano_id' => 'required'
     ];
 
     public function render()
@@ -82,6 +92,8 @@ class EditServicio extends Component
     {
         $this->servicio = $servicio;
         $this->asesores = User::role('Asesor')->get();
+        $this->personal = User::role(['Instructor','Cobrador'])->get();
+        $this->puestos = Role::whereIn('name', ['Instructor','Cobrador'])->get();
 
         $this->vendedores = User::role('Vendedor')->get();
 
@@ -89,6 +101,7 @@ class EditServicio extends Component
         $this->estados = Estado::all();
         $this->espacios = Espacio::all();
         $this->lineas = Linea::all();
+        $this->tamanos = Tamano::all();
     }
 
     public function buscCue()
@@ -146,4 +159,24 @@ class EditServicio extends Component
         //redirect to admin.servicios.index with info "Servicio creado"
         return redirect()->route('admin.servicios.index')->with('info', 'Servicio guardado con éxito');
     }
+
+    public function eliminarPersonal($id)
+    {
+        $this->servicio->personal()->detach($id);
+        $this->emit('render');
+    }
+
+    public function agregarPersonal()
+    {
+        $this->validate([
+            'newpers_id' => 'required',
+            'newpers_rol_id' => 'required'
+        ]);
+        $this->servicio->personal()->attach($this->newpers_id, ['role_id' => $this->newpers_rol_id]);
+        $this->newpers_id = null;
+        $this->newpers_rol_id = null;
+
+        $this->emit('render');
+    }
+
 }

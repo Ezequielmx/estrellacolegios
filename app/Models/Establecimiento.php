@@ -12,4 +12,8 @@ class Establecimiento extends Model
     public function servicios(){
         return $this->belongsToMany('App\Models\Servicio');
     }
+
+    public function users(){
+        return $this->belongsToMany('App\Models\User');
+    }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tema;
 use Illuminate\Support\Facades\Storage;
@@ -24,17 +25,10 @@ class TemaController extends Controller
     {
         $tema = Tema::find($id);
         $tema->titulo = $request->input('titulo');
-        $tema->descripcion = $request->input('descripcion');
-        // Actualiza la imagen y el video si el usuario los cambia
-        if ($request->hasFile('imagen')) {
-            $img = Storage::put('temas', $request->file('imagen'));
-            $tema->imagen = $img;
-        }
-        if ($request->hasFile('video')) {
-            $vid = Storage::put('temas', $request->file('video'));
-            $tema->video = $vid;
-        }
-        $tema->duracion = $request->input('duracion');
+        $tema->tarjeta_file_id = $request->input('tarjeta');
+        $tema->poster_file_id = $request->input('poster');
+        $tema->temario_file_id = $request->input('temario');
+    
         $tema->save();
         return redirect()->route('admin.temas.index')->with('success', 'El tema se actualizó correctamente.');
     }
@@ -55,25 +49,16 @@ class TemaController extends Controller
     {
         $request->validate([
             'titulo' => 'required|max:255',
-            'descripcion' => 'nullable',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'video' => 'nullable|mimes:mp4,ogx,oga,ogv,ogg,webm',
-            'duracion' => 'required|integer',
+            'tarjeta' => 'nullable',
+            'poster' => 'nullable',
+            'temario' => 'nullable',
         ]);
 
         $tema = new Tema();
         $tema->titulo = $request->titulo;
-        $tema->descripcion = $request->descripcion;
-        $tema->duracion = $request->duracion;
-
-        if ($request->hasFile('imagen')) {
-            $img = Storage::put('temas', $request->file('imagen'));
-            $tema->imagen = $img;
-        }
-        if ($request->hasFile('video')) {
-            $vid = Storage::put('temas', $request->file('video'));
-            $tema->video = $vid;
-        }
+        $tema->tarjeta_file_id = $request->tarjeta;
+        $tema->poster_file_id = $request->poster;
+        $tema->temario_file_id = $request->temario;
 
         $tema->save();
 

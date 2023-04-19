@@ -232,10 +232,33 @@
 
             </div>
             <div class="row">
-                <div class="col-sm-12 text-right">
-                    <button class="btn btn-info btn-sm" wire:click="enviarCron"><i class="fab fa-whatsapp"></i>  Enviar Cronograma</button>
+                <div class="col text-right">
+                    <button class="btn {{ $servicio->crono_env == 1 ? 'btn-warning' : 'btn-success' }} btn-sm" wire:click="enviarCron">
+                        <i class="fab fa-whatsapp"></i>
+                        {{ $servicio->crono_env == 1 ? 'Reenviar Cronograma' : 'Enviar Cronograma' }}
+                    </button>
+
+                    
+                    <button class="btn {{ $servicio->tarj_env == 1 ? 'btn-warning' : 'btn-success' }} btn-sm" wire:click="enviarTarj">
+                        <i class="fab fa-whatsapp"></i> 
+                        {{ $servicio->tarj_env == 1 ? 'Reenviar Tarjetas' : 'Enviar Tarjetas' }} 
+                    </button>
+         
+
+                    <button class="btn {{ $servicio->post_env == 1 ? 'btn-warning' : 'btn-success' }} btn-sm" wire:click="enviarPost">
+                        <i class="fab fa-whatsapp"></i> 
+                        {{ $servicio->post_env == 1 ? 'Reenviar Posters' : 'Enviar Posters' }} 
+                    </button>
+   
+
+                    <button class="btn {{ $servicio->tem_env == 1 ? 'btn-warning' : 'btn-success' }}  btn-sm" wire:click="enviarTem">
+                        <i class="fab fa-whatsapp"></i> 
+                        {{ $servicio->tem_env == 1 ? 'Reenviar Temarios' : 'Enviar Temarios' }}
+                    </button>
+
                 </div>
             </div>
 
         </div>
     </div>
+</div>

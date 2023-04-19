@@ -13,16 +13,21 @@ class Servicio extends Model
         return $this->belongsToMany('App\Models\Establecimiento');
     }
 
+    public function personal(){
+        return $this->belongsToMany('App\Models\User')
+                    ->withPivot('role_id');
+    }
+
     public function horarios(){
         return $this->hasMany('App\Models\Horarioservicio');
     }
 
     public function asesor(){
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User', 'asesor_id');
     }
 
     public function vendedor(){
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User', 'vendedor_id');
     }
 
     public function planetario(){

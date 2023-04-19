@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Servicio;
 use App\Models\Linea;
 use App\Services\mensWpp;
+use App\Models\Tamano;
 
 class NewServicio extends Component
 {
@@ -55,7 +56,7 @@ class NewServicio extends Component
     public $precio_alumno;
     public $precio_total;
     public $observaciones;
-    public $planetario_id;
+    public $tamano_id;
     public $asesor_id;
     public $vendedor_id;
     public $estado_id;
@@ -69,6 +70,7 @@ class NewServicio extends Component
     public $lineas;
     public $tipo;
     public $lugar;
+    public $tamanos;
 
     public $userReg;
     public $serv_tipo;
@@ -83,10 +85,11 @@ class NewServicio extends Component
         'cel_cont_1' => 'exclude_if:serv_tipo,3|required|digits:10',
         'puesto_cont1' => 'exclude_if:serv_tipo,3|required',
         'espacio_montaje' => 'required',
-        'planetario_id' => 'required',
+        'tamano_id' => 'required',
         'vendedor_id' => 'required',
         'estado_id' => 'required',
         'lugar' => 'exclude_if:serv_tipo,1|required',
+        'linea_id' => 'required',
     ];
 
     public function render()
@@ -113,6 +116,7 @@ class NewServicio extends Component
         $this->estados = Estado::all();
         $this->espacios = Espacio::all();
         $this->lineas = Linea::all();
+        $this->tamanos = Tamano::all();
         $this->fecha_venta = date('Y-m-d');
         $this->estado_id = 1;
 
@@ -215,7 +219,7 @@ class NewServicio extends Component
         $servicio->precio_alumno = $this->precio_alumno;
         $servicio->precio_total = $this->precio_total;
         $servicio->observaciones = $this->observaciones;
-        $servicio->planetario_id = $this->planetario_id;
+        $servicio->tamano_id = $this->tamano_id;
         $servicio->asesor_id = $this->asesor_id;
         $servicio->vendedor_id = $this->vendedor_id;
         $servicio->estado_id = $this->estado_id;

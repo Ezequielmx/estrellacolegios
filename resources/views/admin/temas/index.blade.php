@@ -22,10 +22,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Título</th>
-                                <th>Descripción</th>
-                                <th>Imagen</th>
-                                <th>Video</th>
-                                <th>Duración</th>
+                                <th>Tarjeta</th>
+                                <th>Poster</th>
+                                <th>Temario</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -34,18 +33,9 @@
                                 <tr>
                                     <td>{{ $tema->id }}</td>
                                     <td>{{ $tema->titulo }}</td>
-                                    <td>{{ $tema->descripcion }}</td>
-                                    <td>
-                                        <a href="{{ asset('storage/' . $tema->imagen) }}" target="_blank">
-                                            <img src="{{ asset('storage/' . $tema->imagen) }}" alt="{{ $tema->titulo }}" class="img-fluid" width="100">
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{ asset('storage/' . $tema->video) }}" target="_blank">
-                                            <i class="fas fa-play"></i>
-                                        </a>
-                                    </td>
-                                    <td>{{ $tema->duracion }}</td>
+                                    <td>{{ $tema->tarjeta_file_id }}</td>
+                                    <td>{{ $tema->poster_file_id }}</td>
+                                    <td>{{ $tema->temario_file_id }}</td>
                                     <td>
                                         <a href="{{ route('admin.temas.edit', $tema->id) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                         <form action="{{ route('admin.temas.destroy', $tema->id) }}" method="POST" class="d-inline">

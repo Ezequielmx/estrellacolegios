@@ -1,15 +1,20 @@
 <div>
-    <h1 style="padding:7px"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Editar Servicio 
+    <h1 style="padding:7px"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Editar Servicio
         @if ($servicio->tipo == 1)
-        <span style="background-color: rgb(44, 129, 199); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Colegios</span>
-    @else
-        @if ($servicio->tipo == 2)
-            <span style="background-color: rgb(34, 163, 88); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento Pago</span>
+        <span
+            style="background-color: rgb(44, 129, 199); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Colegios</span>
         @else
-            <span style="background-color: rgb(216, 99, 64); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento al Cobro</span>
+        @if ($servicio->tipo == 2)
+        <span
+            style="background-color: rgb(34, 163, 88); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento
+            Pago</span>
+        @else
+        <span
+            style="background-color: rgb(216, 99, 64); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento
+            al Cobro</span>
         @endif
-    @endif  
-    </h1>  
+        @endif
+    </h1>
     <div class="card">
         @if ($servicio->tipo == 1)
         <div class="card-header">
@@ -218,7 +223,8 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="fecha_ini_serv">Fecha de Inicio Servicio</label>
-                        <input type="date" class="form-control" wire:model="servicio.fecha_ini_serv" wire:change="changeFechaIni()">
+                        <input type="date" class="form-control" wire:model="servicio.fecha_ini_serv"
+                            wire:change="changeFechaIni()">
                     </div>
                     @error('servicio.fecha_ini_serv')
                     <span class="text-danger">{{ $message }}</span>
@@ -492,7 +498,7 @@
             <div class="row">
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="espacio_montaje">Espacio Montaje</label>
                                 <select class="form-control" wire:model.defer="servicio.espacio_montaje">
@@ -506,15 +512,28 @@
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="planetario_id">Planetario</label>
+                                <label for="tamano_id">Planetario Tamaño Venta</label>
+                                <select class="form-control" wire:model.defer="servicio.tamano_id">
+                                    @foreach ($tamanos as $tamano)
+                                    <option value="{{ $tamano->id }}">{{ $tamano->tamano }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('tamano_id')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="planetario_id">Planetario Asignado</label>
                                 <select class="form-control" wire:model.defer="servicio.planetario_id">
                                     <option value="0">Selecciona</option>
                                     @foreach ($planetarios as $planetario)
                                     <option value="{{ $planetario->id }}">
-                                        {{ $planetario->tamaño }}
+                                        {{ $planetario->id }} - {{ $planetario->tamaño }}
                                     </option>
                                     @endforeach
                                 </select>
@@ -524,7 +543,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="asesor_id">Asesor</label>
                                 <select class="form-control" wire:model.defer="servicio.asesor_id">
@@ -559,8 +578,7 @@
                     </div>
                     @endif
 
-                    @if($servicio->tipo < 3)
-                    <div class="form-group">
+                    @if($servicio->tipo < 3) <div class="form-group">
                         <label for="precio_total">Precio Total</label>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
@@ -568,21 +586,87 @@
                             </div>
                             <input type="number" class="form-control" wire:model.defer="servicio.precio_total">
                         </div>
-                    </div>
-                    @endif
                 </div>
+                @endif
             </div>
         </div>
-    </div>    
-
-    @livewire('admin.servicios.horarios.horario-servicio', ['servicio' => $servicio], key($servicio->id))
-    
-    <div class="basebot">
-        <button class="btn btn-primary" wire:click="guardar()">Guardar</button>&nbsp;&nbsp;
-        <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>
     </div>
+</div>
 
-    
-            
+@livewire('admin.servicios.horarios.horario-servicio', ['servicio' => $servicio], key($servicio->id))
+
+
+<div class="card">
+    <div class="card-body">
+        <h3><b>Personal</b></h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Personal</th>
+                    <th>Puesto</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($servicio->personal as $servpersonal)
+                <tr>
+                    <td>
+                        {{ $servpersonal->name }}
+                    </td>
+                    <td>
+                        @foreach ($puestos as $puesto)
+                        @if($puesto->id==$servpersonal->pivot->role_id)
+                        {{ $puesto->name }}
+                        @endif
+                        @endforeach
+                    <td>
+                        <button class="btn btn-danger btn-sm"
+                            wire:click="eliminarPersonal({{ $servpersonal->id }})">Eliminar</button>
+                    </td>
+                </tr>
+                @endforeach
+                <tr>
+                    <td>
+                        <select class="form-control" wire:model="newpers_id">
+                            <option value="0">Selecciona</option>
+                            @foreach ($personal as $pers)
+                            <option value="{{ $pers->id }}">
+                                {{ $pers->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('newpers_id')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </td>
+                    <td>
+                        <select class="form-control" wire:model="newpers_rol_id">
+                            <option value="0">Selecciona</option>
+                            @foreach ($puestos as $puesto)
+                            <option value="{{ $puesto->id }}">
+                                {{ $puesto->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('newpers_rol_id')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    <td>
+                        <button class="btn btn-success btn-sm" wire:click="agregarPersonal()">Agregar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="basebot">
+    <button class="btn btn-primary" wire:click="guardar()">Guardar</button>&nbsp;&nbsp;
+    <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>
+</div>
+
+
+
 
 </div>

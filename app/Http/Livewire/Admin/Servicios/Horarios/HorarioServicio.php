@@ -7,6 +7,8 @@ use App\Models\Servicio;
 use App\Models\Tema;
 use App\Services\simpleMensWpp;
 use Livewire\Component;
+use App\Services\fileMensWpp;
+use Illuminate\Support\Facades\DB;
 
 class HorarioServicio extends Component
 {
@@ -190,12 +192,13 @@ class HorarioServicio extends Component
 
 
             if ($horario->turno == 'm')
-                $horariosM .= $icon . " *" . strftime("%H:%M",strtotime($horario->hora)) . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos\\n\\n";
+                $horariosM .= $icon . " *" . strftime("%H:%M",strtotime($horario->hora)) . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos aprox.\\n\\n";
             if ($horario->turno == 't')
-                $horariosT .= $icon . " *" . strftime("%H:%M",strtotime($horario->hora))  . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos\\n\\n";
+                $horariosT .= $icon . " *" . strftime("%H:%M",strtotime($horario->hora))  . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos aprox.\\n\\n";
             if ($horario->turno == 'n')
-                $horariosN .= $icon . " *" . strftime("%H:%M",strtotime($horario->hora))  . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos\\n\\n";
+                $horariosN .= $icon . " *" . strftime("%H:%M",strtotime($horario->hora))  . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos aprox.\\n\\n";
 
+                
 
             setlocale(LC_TIME, "spanish");
 
@@ -205,6 +208,8 @@ class HorarioServicio extends Component
                 $messaje .= "\\n➖➖🕒 *Turno Mañana:* ➖➖➖ \\n";
                 $messaje .= $horariosM;
             }
+
+            
             if ($horariosT != "") {
                 $messaje .= "\\n➖➖🕒 *Turno Tarde:*  ➖➖➖\\n";
                 $messaje .= $horariosT;
@@ -223,5 +228,51 @@ class HorarioServicio extends Component
         $cel = $this->servicio->cel_cont_1;
 
         new simpleMensWpp($cel, $messaje);
+        $this->servicio->crono_env=1;
+        $this->servicio->save();
     }
+
+    public function enviarTarj(){
+        $files = DB::select('SELECT DISTINCT temas.tarjeta_file_id FROM `servicios`
+        JOIN horarioservicios on horarioservicios.servicio_id = servicios.id
+        JOIN temas on temas.id = horarioservicios.tema_id
+        where servicios.id = ' . $this->servicio->id . ';');
+
+        foreach($files as $file){
+            $file = $file->tarjeta_file_id;
+            new fileMensWpp($this->servicio->cel_cont_1, $file);
+        }
+        $this->servicio->tarj_env=1;
+        $this->servicio->save();
+    }
+
+    public function enviarPost(){
+        $files = DB::select('SELECT DISTINCT temas.poster_file_id FROM `servicios`
+        JOIN horarioservicios on horarioservicios.servicio_id = servicios.id
+        JOIN temas on temas.id = horarioservicios.tema_id
+        where servicios.id = ' . $this->servicio->id . ';');
+
+        foreach($files as $file){
+            $file = $file->poster_file_id;
+            new fileMensWpp($this->servicio->cel_cont_1, $file);
+        }
+        $this->servicio->post_env=1;
+        $this->servicio->save();
+    }
+
+    public function enviarTem(){
+        $files = DB::select('SELECT DISTINCT temas.temario_file_id FROM `servicios`
+        JOIN horarioservicios on horarioservicios.servicio_id = servicios.id
+        JOIN temas on temas.id = horarioservicios.tema_id
+        where servicios.id = ' . $this->servicio->id . ';');
+
+        foreach($files as $file){
+            $file = $file->temario_file_id;
+            new fileMensWpp($this->servicio->cel_cont_1, $file);
+        }
+
+        $this->servicio->tem_env=1;
+        $this->servicio->save();
+    }
+
 }

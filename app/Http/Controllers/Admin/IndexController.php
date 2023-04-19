@@ -17,28 +17,62 @@ class IndexController extends Controller
         $events = [];
 
         foreach ($servicios as $servicio) {
+            if ($servicio->planetario_id) {
+                switch ($servicio->planetario_id) {
+                    case 1:
+                        $icon = '1️⃣';
+                        break;
+                    case 2:
+                        $icon = '2️⃣';
+                        break;
+                    case 3:
+                        $icon = '3️⃣';
+                        break;
+                    case 4:
+                        $icon = '4️⃣';
+                        break;
+                    case 5:
+                        $icon = '5️⃣';
+                        break;
+                    case 6:
+                        $icon = '6️⃣';
+                        break;
+                    case 7:
+                        $icon = '7️⃣';
+                        break;
+                }
+            } else {
+                switch ($servicio->tamano_id) {
+                    case 1:
+                        $icon = '❗';
+                        break;
+                    case 2:
+                        $icon = '❗-❌';
+                        break;
+                    case 3:
+                        $icon = '❌';
+                        break;
+                    case 4:
+                        $icon = '❌-⭕';
+                        break;
+                    case 5:
+                        $icon = '⭕';
+                        break;
+                }
+            }
 
-            $icon = "";
-            switch ($servicio->planetario_id) {
-                case 1:
-                    $icon = '❗';
-                    break;
-                case 2:
-                    $icon = '❌';
-                    break;
-                case 3:
-                    $icon = '⭕';
-                    break;
+            if($servicio->fecha_ini_serv != $servicio->fecha_orig_ini){
+                //Servicio que se reprogamó
+                $icon .= '🔄';
             }
 
             $fechFin = new DateTime($servicio->fecha_fin_serv);
             $fechFin->add(new DateInterval('P1D'));
             $fechFin = $fechFin->format('Y-m-d');
 
-            if($servicio->tipo == 1){
+            if ($servicio->tipo == 1) {
                 $title = $icon . " " . $servicio->establecimientos->first()->nombre . ' - ' . $servicio->establecimientos->first()->ciudad;
-            }
-            else{
+            } else {
                 $title = $icon . " " . $servicio->lugar;
             }
 

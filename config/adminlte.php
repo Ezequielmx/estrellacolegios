@@ -259,6 +259,13 @@ return [
             'icon'        => 'fas fa-user-tie',
         ],
 
+        
+        [
+            'text'        => 'Comisiones',
+            'route'       => 'admin.comisiones.index',
+            'icon'        => 'fas fa-money-bill-alt',
+        ],
+
         [
             'text'        => 'Planetarios',
             'route'       => 'admin.planetarios.index',

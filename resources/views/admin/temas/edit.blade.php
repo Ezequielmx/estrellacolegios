@@ -25,41 +25,21 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="descripcion">Descripción</label>
-                            <textarea class="form-control" id="descripcion" name="descripcion" rows="5" placeholder="Ingrese la descripción">{{ old('descripcion', $tema->descripcion) }}</textarea>
+                            <label for="tarjeta">Tarjeta</label>
+                            <input type="text" class="form-control" id="tarjeta" name="tarjeta" rows="5" placeholder="Ingrese id de tarjeta" value="{{ old('tarjeta', $tema->tarjeta_file_id) }}">
                         </div>
 
                         <div class="form-group">
-                            <label for="imagen">Imagen</label>
-                            <input type="file" class="form-control" id="imagen" name="imagen">
-                            @if ($tema->imagen)
-                                <p class="help-block">
-                                    Imagen actual:
-                                    <a href="{{ asset($tema->imagen) }}" target="_blank">
-                                        <img src="{{ asset('storage/' . $tema->imagen) }}" alt="Imagen actual" class="img-thumbnail" style="max-width: 200px;">
-                                    </a>
-                                </p>
-                            @endif
+                            <label for="poster">Poster</label>
+                            <input type="text" class="form-control" id="poster" name="poster" rows="5" placeholder="Ingrese id de poster" value="{{ old('poster', $tema->poster_file_id) }}">
                         </div>
 
                         <div class="form-group">
-                            <label for="video">Video</label>
-                            <input type="file" class="form-control" id="video" name="video">
-                            @if ($tema->video)
-                                <p class="help-block">
-                                    Video actual:
-                                    <a href="{{ asset('storage/' . $tema->video) }}" target="_blank">{{ basename($tema->video) }}</a>
-                                </p>
-                            @endif
+                            <label for="temario">Temario</label>
+                            <input type="text" class="form-control" id="temario" name="temario" rows="5" placeholder="Ingrese id de temario" value="{{ old('temario', $tema->temario_file_id) }}">
                         </div>
 
-                        <div class="form-group @error('duracion') has-error @enderror">
-                            <label for="duracion">Duración (segundos)</label>
-                            <input type="number" class="form-control" id="duracion" name="duracion" value="{{ old('duracion', $tema->duracion) }}" placeholder="Ingrese la duración">
-                            @error('duracion')
-                                <span class="help-block">{{ $message }}</span>
-                            @enderror
-                        </div>
+
 
                     </div>
 

@@ -32,6 +32,10 @@
         window.addEventListener('show-form', event => {
             $('#form').modal('show');
         });
+
+        window.addEventListener('hide-form', event => {
+            $('#form').modal('hide');
+        });
     </script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

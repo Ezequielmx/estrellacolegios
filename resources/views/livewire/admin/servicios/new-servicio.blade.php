@@ -2,17 +2,22 @@
     @php
     setlocale(LC_TIME, "spanish");
     @endphp
-    <h1 style="padding:7px"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Crear Servicio 
+    <h1 style="padding:7px"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Crear Servicio
         @if ($serv_tipo == 1)
-            <span style="background-color: rgb(44, 129, 199); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Colegios</span>
+        <span
+            style="background-color: rgb(44, 129, 199); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Colegios</span>
         @else
-            @if ($serv_tipo == 2)
-                <span style="background-color: rgb(34, 163, 88); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento Pago</span>
-            @else
-                <span style="background-color: rgb(216, 99, 64); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento al Cobro</span>
-            @endif
-        @endif  
-    </h1>    
+        @if ($serv_tipo == 2)
+        <span
+            style="background-color: rgb(34, 163, 88); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento
+            Pago</span>
+        @else
+        <span
+            style="background-color: rgb(216, 99, 64); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento
+            al Cobro</span>
+        @endif
+        @endif
+    </h1>
     <div class="card">
 
         @if ($serv_tipo == 1)
@@ -258,7 +263,7 @@
                     <div class="form-group">
                         <label for="linea_id">Línea</label>
                         <select class="form-control" wire:model.defer="linea_id">
-                            <option value="">Seleccione una línea</option>
+                            <option>Seleccione una línea</option>
                             @foreach ($lineas as $linea)
                             <option value="{{ $linea->id }}">
                                 {{ $linea->nombre . "- ". utf8_encode(strftime("%d/%m/%Y",
@@ -267,6 +272,9 @@
                             </option>
                             @endforeach
                         </select>
+                        @error('linea_id')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -489,17 +497,15 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="planetario_id">Planetario</label>
-                                <select class="form-control" wire:model.defer="planetario_id">
+                                <label for="tamano_id">Planetario Tamaño</label>
+                                <select class="form-control" wire:model.defer="tamano_id">
                                     <option value="0">Selecciona</option>
-                                    @foreach ($planetarios as $planetario)
-                                    <option value="{{ $planetario->id }}">
-                                        {{ $planetario->tamaño }}
-                                    </option>
+                                    @foreach ($tamanos as $tamano)
+                                    <option value="{{ $tamano->id }}">{{ $tamano->tamano }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            @error('planetario_id')
+                            @error('tamano_id')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -537,8 +543,7 @@
                         </div>
                     </div>
                     @endif
-                    @if($serv_tipo < 3)
-                    <div class="form-group">
+                    @if($serv_tipo < 3) <div class="form-group">
                         <label for="precio_total">Precio Total</label>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
@@ -546,15 +551,15 @@
                             </div>
                             <input type="number" class="form-control" wire:model.defer="precio_total">
                         </div>
-                    </div>
-                    @endif
                 </div>
+                @endif
             </div>
         </div>
-        <div class="card-footer">
-            <button class="btn btn-primary" wire:click="crear()">Crear Servicio </button>
-            <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>
-
-        </div>
     </div>
+    <div class="card-footer">
+        <button class="btn btn-primary" wire:click="crear()">Crear Servicio </button>
+        <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>
+
+    </div>
+</div>
 </div>

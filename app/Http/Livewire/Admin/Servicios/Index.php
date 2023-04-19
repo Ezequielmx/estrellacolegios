@@ -8,7 +8,7 @@ use App\Services\simpleMensWpp;
 
 class Index extends Component
 {
-    protected $listeners = ['deleteServicio'];
+    protected $listeners = ['deleteServicio', 'render'];
 
     public $servicios;
     public $servAct;
@@ -22,8 +22,12 @@ class Index extends Component
     public $nombusq;
     public $filter = false;
 
+    public $showModal = false;
+
     public function render()
     {
+        //$this->mensAct = [];
+        $this->dispatchBrowserEvent('hide-form');
         return view('livewire.admin.servicios.index');
     }
 
@@ -57,18 +61,21 @@ class Index extends Component
     {
         $this->servAct = $servicio;
         $this->mensAct = [];
-        $this->dispatchBrowserEvent('show-form');
+        
+        
         foreach ($servicio->mensajes as $mensaje) {
             $this->mensAct[] = json_decode($mensaje->data);
         }
+
         //order array $this->mensAct by timestamp
-       
         usort($this->mensAct, function( $elem1, $elem2 ) {
             return $elem1->timestamp <=> $elem2->timestamp;
         });
 
-        $servicio->unreadwpp = 0;
-        $servicio->save();
+        $this->dispatchBrowserEvent('show-form');
+
+        //$servicio->unreadwpp = 0;
+        //$servicio->save();
         
     }
 
@@ -80,12 +87,18 @@ class Index extends Component
         $this->servAct = Servicio::first();
     }
 
-    public function sendMsj()
+    public function marcLeidos(Servicio $servicio)
     {
-        
-        $this->showForm($this->servAct);
-        $res = new simpleMensWpp($this->servAct->cel_cont_1, $this->mensNew);
+        //dd($this->mensAct);
+        $servicio->unreadwpp = !$servicio->unreadwpp;
+        $servicio->save();
+
+        //rerender component
+        $this->mensAct = [];
+        $this->emit('render');
+
     }
+
 
     public function busqNombre(){
         $this->servicios = Servicio::orderBy('fecha_ini_serv')->get();

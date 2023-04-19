@@ -58,20 +58,20 @@
                 @foreach ($servicios as $servicio)
                 <tr class={{ "est" . $servicio->estado_id }}>
                     <td>{{ $servicio->id }}</td>
-                    <td>{{ strftime("%d/%m/%Y", strtotime($servicio->fecha_ini_serv)) }}</td>
+                    <td style="white-space: nowrap;">{{ $servicio->fecha_ini_serv != $servicio->fecha_orig_ini? '🔄 ' : '' }}{{ strftime("%d/%m/%Y", strtotime($servicio->fecha_ini_serv)) }}</td>
                     <td>
                         @if ($servicio->tipo == 1)
-                            🏫 
-                            @foreach ($servicio->establecimientos as $establecimiento)
-                            ◼ {{ $establecimiento->nombre . " " }}
-                            @endforeach
+                        🏫
+                        @foreach ($servicio->establecimientos as $establecimiento)
+                        ◼ {{ $establecimiento->nombre . " " }}
+                        @endforeach
                         @else
-                            @if ($servicio->tipo == 2)
-                                💰
-                            @else
-                                🎫
-                            @endif
-                            {{ $servicio->lugar }}
+                        @if ($servicio->tipo == 2)
+                        💰
+                        @else
+                        🎫
+                        @endif
+                        {{ $servicio->lugar }}
                         @endif
 
                     </td>
@@ -128,45 +128,50 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body" style="padding:0">
-                    <div class="card card-danger direct-chat direct-chat-danger" style="margin-bottom:0">
+    <div>
+        <div class="modal fade" id="form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" style="padding:0">
+                        <div class="card card-danger direct-chat direct-chat-danger" style="margin-bottom:0">
+                            <div class="card-header">
+                                <h3 class="card-title"><b>{{ $servAct->cont_1 }}</b>
+                                    - {{ $servAct->establecimientos->first()->nombre}}<br>
+                                    {{ $servAct->cel_cont_1 }}
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="direct-chat-messages" style="height:70vh">
+                                    @foreach ($mensAct as $ms)
+                                    <!--if isset($ms->flow)-->
 
-                        <div class="card-header">
-                            <h3 class="card-title"><b>{{ $servAct->cont_1 }}</b> - {{
-                                $servAct->establecimientos->first()->nombre}}</h3>
-                        </div>
+                                    @foreach ($mensAct as $ms)
+                                    <div class="direct-chat-msg {{ ($ms->flow == 'inbound')? 'left' : 'right' }}">
+                                        <div class="direct-chat-infos clearfix">
+                                            <span class="direct-chat-timestamp float-left">{{ $ms->date }}</span>
+                                        </div>
+                                        <div class="direct-chat-text">
+                                            {{ $ms->body}}
+                                        </div>
+                     
+                                    </div>
+                                    @endforeach
 
-                        <div class="card-body">
-                            <div class="direct-chat-messages" style="height:70vh">
-                                @foreach ($mensAct as $ms)
-                                <div class="direct-chat-msg {{ ($ms->flow == 'inbound')? 'left' : 'right' }}">
-                                    <div class="direct-chat-infos clearfix">
-                                        <span class="direct-chat-timestamp float-left">{{ $ms->date }}</span>
-                                    </div>
-                                    <div class="direct-chat-text">
-                                        {{ $ms->body}}
-                                    </div>
-                                    <!-- /.direct-chat-text -->
+                                    @endforeach
                                 </div>
-                                @endforeach
                             </div>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <div class="input-group">
-                                <input type="text" placeholder="Mensaje ..." class="form-control"
-                                    wire:model.defer='mensNew'>
-                                <span class="input-group-append">
-                                    <a type="button" class="btn btn-danger" wire:click="sendMsj()">Enviar</a>
-                                </span>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <div class="input-group">
+                                    <a type="button" class="btn btn-danger {{ count($mensAct)==0? 'disabled' : '' }}" wire:click="marcLeidos({{ $servAct }})" >
+                                        {{ $servAct->unreadwpp==1? 'Marcar como leidos' : 'Marcar como no leidos' }}
+                                    </a>
+                                </div>
                             </div>
+                            <!-- /.card-footer-->
                         </div>
-                        <!-- /.card-footer-->
+                        <!--/.direct-chat -->
                     </div>
-                    <!--/.direct-chat -->
                 </div>
             </div>
         </div>
