@@ -39,7 +39,7 @@ class HorarioServicio extends Component
     public function render()
     {
         $horarios = $this->servicio->horarios->sortBy('hora');
-        $minutes_to_add = 50;
+        $minutes_to_add = 40;
         if ($horarios->where('turno', 'm')->count() > 0) {
             $utmhoraM = $horarios->where('turno', 'm')->last()->hora;
             $this->newhoraM = date('H:i', strtotime($utmhoraM . ' + ' . $minutes_to_add . ' minutes'));
@@ -233,42 +233,45 @@ class HorarioServicio extends Component
     }
 
     public function enviarTarj(){
-        $files = DB::select('SELECT DISTINCT temas.tarjeta_file_id FROM `servicios`
+        $files = DB::select('SELECT DISTINCT temas.tarjeta_file_id, titulo FROM `servicios`
         JOIN horarioservicios on horarioservicios.servicio_id = servicios.id
         JOIN temas on temas.id = horarioservicios.tema_id
         where servicios.id = ' . $this->servicio->id . ';');
 
         foreach($files as $file){
-            $file = $file->tarjeta_file_id;
-            new fileMensWpp($this->servicio->cel_cont_1, $file);
+            $img = $file->tarjeta_file_id;
+            $titulo = "Tarjeta " . $file->titulo;
+            new fileMensWpp($this->servicio->cel_cont_1, $img, $titulo);
         }
         $this->servicio->tarj_env=1;
         $this->servicio->save();
     }
 
     public function enviarPost(){
-        $files = DB::select('SELECT DISTINCT temas.poster_file_id FROM `servicios`
+        $files = DB::select('SELECT DISTINCT temas.poster_file_id, titulo FROM `servicios`
         JOIN horarioservicios on horarioservicios.servicio_id = servicios.id
         JOIN temas on temas.id = horarioservicios.tema_id
         where servicios.id = ' . $this->servicio->id . ';');
 
         foreach($files as $file){
-            $file = $file->poster_file_id;
-            new fileMensWpp($this->servicio->cel_cont_1, $file);
+            $img = $file->poster_file_id;
+            $titulo = "Poster " . $file->titulo;
+            new fileMensWpp($this->servicio->cel_cont_1, $img, $titulo);
         }
         $this->servicio->post_env=1;
         $this->servicio->save();
     }
 
     public function enviarTem(){
-        $files = DB::select('SELECT DISTINCT temas.temario_file_id FROM `servicios`
+        $files = DB::select('SELECT DISTINCT temas.temario_file_id, titulo  FROM `servicios`
         JOIN horarioservicios on horarioservicios.servicio_id = servicios.id
         JOIN temas on temas.id = horarioservicios.tema_id
         where servicios.id = ' . $this->servicio->id . ';');
 
         foreach($files as $file){
-            $file = $file->temario_file_id;
-            new fileMensWpp($this->servicio->cel_cont_1, $file);
+            $img = $file->temario_file_id;
+            $titulo = "Temario " . $img->titulo;
+            new fileMensWpp($this->servicio->cel_cont_1, $file, $titulo);
         }
 
         $this->servicio->tem_env=1;

@@ -99,10 +99,6 @@
                             @endforeach
                         </div>
                     </td>
-                    <td width="10px">
-                        <a class="btn btn-primary btn-sm"
-                            href="{{ route('admin.establecimientos.edit', $establ->cue) }}">Editar</a>
-                    </td>
                     <td style="white-space: nowrap; width:150px">
                         <a class="btn btn-success btn-sm"
                             href="{{ route('admin.servicios.create', ['estab_id' => $establ->id, 'serv_tipo' => 1]) }}">Nuevo

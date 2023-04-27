@@ -3,7 +3,6 @@
 @section('title','Estrella del Plata')
 
 @section('content')
-<h1 style="padding:7px">Inicio</h1>
 <div class="card">
     <div class="card-body">
         <div id="calendar"></div>
@@ -75,13 +74,13 @@
             <div class="row">
                 <div class="col ley_est">CONFIRMADO</div>
                 <div class="col" style="max-width: 30px; padding-left:0">
-                    <div class="estado_color" style="background-color:  #0099ff; color:  #0099ff; padding:5px">.</div>
+                    <div class="estado_color" style="background-color:  #8bd475; color:  #8bd475; padding:5px">.</div>
                 </div>
             </div>
             <div class="row">
                 <div class="col ley_est">LISTO</div>
                 <div class="col" style="max-width: 30px; padding-left:0">
-                    <div class="estado_color" style="background-color:  #8bd475; color:  #8bd475; padding:5px">.</div>
+                    <div class="estado_color" style="background-color:  #0099ff; color:  #0099ff; padding:5px">.</div>
                 </div>
             </div>
             <div class="row">

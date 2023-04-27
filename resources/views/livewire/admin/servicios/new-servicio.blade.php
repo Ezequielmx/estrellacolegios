@@ -511,15 +511,7 @@
                         </div>
 
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="asesor_id">Asesor</label>
-                                <select class="form-control" wire:model.defer="asesor_id">
-                                    <option value="0">Selecciona</option>
-                                    @foreach ($asesores as $asesor)
-                                    <option value="{{ $asesor->id }}">{{ $asesor->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        
                         </div>
                     </div>
                     <div class="row">

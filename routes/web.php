@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Ocupacion;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\RendicionController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\WebhookgptController;
 
@@ -21,6 +22,7 @@ use App\Http\Controllers\WebhookgptController;
 Route::middleware(['auth:sanctum', 'verified'])->get('/admin', [IndexController::class, 'index'])->name('admin');
 Route::post('/webhook', [WebHookController::class, 'handle']);
 Route::post('/webhookgpt', [WebhookgptController::class, 'handle']);
+Route::get('/admin/rendicionprint/{serv_id}', [RendicionController::class, 'print'])->name('rendicionprint');
 
 
 

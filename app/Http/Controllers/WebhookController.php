@@ -48,12 +48,12 @@ class WebhookController extends Controller
         
 
         $type = $request->data['type'];
-        if($type == 'buttons_response'){
+        if($type == 'list_response'){
             $idSel = $request->data['quoted']['selectedId'];
 
             if($idSel == 'ok')
                 $servicio->estado_id = 3;
-            elseif ($idSel == 'call')
+            elseif ($idSel == 'no')
                 $servicio->estado_id = 4;
         }
         else{

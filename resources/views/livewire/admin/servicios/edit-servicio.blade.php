@@ -19,6 +19,8 @@
         @if ($servicio->tipo == 1)
         <div class="card-header">
             <h3><b> Establecimientos</h3></b>
+        </div>
+        <div class="card-body">
 
             @foreach ($servicio->establecimientos as $establecimiento)
             <div class="row" style="align-items: flex-end;">
@@ -178,6 +180,8 @@
         @else
         <div class="card-header">
             <h3><b> Lugar </h3></b>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <div class="col">
                     <div class="form-group">
@@ -190,7 +194,6 @@
             </div>
         </div>
         @endif
-
     </div>
     <div class="card">
         <div class="card-body {{'est' . $servicio->estado_id }}">
@@ -597,8 +600,10 @@
 
 
 <div class="card">
-    <div class="card-body">
+    <div class="card-header">
         <h3><b>Personal</b></h3>
+    </div>
+    <div class="card-body">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -657,6 +662,136 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3><b>Rendicion - Evaluación</b></h3>
+        <a class="btn btn-secondary btn-sm" href="{{ route('rendicionprint', $servicio->id) }}" target="_blank">Imprimir</a>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="alumnos_ing">Alumnos ingresados</label>
+                    <input type="number" class="form-control" wire:model.defer="servicio.alumnos_ing" wire:change='saveChange()'>
+                </div>
+
+                <div class="form-group">
+                    <label for="cobrado">Total Cobrado</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">$</div>
+                        </div>
+                        <input type="number" class="form-control" wire:model.defer="servicio.cobrado" wire:change='saveChange()'>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group row mb-1">
+                    <label for="val_asesoramiento" class="col-form-label col-md-5 mr-2 text-right">Asesoramiento</label>
+                    <div class="col-md-6">
+                        <select class="form-control" wire:model.defer="servicio.val_asesoramiento">
+                            <option value="0">Selecciona</option>
+                            @foreach ($valoraciones as $valoracion)
+                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="val_puntutalidad" class="col-form-label col-md-5 mr-2 text-right">Puntualidad</label>
+                    <div class="col-md-6">
+                        <select class="form-control" wire:model.defer="servicio.val_puntutalidad">
+                            <option value="0">Selecciona</option>
+                            @foreach ($valoraciones as $valoracion)
+                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="val_trato" class="col-form-label col-md-5 mr-2 text-right">Trato</label>
+                    <div class="col-md-6">
+                        <select class="form-control" wire:model.defer="servicio.val_trato">
+                            <option value="0">Selecciona</option>
+                            @foreach ($valoraciones as $valoracion)
+                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="val_higiene" class="col-form-label col-md-5 mr-2 text-right">Higiene</label>
+                    <div class="col-md-6">
+                        <select class="form-control" wire:model.defer="servicio.val_higiene">
+                            <option value="0">Selecciona</option>
+                            @foreach ($valoraciones as $valoracion)
+                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="val_material" class="col-form-label col-md-5 mr-2 text-right">Material</label>
+                    <div class="col-md-6">
+                        <select class="form-control" wire:model.defer="servicio.val_material">
+                            <option value="0">Selecciona</option>
+                            @foreach ($valoraciones as $valoracion)
+                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row mb-1">
+                    <label for="val_general" class="col-form-label col-md-5 mr-2 text-right">Calidad General</label>
+                    <div class="col-md-6">
+                        <select class="form-control font-weight-bold" wire:model.defer="servicio.val_general">
+                            <option value="0">Selecciona</option>
+                            @foreach ($valoraciones as $valoracion)
+                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="rend_fte">Rendición frente:</label>
+                    <input type="file" id="rend_fte" name="rend_fte" wire:model="rend_fte">
+                    @error('rend_fte')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div>
+                    @if ($servicio->rend_fte)
+                    <a href="{{ asset('storage/' . $servicio->rend_fte) }}" target="_blank">
+                        <img style="max-width: 100%" src="{{ asset('storage/' . $servicio->rend_fte) }}"
+                            alt="Rendición de frente">
+                    </a>
+                    @endif
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="rend_dorso">Rendición dorso:</label>
+                    <input type="file" id="rend_dorso" name="rend_dorso" wire:model="rend_dorso">
+                    @error('rend_dorso')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div>
+                    @if ($servicio->rend_dorso)
+                    <a href="{{ asset('storage/' . $servicio->rend_dorso) }}" target="_blank">
+                        <img style="max-width: 100%" src="{{ asset('storage/' . $servicio->rend_dorso) }}"
+                            alt="Rendición de dorso">
+                    </a>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

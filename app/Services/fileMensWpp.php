@@ -4,7 +4,7 @@ namespace App\Services;
 
 class fileMensWpp
 {
-    public function __construct(string $cel, string $fileId)
+    public function __construct(string $cel, string $fileId, string $message)
     {
         $cel = '+549' . $cel;
 
@@ -12,6 +12,7 @@ class fileMensWpp
         $postFields = '{
             "phone": "' . $cel . '",
             "device": "' . env('WPP_DEVICE_ENC') . '",
+            "message": "' . $message . '",
             "media": {
                 "file": "' . $fileId . '"
               }

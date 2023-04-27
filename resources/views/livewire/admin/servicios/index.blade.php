@@ -52,7 +52,7 @@
                         <th>Asesor</th>
                         <th>Estado</th>
                         <th>Cambio Estado</th>
-                        <th colspan="3"></th>
+                        <th colspan="2"></th>
                     </tr>
                 </thead>
                 @foreach ($servicios as $servicio)
@@ -111,13 +111,19 @@
                         </a>
                     </td>
                     @endif
-                    <td width="10px">
-                        <a class="btn btn-primary btn-sm"
+                    <td width="10px" style="white-space: nowrap">
+                        @can('rendiciones')
+                            <a class="btn btn-success btn-sm"
+                            href="{{ route('admin.servicios.edit', $servicio) }}">Rendicion</a>
+                        @endcan
+                        @can('editar servicios')
+                            <a class="btn btn-primary btn-sm"
                             href="{{ route('admin.servicios.edit', $servicio) }}">Editar</a>
-                    </td>
-                    <td width="10px">
-                        <button class="btn btn-danger btn-sm"
+                        @endcan
+                        @can('eliminar servicios')
+                            <button class="btn btn-danger btn-sm"
                             wire:click="$emit('deleteServ', {{ $servicio->id }})">Eliminar</button>
+                        @endcan
                     </td>
                 </tr>
 
@@ -143,20 +149,19 @@
                             <div class="card-body">
                                 <div class="direct-chat-messages" style="height:70vh">
                                     @foreach ($mensAct as $ms)
-                                    <!--if isset($ms->flow)-->
-
-                                    @foreach ($mensAct as $ms)
                                     <div class="direct-chat-msg {{ ($ms->flow == 'inbound')? 'left' : 'right' }}">
                                         <div class="direct-chat-infos clearfix">
                                             <span class="direct-chat-timestamp float-left">{{ $ms->date }}</span>
                                         </div>
                                         <div class="direct-chat-text">
-                                            {{ $ms->body}}
+                                            @if ($ms->type == 'text' || $ms->type == 'list_response' || $ms->type == 'list')
+                                                {{ $ms->body}}
+                                            @elseif ($ms->type == 'image')
+                                                -multimedia- {{ $ms->media->caption }}
+                                            @endif
                                         </div>
                      
                                     </div>
-                                    @endforeach
-
                                     @endforeach
                                 </div>
                             </div>

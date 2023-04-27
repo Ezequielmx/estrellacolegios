@@ -7,6 +7,8 @@ use App\Models\Linea;
 use App\Models\Servicio;
 use DateTime;
 use DateInterval;
+use Mobile_Detect;
+
 
 class IndexController extends Controller
 {

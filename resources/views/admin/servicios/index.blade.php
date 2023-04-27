@@ -10,13 +10,13 @@
     </div>
     @endif
 
-    
-
     <div style="display: flex; justify-content: space-between; align-items:center">
         <h1 style="padding:7px"><i class="fas fa-truck"></i>&nbsp;&nbsp;Servicios</h1>
         <div>
-            <a class="btn btn-success btn-sm" href="{{ route('admin.servicios.create', ['serv_tipo' => 2]) }}">Nuevo Evento Pago</a>
-            <a class="btn btn-danger btn-sm" href="{{ route('admin.servicios.create', ['serv_tipo' => 3]) }}">Nuevo Evento al Cobro</a>
+            @can('crear servicios')
+              <a class="btn btn-success btn-sm" href="{{ route('admin.servicios.create', ['serv_tipo' => 2]) }}">Nuevo Evento Pago</a>
+              <a class="btn btn-danger btn-sm" href="{{ route('admin.servicios.create', ['serv_tipo' => 3]) }}">Nuevo Evento al Cobro</a>  
+            @endcan
         </div>
     </div>
     @livewire('admin.servicios.index')

@@ -81,7 +81,22 @@ class Index extends Component
 
     public function mount()
     {
-        $this->servicios = Servicio::orderBy('fecha_ini_serv')->get();
+        //if user have permission to see all
+        if (auth()->user()->can('Ver todos los Servicios')){
+            $this->servicios = Servicio::orderBy('fecha_ini_serv')->get();
+        }
+        else{
+            if (auth()->user()->hasRole('Vendedor')){
+                $this->servicios = Servicio::where('vendedor_id', auth()->user()->id)->orderBy('fecha_ini_serv')->get();
+            }
+            elseif(auth()->user()->hasRole('Asesor')){
+                $this->servicios = Servicio::where('asesor_id', auth()->user()->id)->orderBy('fecha_ini_serv')->get();
+            }
+            elseif(auth()->user()->hasRole('Instructor')){
+                $this->servicios = Servicio::where('cliente_id', auth()->user()->id)->orderBy('fecha_ini_serv')->get();
+            }
+        }
+
         $this->servicios = $this->servicios->where('estado_id','!=', 8);
         $this->servicios = $this->servicios->where('estado_id','!=', 7);
         $this->servAct = Servicio::first();
@@ -127,5 +142,6 @@ class Index extends Component
     public function deleteServicio(Servicio $servicio)
     {
         $servicio->delete();
+        $this->emit('render');
     }
 }

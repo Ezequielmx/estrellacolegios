@@ -1,5 +1,5 @@
 <?php
-
+$detect = new Mobile_Detect;
 return [
 
     /*
@@ -83,10 +83,12 @@ return [
     |
     */
 
-    'layout_topnav' => true,
+    
+
+    'layout_topnav' => !$detect->isMobile(),
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_sidebar' => $detect->isMobile(),
+    'layout_fixed_navbar' => $detect->isMobile(),
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
