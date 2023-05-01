@@ -39,7 +39,11 @@ class Servicio extends Model
     }
 
     public function espacio(){
-        return $this->belongsTo('App\Models\Espacio');
+        return $this->belongsTo('App\Models\Espacio', 'espacio_montaje');
+    }
+
+    public function tamano(){
+        return $this->belongsTo('App\Models\Tamano');
     }
 
     public function linea(){

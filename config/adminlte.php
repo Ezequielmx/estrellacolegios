@@ -310,7 +310,13 @@ return [
                 ],
             ],
             
-        ]
+        ],
+
+        [
+            'text'        => 'Ventas',
+            'route'       => 'admin.ventas.index',
+            'icon'        => 'fas fa-school',
+        ],
         
     ],
 

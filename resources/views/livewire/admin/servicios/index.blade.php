@@ -124,6 +124,8 @@
                             <button class="btn btn-danger btn-sm"
                             wire:click="$emit('deleteServ', {{ $servicio->id }})">Eliminar</button>
                         @endcan
+                            <a class="btn btn-secondary btn-sm" 
+                            href="{{ route('servicioprint', $servicio->id) }}" target="_blank">Imprimir</a>
                     </td>
                 </tr>
 

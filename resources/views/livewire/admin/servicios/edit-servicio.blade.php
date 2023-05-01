@@ -15,6 +15,7 @@
         @endif
         @endif
     </h1>
+
     <div class="card">
         @if ($servicio->tipo == 1)
         <div class="card-header">
@@ -797,8 +798,10 @@
 
 
 <div class="basebot">
+    
     <button class="btn btn-primary" wire:click="guardar()">Guardar</button>&nbsp;&nbsp;
-    <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>
+    <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>&nbsp;&nbsp;
+    <a class="btn btn-secondary" href="{{ route('servicioprint', $servicio->id) }}" target="_blank">Imprimir</a>
 </div>
 
 

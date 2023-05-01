@@ -262,7 +262,4 @@ class EditServicio extends Component
      
         return trim($texto);
     }
-    
-    
-
 }

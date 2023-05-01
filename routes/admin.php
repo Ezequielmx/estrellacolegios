@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ServicioController;
 use App\Http\Controllers\Admin\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\TemaController;
+use App\Http\Controllers\Admin\VentaController;
 
 Route::resource('establecimientos', EstablecimientoController::class)->names('admin.establecimientos');
 Route::resource('servicios', ServicioController::class)->names('admin.servicios');
@@ -16,3 +17,4 @@ Route::resource('usuarios', UsuarioController::class)->names('admin.usuarios');
 Route::resource('lineas', LineaController::class)->names('admin.lineas');
 Route::resource('temas', TemaController::class)->names('admin.temas');
 Route::resource('comisiones', ComisioneController::class)->names('admin.comisiones');
+Route::resource('ventas', VentaController::class)->names('admin.ventas');
