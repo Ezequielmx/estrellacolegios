@@ -3,7 +3,8 @@
 @section('title','Estrella del Plata')
 
 @section('content')
-<h1 style="padding:7px"><i class="fas fa-igloo"></i> </i>&nbsp;&nbsp;Ventas</h1>
+<h1 style="padding:7px"><i class="fas fa-file-invoice-dollar"></i> </i>&nbsp;&nbsp;Ventas</h1>
+
 <div class="row">
     <div class="col">
         @livewire('admin.ventas')

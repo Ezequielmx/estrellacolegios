@@ -1,20 +1,32 @@
 <div>
-    <h1 style="padding:7px"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Editar Servicio
-        @if ($servicio->tipo == 1)
-        <span
-            style="background-color: rgb(44, 129, 199); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Colegios</span>
-        @else
-        @if ($servicio->tipo == 2)
-        <span
-            style="background-color: rgb(34, 163, 88); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento
-            Pago</span>
-        @else
-        <span
-            style="background-color: rgb(216, 99, 64); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento
-            al Cobro</span>
-        @endif
-        @endif
-    </h1>
+    <div class="row" style="align-items: center;">
+        <div class="col">
+            <h1 style="padding:7px"><i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Editar Servicio
+                @if ($servicio->tipo == 1)
+                <span
+                    style="background-color: rgb(44, 129, 199); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Colegios</span>
+                @else
+                @if ($servicio->tipo == 2)
+                <span
+                    style="background-color: rgb(34, 163, 88); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento
+                    Pago</span>
+                @else
+                <span
+                    style="background-color: rgb(216, 99, 64); border-radius:10px; padding:0 10px; color:white; font-size: 0.7em;">Evento
+                    al Cobro</span>
+                @endif
+                @endif
+            </h1>
+
+        </div>
+        <div class="col text-right">
+            <button class="btn btn-success btn-sm" wire:click="envWpp">
+                <i class="fab fa-whatsapp"></i> Enviar Wpp Confirmación
+            </button>
+        </div>
+    </div>
+
+
 
     <div class="card">
         @if ($servicio->tipo == 1)
@@ -198,7 +210,7 @@
     </div>
     <div class="card">
         <div class="card-body {{'est' . $servicio->estado_id }}">
-            <div class="row">
+            <div class="row" style="align-items: flex-end;">
                 <div class="col">
                     <div class="form-group">
                         <label for="vendedor_id">Vendedor</label>
@@ -226,7 +238,7 @@
 
                 <div class="col">
                     <div class="form-group">
-                        <label for="fecha_ini_serv">Fecha de Inicio Servicio</label>
+                        <label for="fecha_ini_serv">Fecha Inicio Servicio</label>
                         <input type="date" class="form-control" wire:model="servicio.fecha_ini_serv"
                             wire:change="changeFechaIni()">
                     </div>
@@ -237,7 +249,7 @@
 
                 <div class="col">
                     <div class="form-group">
-                        <label for="fecha_fin_serv">Fecha de Fin Servicio</label>
+                        <label for="fecha_fin_serv">Fecha Fin Servicio</label>
                         <input type="date" class="form-control" wire:model="servicio.fecha_fin_serv">
                     </div>
                     @error('servicio.fecha_fin_serv')
@@ -247,14 +259,14 @@
 
                 <div class="col">
                     <div class="form-group">
-                        <label for="fecha_orig_ini">Fecha de Inicio Original</label>
+                        <label for="fecha_orig_ini">Fecha Inicio Original</label>
                         <input type="date" class="form-control" wire:model="servicio.fecha_orig_ini">
                     </div>
                 </div>
 
                 <div class="col">
                     <div class="form-group">
-                        <label for="fecha_orig_fin">Fecha de Fin Original</label>
+                        <label for="fecha_orig_fin">Fecha Fin Original</label>
                         <input type="date" class="form-control" wire:model="servicio.fecha_orig_fin">
                     </div>
                 </div>
@@ -669,14 +681,16 @@
 <div class="card">
     <div class="card-header">
         <h3><b>Rendicion - Evaluación</b></h3>
-        <a class="btn btn-secondary btn-sm" href="{{ route('rendicionprint', $servicio->id) }}" target="_blank">Imprimir</a>
+        <a class="btn btn-secondary btn-sm" href="{{ route('rendicionprint', $servicio->id) }}"
+            target="_blank">Imprimir</a>
     </div>
     <div class="card-body">
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="alumnos_ing">Alumnos ingresados</label>
-                    <input type="number" class="form-control" wire:model.defer="servicio.alumnos_ing" wire:change='saveChange()'>
+                    <input type="number" class="form-control" wire:model.defer="servicio.alumnos_ing"
+                        wire:change='saveChange()'>
                 </div>
 
                 <div class="form-group">
@@ -685,7 +699,8 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text">$</div>
                         </div>
-                        <input type="number" class="form-control" wire:model.defer="servicio.cobrado" wire:change='saveChange()'>
+                        <input type="number" class="form-control" wire:model.defer="servicio.cobrado"
+                            wire:change='saveChange()'>
                     </div>
                 </div>
             </div>
@@ -762,7 +777,7 @@
                     <label for="rend_fte">Rendición frente:</label>
                     <input type="file" id="rend_fte" name="rend_fte" wire:model="rend_fte">
                     @error('rend_fte')
-                        <span class="text-danger">{{ $message }}</span>
+                    <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div>
@@ -779,7 +794,7 @@
                     <label for="rend_dorso">Rendición dorso:</label>
                     <input type="file" id="rend_dorso" name="rend_dorso" wire:model="rend_dorso">
                     @error('rend_dorso')
-                        <span class="text-danger">{{ $message }}</span>
+                    <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -798,7 +813,7 @@
 
 
 <div class="basebot">
-    
+
     <button class="btn btn-primary" wire:click="guardar()">Guardar</button>&nbsp;&nbsp;
     <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>&nbsp;&nbsp;
     <a class="btn btn-secondary" href="{{ route('servicioprint', $servicio->id) }}" target="_blank">Imprimir</a>

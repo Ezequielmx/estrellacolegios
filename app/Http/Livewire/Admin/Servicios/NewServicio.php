@@ -84,7 +84,6 @@ class NewServicio extends Component
         'cont_1' => 'exclude_if:serv_tipo,3|required',
         'cel_cont_1' => 'exclude_if:serv_tipo,3|required|digits:10',
         'puesto_cont1' => 'exclude_if:serv_tipo,3|required',
-        'espacio_montaje' => 'required',
         'tamano_id' => 'required',
         'vendedor_id' => 'required',
         'estado_id' => 'required',
@@ -233,8 +232,6 @@ class NewServicio extends Component
             foreach ($this->establecimientos as $est) {
                 $servicio->establecimientos()->attach($est['id']);
             }
-
-            new mensWpp($servicio);
         }
         
         //redirect to admin.servicios.index with info "Servicio creado"

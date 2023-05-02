@@ -45,20 +45,20 @@ setlocale(LC_TIME, "spanish");
         }
 
         h1, h2, h3, h4{
-            margin-block-start: 2px;
-            margin-block-end: 2px;
+            margin-top: 0px;
+            margin-bottom: 5px;
         }
 
         h1 {
-            font-size: 1.75em;
+            font-size: 1.35em;
         }
 
         h2 {
-            font-size: 1.5em;
+            font-size: 1.25em;
         }
 
         h3 {
-            font-size: 1.25em;
+            font-size: 1.15em;
         }
 
         .row {
@@ -222,7 +222,12 @@ setlocale(LC_TIME, "spanish");
 </head>
 
 <body>
-
+    <div class="row" style="border-bottom: 1px solid gray; margin-top:-20px; padding-bottom:5px; margin-bottom:10px;">
+        <div class="col" style="text-align:center">
+            <h1>Ficha de Servicio</h1>
+        </div>
+        <div class="clearfix"></div>
+    </div>
     <!-- Encabezado -->
     <div class="row">
         <div class="col col-4">
@@ -267,14 +272,13 @@ setlocale(LC_TIME, "spanish");
     </div>
 
     <!-- Vendedor - Fecha Venta - Fecha Original -->
-    <div class="row">
+    <div class="row" style="margin-top: 10px; margin-bottom:10px">
         <table>
-            <tr>
-                <td style="width: 10px">Vendedor</td>
-                <th style="text-align: left">{{ $servicio->vendedor->name }}</th>
+            <tr style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; ">
+                <td style="width: 10px">Vendedor: </td>
+                <td style="text-align: left"><b>{{ $servicio->vendedor->name }}</b></td>
                 <td style="width: 10px; white-space:nowrap">Fecha Venta</td>
-                <th style="text-align: left">{{ utf8_encode(strftime('%d/%m/%Y', strtotime($servicio->fecha_venta)))}}
-                </th>
+                <td style="text-align: left"><b>{{ utf8_encode(strftime('%d/%m/%Y', strtotime($servicio->fecha_venta)))}}</b></td>
                 @if ($servicio->fecha_orig_ini != $servicio->fecha_ini_serv)
                 <td style="width: 10px; white-space:nowrap"><b>REPROGRAMADO-</b> Fecha Original:</td>
                 <td>{{ utf8_encode(strftime('%d/%m/%Y', strtotime($servicio->fecha_orig_ini)))}}
@@ -288,12 +292,13 @@ setlocale(LC_TIME, "spanish");
 
     <!-- Lugar o Escuelas -->
     @if ($servicio->tipo != 1)
-    <table>
-        <tr>
-            <td>Lugar</td>
-            <td>$servicio->lugar</td>
-        </tr>
-    </table>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Lugar: <b>{{ $servicio->lugar }}</b></div>
+        </div>
+    </div>
+
+
     @else
     <div class="card">
         <div class="card-header">
@@ -354,6 +359,7 @@ setlocale(LC_TIME, "spanish");
     </div>
 
     <!-- Matricula -->
+    @if ($servicio->tipo == 1)
     <div class="card">
         <div class="card-header">
             <div class="card-title">Matricula</div>
@@ -406,6 +412,7 @@ setlocale(LC_TIME, "spanish");
             </div>
         </div>
     </div>
+    @endif
 
     <!-- Espacio - Tamano - Planetario - Asesor - Precio -->
     <div class="card">
@@ -446,7 +453,7 @@ setlocale(LC_TIME, "spanish");
                             <th>Precio por alumno</th>
                         </tr>
                         <tr>
-                            <td>$ {{ $servicio->precio_alumno }}</td>
+                            <td><b>$ {{ number_format($servicio->precio_alumno,0,",",".") }}</b></td>
                         </tr>
                     </table>
                     <br>
@@ -456,7 +463,7 @@ setlocale(LC_TIME, "spanish");
                             <th>Precio total</th>
                         </tr>
                         <tr>
-                            <td>$ {{ $servicio->precio_total }}</td>
+                            <td><b>$ {{ number_format($servicio->precio_total,0,",",".")  }}</b></td>
                         </tr>
                     </table>
 
@@ -478,16 +485,15 @@ setlocale(LC_TIME, "spanish");
                     <h3>Turno Mañana - Total: {{ $servicio->horarios->where('turno','m')->sum('cantidad') }}</h3>
                     <table>
                         <tr>
-                            <th style="width: 15%">Horario</th>
-                            <th style="width: 15%">Cantidad</th>
-                            <th style="width: 70%">Tema</th>
-                            <th></th>
+                            <th>Horario</th>
+                            <th>Cantidad</th>
+                            <th>Tema</th>
                         </tr>
                         @foreach ($servicio->horarios as $horario)
                         @if ($horario->turno == 'm')
                         <tr>
-                            <td>{{ $horario->hora }}</td>
-                            <td>{{ $horario->cantidad }}</td>
+                            <td>{{ utf8_encode(strftime('%H:%M', strtotime($horario->hora))) }}</td>
+                            <td class="txtc">{{ $horario->cantidad }}</td>
                             <td>{{ $horario->tema->titulo }}</td>
                         </tr>
                         @endif
@@ -495,19 +501,19 @@ setlocale(LC_TIME, "spanish");
                     </table>
                 </div>
                 <div class="col col-4">
-                    <h4>Turno Tarde - Total: {{ $servicio->horarios->where('turno','t')->sum('cantidad') }}</h4>
+                    <h3>Turno Tarde - Total: {{ $servicio->horarios->where('turno','t')->sum('cantidad') }}</h3>
                     <table>
                         <tr>
-                            <th style="width: 15%">Horario</th>
-                            <th style="width: 15%">Cantidad</th>
-                            <th style="width: 70%">Tema</th>
+                            <th>Horario</th>
+                            <th>Cantidad</th>
+                            <th>Tema</th>
                             <th></th>
                         </tr>
                         @foreach ($servicio->horarios as $horario)
                         @if ($horario->turno == 't')
                         <tr>
-                            <td>{{ $horario->hora }}</td>
-                            <td>{{ $horario->cantidad }}</td>
+                            <td>{{ utf8_encode(strftime('%H:%M', strtotime($horario->hora))) }}</td>
+                            <td class="txtc">{{ $horario->cantidad }}</td>
                             <td>{{ $horario->tema->titulo }}</td>
                         </tr>
                         @endif
@@ -515,19 +521,19 @@ setlocale(LC_TIME, "spanish");
                     </table>
                 </div>
                 <div class="col col-4">
-                    <h4>Turno Noche - Total: {{ $servicio->horarios->where('turno','n')->sum('cantidad') }}</h4>
+                    <h3>Turno Noche - Total: {{ $servicio->horarios->where('turno','n')->sum('cantidad') }}</h3>
                     <table>
                         <tr>
-                            <th style="width: 15%">Horario</th>
-                            <th style="width: 15%">Cantidad</th>
-                            <th style="width: 70%">Tema</th>
+                            <th>Horario</th>
+                            <th>Cantidad</th>
+                            <th>Tema</th>
                             <th></th>
                         </tr>
                         @foreach ($servicio->horarios as $horario)
                         @if ($horario->turno == 'n')
                         <tr>
-                            <td>{{ $horario->hora }}</td>
-                            <td>{{ $horario->cantidad }}</td>
+                            <td>{{ utf8_encode(strftime('%H:%M', strtotime($horario->hora))) }}</td>
+                            <td class="txtc">{{ $horario->cantidad }}</td>
                             <td>{{ $horario->tema->titulo }}</td>
                         </tr>
                         @endif

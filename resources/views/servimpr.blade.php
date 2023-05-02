@@ -222,7 +222,12 @@ setlocale(LC_TIME, "spanish");
 </head>
 
 <body>
-
+    <div class="row" style="border-bottom: 1px solid gray; margin-top:-20px; margin-bottom:10px;">
+        <div class="col" style="text-align:center; width:100%">
+            <h1>Ficha de Servicio</h1>
+        </div>
+        <div class="clearfix"></div>
+    </div>
     <!-- Encabezado -->
     <div class="row">
         <div class="col col-4">
@@ -267,14 +272,13 @@ setlocale(LC_TIME, "spanish");
     </div>
 
     <!-- Vendedor - Fecha Venta - Fecha Original -->
-    <div class="row">
+    <div class="row" style="margin-top: 10px; margin-bottom:10px">
         <table>
-            <tr>
-                <td style="width: 10px">Vendedor</td>
-                <th style="text-align: left">{{ $servicio->vendedor->name }}</th>
+            <tr style="border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; ">
+                <td style="width: 10px">Vendedor: </td>
+                <td style="text-align: left"><b>{{ $servicio->vendedor->name }}</b></td>
                 <td style="width: 10px; white-space:nowrap">Fecha Venta</td>
-                <th style="text-align: left">{{ utf8_encode(strftime('%d/%m/%Y', strtotime($servicio->fecha_venta)))}}
-                </th>
+                <td style="text-align: left"><b>{{ utf8_encode(strftime('%d/%m/%Y', strtotime($servicio->fecha_venta)))}}</b></td>
                 @if ($servicio->fecha_orig_ini != $servicio->fecha_ini_serv)
                 <td style="width: 10px; white-space:nowrap"><b>REPROGRAMADO-</b> Fecha Original:</td>
                 <td>{{ utf8_encode(strftime('%d/%m/%Y', strtotime($servicio->fecha_orig_ini)))}}
@@ -286,14 +290,15 @@ setlocale(LC_TIME, "spanish");
     </div>
 
 
-    <!-- Lugar o Escuelas -->
+    <!-- Lugar -->
     @if ($servicio->tipo != 1)
-    <table>
-        <tr>
-            <td>Lugar</td>
-            <td>$servicio->lugar</td>
-        </tr>
-    </table>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title" style="padding-top: 5px; padding-bottom:5px">Lugar: <b>{{ $servicio->lugar }}</b></div>
+        </div>
+    </div>
+
+    <!-- Escuelas -->
     @else
     <div class="card">
         <div class="card-header">
@@ -354,6 +359,7 @@ setlocale(LC_TIME, "spanish");
     </div>
 
     <!-- Matricula -->
+    @if ($servicio->tipo == 1)
     <div class="card">
         <div class="card-header">
             <div class="card-title">Matricula</div>
@@ -406,6 +412,7 @@ setlocale(LC_TIME, "spanish");
             </div>
         </div>
     </div>
+    @endif
 
     <!-- Espacio - Tamano - Planetario - Asesor - Precio -->
     <div class="card">
@@ -446,19 +453,21 @@ setlocale(LC_TIME, "spanish");
                             <th>Precio por alumno</th>
                         </tr>
                         <tr>
-                            <td>$ {{ $servicio->precio_alumno }}</td>
+                            <td><b>$ {{ number_format($servicio->precio_alumno,0,",",".") }}</b></td>
                         </tr>
                     </table>
                     <br>
                     @endif
+                    @if ($servicio->tipo != 3)
                     <table>
                         <tr>
                             <th>Precio total</th>
                         </tr>
                         <tr>
-                            <td>$ {{ $servicio->precio_total }}</td>
+                            <td><b>$ {{ number_format($servicio->precio_total,0,",",".")  }}</b></td>
                         </tr>
                     </table>
+                    @endif
 
                 </div>
                 <div class="clearfix"></div>

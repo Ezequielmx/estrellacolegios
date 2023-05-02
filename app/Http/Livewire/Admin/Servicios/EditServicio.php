@@ -219,6 +219,12 @@ class EditServicio extends Component
         $this->servicio->save();
     }
 
+    public function envWpp(){
+        new mensWpp($this->servicio);
+        $this->servicio->estado_id = 2;
+        $this->servicio->save();
+    }
+
     function numero_a_texto($numero) {
         $unidades = array("", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve");
         $decenas = array("", "diez", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa");

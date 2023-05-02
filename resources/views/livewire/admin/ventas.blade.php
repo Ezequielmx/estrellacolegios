@@ -37,6 +37,7 @@
                     <th>Precio x Alumno</th>
                     <th>Precio Total</th>
                     <th>Estado</th>
+                    <th></th>
                 </thead>
                 @foreach ($servicios as $servicio)
                 @if ($servicio->vendedor_id != $vend)
@@ -60,24 +61,30 @@
                 }
                 @endphp
                 <tr class={{ $color }}>
-                    <td colspan="9"><b>{{ $servicio->vendedor->name }}</b></td>
+                    <td colspan="10"><b>{{ $servicio->vendedor->name }}</b></td>
                 </tr>
                 @endif
                 @php
-                    $vent_tot++;
+                $vent_tot++;
                 @endphp
                 <tr>
                     <td>{{ utf8_encode(strftime('%d/%m/%Y', strtotime($servicio->fecha_venta))) }}</td>
                     @if ($servicio->tipo != 1)
-                    <td>{{ $servicio->lugar }}</td>
+                    <td>
+                        @if ($servicio->tipo == 2)
+                        💰 
+                        @else
+                        🎫 
+                        @endif
+                        {{ $servicio->lugar }}</td>
                     <td>{{ utf8_encode(strftime('%d/%m/%Y', strtotime($servicio->fecha_ini_serv))) }}</td>
                     <td></td>
                     <td></td>
                     <td></td>
                     @else
-                    <td>
+                    <td>🏫
                         @foreach ($servicio->establecimientos as $establecimiento)
-                        {{ $establecimiento->nombre . " - " }}
+                            {{ $establecimiento->nombre . " - " }}
                         @endforeach
                     </td>
                     <td>{{ utf8_encode(strftime('%d/%m/%Y', strtotime($servicio->fecha_ini_serv))) }}</td>
@@ -86,9 +93,15 @@
                     <td>{{ $servicio->establecimientos[0]->ciudad }}</td>
                     @endif
 
-                    <td>{{ $servicio->precio_x_alumno }}</td>
-                    <td>{{ $servicio->precio_total }}</td>
+                    <td>$ {{ number_format($servicio->precio_alumno,0,",",".") }}</td>
+                    <td>$ {{ number_format($servicio->precio_total,0,",",".") }}</td>
                     <td>{{ $servicio->estado->estado }}</td>
+                    <td>
+                        @can('editar servicios')
+                        <a class="btn btn-primary btn-sm"
+                            href="{{ route('admin.servicios.edit', $servicio) }}">Ver</a>
+                        @endcan
+                    </td>
                     @endforeach
             </table>
         </div>
