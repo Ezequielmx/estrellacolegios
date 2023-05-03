@@ -12,9 +12,17 @@
                         <option value="ultimo_anio">Último año</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <label for="cantidad">Ventas:</label>
                     <input type="text" class="form-control" wire:model="cantidad" disabled>
+                </div>
+                <div class="col-md-1">
+                    <label for="aprob">Aprobadas:</label>
+                    <input type="text" class="form-control"  disabled value="{{ $servicios->where('estado_id','>',0)->count() }}">
+                </div>
+                <div class="col-md-1">
+                    <label for="falt">Faltantes:</label>
+                    <input type="text" class="form-control"  disabled value="{{ $servicios->count() - $servicios->where('estado_id','>',0)->count() }}">
                 </div>
             </div>
         </div>
@@ -61,13 +69,13 @@
                 }
                 @endphp
                 <tr class={{ $color }}>
-                    <td colspan="10"><b>{{ $servicio->vendedor->name }}</b></td>
+                    <td colspan="10"><b>{{ $servicio->vendedor->name }} - {{ $servicios->where('vendedor_id',$servicio->vendedor->id)->count() }}</b></td>
                 </tr>
                 @endif
                 @php
                 $vent_tot++;
                 @endphp
-                <tr>
+                <tr {{ $servicio->estado_id>0? 'style=background-color:#5f9ea0' : '' }}>
                     <td>{{ utf8_encode(strftime('%d/%m/%Y', strtotime($servicio->fecha_venta))) }}</td>
                     @if ($servicio->tipo != 1)
                     <td>
@@ -96,11 +104,15 @@
                     <td>$ {{ number_format($servicio->precio_alumno,0,",",".") }}</td>
                     <td>$ {{ number_format($servicio->precio_total,0,",",".") }}</td>
                     <td>{{ $servicio->estado->estado }}</td>
-                    <td>
+                    <td style="white-space: nowrap">
                         @can('editar servicios')
                         <a class="btn btn-primary btn-sm"
                             href="{{ route('admin.servicios.edit', $servicio) }}">Ver</a>
                         @endcan
+                        @if ($servicio->estado_id == 0)
+                           <button class="btn btn-success btn-sm" wire:click='aprobarVenta({{ $servicio->id }})'>Aprobar</button> 
+                        @endif
+                        
                     </td>
                     @endforeach
             </table>

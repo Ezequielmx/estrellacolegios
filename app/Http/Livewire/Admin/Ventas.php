@@ -39,4 +39,11 @@ class Ventas extends Component
         $this->cantidad = $servicios->count();
         return view('livewire.admin.ventas');
     }
+
+    public function aprobarVenta(Servicio $servicio)
+    {
+        $servicio->update([
+            'estado_id' => '1'
+        ]);
+    }
 }

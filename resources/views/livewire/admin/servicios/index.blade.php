@@ -17,6 +17,17 @@
                     </div>
                 </div>
 
+                <div class="col-md-2">
+                    <label for="estado">Estado</label>
+                    <select class="form-control" wire:model="estadoSel">
+                        <option value="-1">Todos</option>
+                        @foreach ($estados as $estado)
+
+                        <option value="{{ $estado->id }}">{{ $estado->estado }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="col text-center" style="max-width: 200px">
                     <b><label for="showCaida">Mostrar caidas</label></b>
                     <div class="form-check">
@@ -144,7 +155,11 @@
                         <div class="card card-danger direct-chat direct-chat-danger" style="margin-bottom:0">
                             <div class="card-header">
                                 <h3 class="card-title"><b>{{ $servAct->cont_1 }}</b>
-                                    - {{ $servAct->establecimientos->first()->nombre}}<br>
+                                    @if ($servAct->tipo == 1)
+                                      - {{ $servAct->establecimientos->first()->nombre}}<br>
+                                    @else
+                                        - {{ $servAct->lugar }}<br>  
+                                    @endif
                                     {{ $servAct->cel_cont_1 }}
                                 </h3>
                             </div>
@@ -180,6 +195,13 @@
                         <!--/.direct-chat -->
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div wire:loading>
+        <div class="modload">
+            <div class="spinload">
+                <i class="fa fa-spinner fa-spin"></i>
             </div>
         </div>
     </div>

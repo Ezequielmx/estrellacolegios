@@ -19,6 +19,7 @@ class Establecimientos extends Component
     public $provSel = "all";
     public $deptoSel = "all";
     public $ciudadSel = "all";
+    public $estadoSel = "all";
 
     public function mount()
     {
@@ -72,12 +73,30 @@ class Establecimientos extends Component
         $this->filtrarTabla();
     }
 
+    public function updEstado($estadoSel)
+    {
+        $this->estadoSel = $estadoSel;
+        $this->filtrarTabla();
+    }
+
     public function filtrarTabla()
     {
         $this->nomBusq = str_replace("ñ","Ñ",$this->nomBusq);
         $filter = false;
+
+        if ($this->estadoSel != "all") {
+            $this->estabFilt = Establecimiento::has('servicios')->get();
+
+            $filter = true;
+        }
+
+
         if ($this->provSel != "all") {
-            $this->estabFilt = Establecimiento::all()->where('prov', '===', $this->provSel);
+            if ($filter) {
+                $this->estabFilt = $this->estabFilt->where('prov', '===', $this->provSel);
+            } else {
+                $this->estabFilt = Establecimiento::all()->where('prov', '===', $this->provSel);
+            }
             $filter = true;
         }
 

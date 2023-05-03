@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Admin\Servicios;
 
 use Livewire\Component;
 use App\Models\Servicio;
-use App\Services\simpleMensWpp;
+use App\Models\Estado;
 
 class Index extends Component
 {
@@ -23,6 +23,9 @@ class Index extends Component
     public $filter = false;
 
     public $showModal = false;
+
+    public $estados;
+    public $estadoSel=-1;
 
     public function render()
     {
@@ -43,15 +46,25 @@ class Index extends Component
         $this->updShow();
     }
 
+    public function updatedEstadoSel(){
+        $this->updShow();
+    }
+
     public function updShow(){
         $this->nombusq = "";
-        $this->servicios = Servicio::orderBy('fecha_ini_serv')->get();
+        $this->servicios = Servicio::orderBy('fecha_ini_serv')
+                            ->where('fecha_ini_serv','>=', '2023-01-01')
+                            ->where('estado_id','>', 0)
+                            ->get();
+        
+        if ($this->estadoSel != -1)
+            $this->servicios = $this->servicios->where('estado_id','=', $this->estadoSel);
         
         if (!$this->showCaida)
             $this->servicios = $this->servicios->where('estado_id','!=', 8);
         
         if (!$this->showFinal)
-            $this->servicios = $this->servicios->where('estado_id','!=', 7);
+            $this->servicios = $this->servicios->where('estado_id','!=', 7)->where('estado_id','!=', 9);
         
         if ($this->showUnread)
             $this->servicios = $this->servicios->where('unreadwpp','=', 1);
@@ -93,12 +106,14 @@ class Index extends Component
                 $this->servicios = Servicio::where('asesor_id', auth()->user()->id)->orderBy('fecha_ini_serv')->get();
             }
             elseif(auth()->user()->hasRole('Instructor')){
-                $this->servicios = Servicio::where('cliente_id', auth()->user()->id)->orderBy('fecha_ini_serv')->get();
+                /**/;
             }
         }
 
-        $this->servicios = $this->servicios->where('estado_id','!=', 8);
-        $this->servicios = $this->servicios->where('estado_id','!=', 7);
+        $this->estados = Estado::where('id','>', 0)->get();
+        $this->servicios = $this->servicios->where('estado_id','<', 7);
+        $this->servicios = $this->servicios->where('fecha_ini_serv','>=', '2023-01-01');
+        $this->servicios = $this->servicios->where('estado_id','>', 0);
         $this->servAct = Servicio::first();
     }
 
@@ -116,7 +131,7 @@ class Index extends Component
 
 
     public function busqNombre(){
-        $this->servicios = Servicio::orderBy('fecha_ini_serv')->get();
+        $this->servicios = Servicio::orderBy('fecha_ini_serv')->where('fecha_ini_serv','>=', '2023-01-01')->get();
 
         if ($this->nombusq=="")
             return;

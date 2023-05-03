@@ -117,7 +117,7 @@ class NewServicio extends Component
         $this->lineas = Linea::all();
         $this->tamanos = Tamano::all();
         $this->fecha_venta = date('Y-m-d');
-        $this->estado_id = 1;
+        $this->estado_id = 0;
 
         $this->servicio_tm = 0;
         $this->servicio_tt = 0;

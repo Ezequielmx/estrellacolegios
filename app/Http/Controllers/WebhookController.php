@@ -51,10 +51,13 @@ class WebhookController extends Controller
         if($type == 'list_response'){
             $idSel = $request->data['quoted']['selectedId'];
 
-            if($idSel == 'ok')
+            if($idSel == 'ok'){
                 $servicio->estado_id = 3;
-            elseif ($idSel == 'no')
+                $servicio->cambio_estado = now();
+            }elseif ($idSel == 'no'){
                 $servicio->estado_id = 4;
+                $servicio->cambio_estado = now();
+            }
         }
         else{
             $servicio->unreadwpp = $servicio->unreadwpp + 1;

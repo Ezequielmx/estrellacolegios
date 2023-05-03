@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <div class="col">
+            <div class="col-md-2">
                 <b><label for="provincia">Provincia</label></b>
                 <select class="form-control" name="provincia" wire:change="updProv($event.target.value)">
                     <option value="all" {{ ('all'==$provSel)? 'selected' : '' }}>TODO</option>
@@ -28,7 +28,7 @@
                 </select>
             </div>
 
-            <div class="col">
+            <div class="col-md-2">
                 <b><label for="departamento">Departamento</label></b>
                 <select class="form-control" name="departamento" wire:change="updDepto($event.target.value)">
                     <option value="all" {{ ('all'==$deptoSel)? 'selected' : '' }}>TODO</option>
@@ -40,7 +40,7 @@
                 </select>
             </div>
 
-            <div class="col">
+            <div class="col-md-2">
                 <b><label for="ciudad">Ciudad</label></b>
                 <select class="form-control" name="ciudad" wire:change="updCiudad($event.target.value)">
                     <option value="all" {{ ('all'==$ciudadSel)? 'selected' : '' }}>TODO</option>
@@ -49,6 +49,14 @@
                         $ciudad }}
                     </option>
                     @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <b><label for="estado">Estado</label></b>
+                <select class="form-control" name="estado" wire:change="updEstado($event.target.value)">
+                    <option value="all" {{ ('all'==$estadoSel)? 'selected' : '' }}>TODO</option>
+                    <option value="yes" {{ ('yes'==$estadoSel)? 'selected' : '' }}>HECHO</option>
                 </select>
             </div>
         </div>
