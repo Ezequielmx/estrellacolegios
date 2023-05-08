@@ -12,7 +12,7 @@ class aprobVentaAviso
 {
     public function __construct(Servicio $servicio)
     {
-        $user = User::find(4);
+        $user = User::find(13);
         $message = '🤖 *Nueva Venta Aprobada* \\n\\n';
         
         $message .= '🗺 *Linea:* ' . $servicio->linea->nombre . '\\n';

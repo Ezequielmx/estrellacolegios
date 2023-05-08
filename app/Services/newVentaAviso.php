@@ -12,7 +12,7 @@ class newVentaAviso
 {
     public function __construct(Servicio $servicio)
     {
-        $user = User::find(4);
+        $user = User::find(3);
         $message = '🤖 *Nueva Venta Ingresada* \\n\\n';
 
         $message .= '👨 *Vendedor:* ' . $servicio->vendedor->name . '\\n';
