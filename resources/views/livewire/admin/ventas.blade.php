@@ -105,14 +105,15 @@
                     <td>$ {{ number_format($servicio->precio_total,0,",",".") }}</td>
                     <td>{{ $servicio->estado->estado }}</td>
                     <td style="white-space: nowrap">
-                        @can('editar servicios')
-                        <a class="btn btn-primary btn-sm"
-                            href="{{ route('admin.servicios.edit', $servicio) }}">Ver</a>
-                        @endcan
-                        @if ($servicio->estado_id == 0)
-                           <button class="btn btn-success btn-sm" wire:click='aprobarVenta({{ $servicio->id }})'>Aprobar</button> 
-                        @endif
+                        @can('aprobar ventas')
+                            <a class="btn btn-primary btn-sm"
+                                href="{{ route('admin.servicios.edit', $servicio) }}">Ver</a>
+
                         
+                            @if ($servicio->estado_id == 0)
+                                <button class="btn btn-success btn-sm" wire:click='aprobarVenta({{ $servicio->id }})'>Aprobar</button> 
+                            @endif
+                        @endcan
                     </td>
                     @endforeach
             </table>

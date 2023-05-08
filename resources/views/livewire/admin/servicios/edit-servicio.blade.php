@@ -99,7 +99,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label class="col-form-label-sm">Teléfono</label>
-                            <input class="form-control" value="{{ $establecimiento->tel }}" disabled>
+                            <input class="form-control" value="{{ $establecimiento['cod_area'] . "-" . $establecimiento['tel'] }}" disabled>
                         </div>
                     </div>
 
@@ -260,14 +260,20 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="fecha_orig_ini">Fecha Inicio Original</label>
-                        <input type="date" class="form-control" wire:model="servicio.fecha_orig_ini">
+                        <input type="date" class="form-control" wire:model="servicio.fecha_orig_ini"
+                        @if (auth()->user()->cannot('cambiar fecha original'))
+                            disabled
+                        @endif>
                     </div>
                 </div>
 
                 <div class="col">
                     <div class="form-group">
                         <label for="fecha_orig_fin">Fecha Fin Original</label>
-                        <input type="date" class="form-control" wire:model="servicio.fecha_orig_fin">
+                        <input type="date" class="form-control" wire:model="servicio.fecha_orig_fin"
+                        @if (auth()->user()->cannot('cambiar fecha original'))
+                            disabled
+                        @endif>
                     </div>
                 </div>
 
@@ -275,9 +281,32 @@
                     <div class="form-group">
                         <label for="estado_id">Estado</label>
                         <select class="form-control" wire:model.defer="servicio.estado_id">
-                            @foreach ($estados as $estado)
-                            <option value="{{ $estado->id }}">{{ $estado->estado }}</option>
-                            @endforeach
+                            <option value="0"
+                            @if (auth()->user()->cannot('asignar estado preventa'))
+                                disabled
+                            @endif>PRE-VENTA</option>
+                            <option value="1">VENDIDO</option>
+                            <option value="2">WPP ENVIADO</option>
+                            <option value="3">WPP CONFIRMADO</option>
+                            <option value="4">WPP LLAMAR</option>
+                            <option value="5">CONFIRMADO</option>
+                            <option value="6">LISTO</option>
+                            <option value="7"
+                            @if (auth()->user()->cannot('asignar estado realizado'))
+                                disabled
+                            @endif>REALIZADO</option>
+                            <option value="8"
+                            @if (auth()->user()->cannot('asignar estado caida'))
+                                disabled
+                            @endif>CAIDA</option>
+                            <option value="9"
+                            @if (auth()->user()->cannot('asignar estado controlado'))
+                                disabled
+                            @endif>CONTROLADO</option>
+                            <option value="10"
+                            @if (auth()->user()->cannot('asignar estado reprogramar'))
+                                disabled
+                            @endif>A REPROGRAMAR</option>
                         </select>
                     </div>
                     @error('servicio.estado_id')
@@ -562,7 +591,10 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="asesor_id">Asesor</label>
-                                <select class="form-control" wire:model.defer="servicio.asesor_id">
+                                <select class="form-control" wire:model.defer="servicio.asesor_id"
+                                @if (auth()->user()->cannot('asignar asesores'))
+                                     disabled
+                                @endif>
                                     <option value="0">Selecciona</option>
                                     @foreach ($asesores as $asesor)
                                     <option value="{{ $asesor->id }}">{{ $asesor->name }}</option>

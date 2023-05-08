@@ -88,7 +88,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label class="col-form-label-sm">Teléfono</label>
-                            <input class="form-control" value="{{ $establecimiento['tel'] }}" disabled>
+                            <input class="form-control" value="{{ $establecimiento['cod_area'] . "-" . $establecimiento['tel'] }}" disabled>
                         </div>
                     </div>
 
@@ -248,7 +248,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="estado_id">Estado</label>
-                        <select class="form-control" wire:model.defer="estado_id">
+                        <select class="form-control" wire:model.defer="estado_id" disabled>
                             @foreach ($estados as $estado)
                             <option value="{{ $estado->id }}">{{ $estado->estado }}</option>
                             @endforeach

@@ -78,8 +78,10 @@
                     <th>Tipo</th>
                     <th>Niveles</th>
                     <th>Fecha Serv</th>
-                    <th></th>
-                    <th></th>
+                    @can('crear servicios')
+                       <th></th> 
+                    @endcan
+                    
                 </tr>
             </thead>
             <tbody>
@@ -98,20 +100,27 @@
                     <td style="white-space: nowrap;">
                         <div class="contSpans">
                             @foreach ($establ->servicios as $serv)
-                            <a href="{{ route('admin.servicios.edit', $serv) }}" 
-                            style="color: inherit!important; margin-bottom: 10px">
+                            @can('editar servicios')
+                                <a href="{{ route('admin.servicios.edit', $serv) }}" 
+                                style="color: inherit!important; margin-bottom: 10px"> 
+                            @endcan
                                 <span title="{{ $serv->estado()->first()->estado }}" class="spanServ {{ 'est' . $serv->estado_id }}">
                                     {{ strftime("%d/%m/%Y", strtotime($serv->fecha_ini_serv)) }}
                                 </span>
-                            </a>
+                            @can('editar servicios')
+                                </a>
+                            @endcan
                             @endforeach
                         </div>
                     </td>
-                    <td style="white-space: nowrap; width:150px">
-                        <a class="btn btn-success btn-sm"
-                            href="{{ route('admin.servicios.create', ['estab_id' => $establ->id, 'serv_tipo' => 1]) }}">Nuevo
-                            Servicio</a>
-                    </td>
+                    @can('crear servicios')
+                        <td style="white-space: nowrap; width:150px">
+                            <a class="btn btn-success btn-sm"
+                                href="{{ route('admin.servicios.create', ['estab_id' => $establ->id, 'serv_tipo' => 1]) }}">Nuevo
+                                Servicio</a>
+                        </td>  
+                    @endcan
+                    
                 </tr>
                 @endforeach
             </tbody>

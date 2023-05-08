@@ -427,7 +427,7 @@ setlocale(LC_TIME, "spanish");
                             <th>Asesor</th>
                         </tr>
                         <tr>
-                            <td class="txtc">{{ $servicio->espacio->espacio }}</td>
+                            <td class="txtc">{{ $servicio->espacio? $servicio->espacio->espacio : ''}}</td>
                             <td class="txtc">{{ $servicio->tamano->tamano }}</td>
                             @if ($servicio->planetario_id)
                             <td class="txtc">{{ $servicio->planetario->id . '-' . $servicio->planetario->tamaño }}</td>

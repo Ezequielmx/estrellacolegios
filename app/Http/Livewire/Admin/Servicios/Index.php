@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Servicios;
 use Livewire\Component;
 use App\Models\Servicio;
 use App\Models\Estado;
+use App\Models\User;
 
 class Index extends Component
 {
@@ -25,6 +26,8 @@ class Index extends Component
     public $showModal = false;
 
     public $estados;
+    public $asesores;
+    public $asesorSel=0;
     public $estadoSel=-1;
 
     public function render()
@@ -50,6 +53,10 @@ class Index extends Component
         $this->updShow();
     }
 
+    public function updatedAsesorSel(){
+        $this->updShow();
+    }
+
     public function updShow(){
         $this->nombusq = "";
         $this->servicios = Servicio::orderBy('fecha_ini_serv')
@@ -59,6 +66,9 @@ class Index extends Component
         
         if ($this->estadoSel != -1)
             $this->servicios = $this->servicios->where('estado_id','=', $this->estadoSel);
+
+        if ($this->asesorSel != 0)
+            $this->servicios = $this->servicios->where('asesor_id','=', $this->asesorSel);
         
         if (!$this->showCaida)
             $this->servicios = $this->servicios->where('estado_id','!=', 8);
@@ -115,6 +125,7 @@ class Index extends Component
         $this->servicios = $this->servicios->where('fecha_ini_serv','>=', '2023-01-01');
         $this->servicios = $this->servicios->where('estado_id','>', 0);
         $this->servAct = Servicio::first();
+        $this->asesores = User::role('Asesor')->get();
     }
 
     public function marcLeidos(Servicio $servicio)

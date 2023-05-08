@@ -12,11 +12,13 @@ use App\Models\User;
 use App\Models\Linea;
 use App\Models\Tamano;
 use App\Models\Valoracione;
+use App\Services\asignAsesorAviso;
 use App\Services\mensWpp;
 use Spatie\Permission\Models\Role;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Google\Service\NetworkManagement\AbortInfo;
 
 class EditServicio extends Component
 {
@@ -61,7 +63,7 @@ class EditServicio extends Component
         'servicio.cont_1' => 'required',
         'servicio.cel_cont_1' => 'required|digits:10',
         'servicio.puesto_cont1' => 'required',
-        'servicio.espacio_montaje' => 'required',
+        'servicio.espacio_montaje' => 'nullable',
         'servicio.tamano_id' => 'required',
         'servicio.planetario_id' => 'nullable',
         'servicio.vendedor_id' => 'required',
@@ -114,6 +116,11 @@ class EditServicio extends Component
 
     public function mount(Servicio $servicio)
     {
+        
+        if(!(auth()->user()->hasAnyRole(['Super Admin', 'Administrador', 'Usuario Administrativo'])) && auth()->user()->id != $servicio->asesor_id)
+            Abort(403, 'No Autorizado');
+
+     
         $this->servicio = $servicio;
         $this->asesores = User::role('Asesor')->get();
         $this->personal = User::role(['Instructor','Cobrador'])->get();
@@ -189,6 +196,10 @@ class EditServicio extends Component
         if (isset($this->servicio->getchanges()['estado_id'])){
             $this->servicio->cambio_estado = now();
             $this->servicio->save();
+        }
+
+        if (isset($this->servicio->getchanges()['asesor_id'])){
+            new asignAsesorAviso($this->servicio, $this->servicio->asesor_id);
         }
             
         //redirect to admin.servicios.index with info "Servicio creado"

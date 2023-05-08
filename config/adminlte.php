@@ -250,15 +250,16 @@ return [
         ],
 
         [
-            'text'        => 'Inicio',
+            'text'        => 'Calendario',
             'route'       => 'admin',
-            'icon'        => 'fas fa-fw fa-tools',
+            'icon'        => 'fa fa-calendar',
         ],
 
         [
             'text'        => 'Usuarios',
             'route'       => 'admin.usuarios.index',
             'icon'        => 'fas fa-user-tie',
+            'can'         => 'editar usuarios',	
         ],
 
         
@@ -266,6 +267,7 @@ return [
             'text'        => 'Comisiones',
             'route'       => 'admin.comisiones.index',
             'icon'        => 'fas fa-money-bill-alt',
+            'can'         => 'editar comisiones',	
         ],
 
         [
@@ -277,13 +279,15 @@ return [
         [
             'text'        => 'Temas',
             'route'       => 'admin.temas.index',
-            'icon'        => 'fas fa-igloo',
+            'icon'        => 'fas fa-bullhorn',
+            'can'         => 'editar temas',
         ],
 
         [
             'text'        => 'Lineas',
             'route'       => 'admin.lineas.index',
             'icon'        => 'fas fa-map',
+            'can'         => 'editar lineas',
         ],
 
         [
@@ -303,10 +307,12 @@ return [
                 [
                     'text' => 'Nuevo Evento Pago',
                     'route'  => ['admin.servicios.create', ['serv_tipo' => 2]],
+                    'can'         => 'crear servicios',
                 ],
                 [
                     'text' => 'Nuevo Evento al Cobro',
                     'route'  => ['admin.servicios.create', ['serv_tipo' => 3]],
+                    'can'         => 'crear servicios',
                 ],
             ],
             
@@ -316,6 +322,7 @@ return [
             'text'        => 'Ventas',
             'route'       => 'admin.ventas.index',
             'icon'        => 'fas fa-file-invoice-dollar',
+            'can'         => 'ver ventas',
         ],
         
     ],

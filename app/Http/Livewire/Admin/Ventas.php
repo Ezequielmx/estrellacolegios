@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use Livewire\Component;
 use App\Models\Servicio;
 use Carbon\Carbon;
+use App\Services\aprobVentaAviso;
 
 class Ventas extends Component
 {
@@ -35,15 +36,26 @@ class Ventas extends Component
                 break;
         }
 
-        $this->servicios = $servicios->sortBy('vendedor_id')->sortBy('date');
-        $this->cantidad = $servicios->count();
+        
+        if (auth()->user()->hasAnyRole(['Super Admin', 'Administrador', 'Usuario Administrativo'])){
+            $this->servicios = $servicios->sortBy('vendedor_id')->sortBy('fecha_venta');
+        }
+        else{
+            $this->servicios = $servicios->where('vendedor_id', auth()->user()->id)->sortBy('fecha_venta');
+        }
+
+        //$this->servicios = $servicios->sortBy('vendedor_id')->sortBy('fecha_venta');
+        $this->cantidad = $this->servicios->count();
         return view('livewire.admin.ventas');
     }
 
     public function aprobarVenta(Servicio $servicio)
     {
         $servicio->update([
-            'estado_id' => '1'
+            'estado_id' => '1',
+            'asesor_id' => '13'
         ]);
+
+        new aprobVentaAviso($servicio);
     }
 }

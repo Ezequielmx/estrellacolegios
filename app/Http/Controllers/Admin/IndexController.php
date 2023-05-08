@@ -14,8 +14,8 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $lineas = Linea::where('activa', 1)->get();
-        $servicios = Servicio::Orderby('linea_id')->where('estado_id', '!=', '8')->get();
+        $lineas = Linea::where('activa', 1)->orderBy('nombre')->get();
+        $servicios = Servicio::Orderby('linea_id')->where('estado_id', '!=', '8')->where('estado_id', '>', '0')->get();
         $events = [];
 
         foreach ($servicios as $servicio) {

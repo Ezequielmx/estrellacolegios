@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div style="position: absolute; top: 65px; left: 10px; z-index:5 " >
+<div style="position: sticky; top: 65px; margin-left: -40px; z-index:5 " >
     <a style="width: 30px; height: 30px; padding: 0;" class="btn btn-secondary rounded-circle position-absolute"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
       <i class="fa fa-info" style="font-size: 10px;"></i>
     </a>

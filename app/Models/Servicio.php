@@ -9,7 +9,7 @@ class Servicio extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['estado_id'];
+    protected $fillable = ['estado_id', 'asesor_id'];
 
     public function establecimientos(){
         return $this->belongsToMany('App\Models\Establecimiento');

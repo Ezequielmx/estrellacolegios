@@ -13,10 +13,13 @@ use App\Models\Servicio;
 use App\Models\Linea;
 use App\Services\mensWpp;
 use App\Models\Tamano;
+use App\Services\newVentaAviso;
 
 class NewServicio extends Component
 {
     public $establecimientos = array();
+
+    private $user_aviso=4;
 
     public $cueNew;
     public $nombreNew;
@@ -234,6 +237,7 @@ class NewServicio extends Component
             }
         }
         
+        new newVentaAviso($servicio);
         //redirect to admin.servicios.index with info "Servicio creado"
         return redirect()->route('admin.servicios.index')->with('info', 'Servicio creado');
     }

@@ -20,10 +20,19 @@ class ServicioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('can:crear servicios')->only('create');
+        $this->middleware('can:editar servicios')->only('edit', 'update');
+        $this->middleware('can:eliminar servicios')->only('destroy');
+    }
+
+
     public function index()
     {
-        
-        return view ('admin.servicios.index');
+
+        return view('admin.servicios.index');
     }
 
     /**
@@ -32,20 +41,16 @@ class ServicioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
-        if (isset($_GET["estab_id"]))
-        {
+    {
+        if (isset($_GET["estab_id"])) {
             $est_id = $_GET["estab_id"];
-        }
-        else
-        {
+        } else {
             $est_id = 0;
         }
-        
-        $serv_tipo = $_GET["serv_tipo"];
-       
-        return view ('admin.servicios.create', compact('est_id', 'serv_tipo'));
 
+        $serv_tipo = $_GET["serv_tipo"];
+
+        return view('admin.servicios.create', compact('est_id', 'serv_tipo'));
     }
 
     /**
@@ -56,8 +61,6 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
-
-   
     }
 
     /**
@@ -79,7 +82,7 @@ class ServicioController extends Controller
      */
     public function edit(Servicio $servicio)
     {
-        return view ('admin.servicios.edit', compact('servicio'));
+        return view('admin.servicios.edit', compact('servicio'));
     }
 
     /**
@@ -91,16 +94,16 @@ class ServicioController extends Controller
      */
     public function update(Request $request, Servicio $servicio)
     {
-         $request->validate([
+        $request->validate([
             'fecha_ini_serv' => 'required',
             'fecha_venta' => 'required',
-            'estado_id' =>'required',
-            'establecimiento_id' =>'required'
+            'estado_id' => 'required',
+            'establecimiento_id' => 'required'
         ]);
 
         $servicio->fecha_venta = $request->fecha_venta;
         $servicio->fecha_ini_serv = $request->fecha_ini_serv;
-        (!$request->fecha_fin_serv)? $servicio->fecha_fin_serv = $request->fecha_ini_serv : $servicio->fecha_fin_serv = $request->fecha_fin_serv;
+        (!$request->fecha_fin_serv) ? $servicio->fecha_fin_serv = $request->fecha_ini_serv : $servicio->fecha_fin_serv = $request->fecha_fin_serv;
         $servicio->cont_1 = $request->cont_1;
         $servicio->cel_cont_1 = $request->cel_cont_1;
         $servicio->puesto_cont1 = $request->puesto_cont_1;
@@ -117,14 +120,14 @@ class ServicioController extends Controller
         $servicio->matricula_tts = $request->matricula_tts;
         $servicio->matricula_tns = $request->matricula_tns;
 
-        isset($request->servicio_tm)? $servicio->servicio_tm = 1 : $servicio->servicio_tm = 0;
-        isset($request->servicio_tt)? $servicio->servicio_tt = 1 : $servicio->servicio_tt = 0;
-        isset($request->servicio_tn)? $servicio->servicio_tn = 1 : $servicio->servicio_tn = 0;
+        isset($request->servicio_tm) ? $servicio->servicio_tm = 1 : $servicio->servicio_tm = 0;
+        isset($request->servicio_tt) ? $servicio->servicio_tt = 1 : $servicio->servicio_tt = 0;
+        isset($request->servicio_tn) ? $servicio->servicio_tn = 1 : $servicio->servicio_tn = 0;
 
         $servicio->espacio_montaje = $request->espacio_montaje;
-        ($request->planetario_id == 0)? $servicio->planetario_id = null : $servicio->planetario_id = $request->planetario_id;
-        ($request->asesor_id == 0)?$servicio->asesor_id = null: $servicio->asesor_id = $request->asesor_id;
-        ($request->vendedor_id == 0)?$servicio->asesor_id = null: $servicio->asesor_id = $request->asesor_id;
+        ($request->planetario_id == 0) ? $servicio->planetario_id = null : $servicio->planetario_id = $request->planetario_id;
+        ($request->asesor_id == 0) ? $servicio->asesor_id = null : $servicio->asesor_id = $request->asesor_id;
+        ($request->vendedor_id == 0) ? $servicio->asesor_id = null : $servicio->asesor_id = $request->asesor_id;
         $servicio->precio_alumno = $request->precio_alumno;
         $servicio->precio_total = $request->precio_total;
         $servicio->observaciones = $request->observaciones;

@@ -28,6 +28,18 @@
                     </select>
                 </div>
 
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="asesor_id">Asesor</label>
+                        <select class="form-control" wire:model="asesorSel">
+                            <option value="0">Todos</option>
+                            @foreach ($asesores as $asesor)
+                            <option value="{{ $asesor->id }}">{{ $asesor->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 <div class="col text-center" style="max-width: 200px">
                     <b><label for="showCaida">Mostrar caidas</label></b>
                     <div class="form-check">
