@@ -31,6 +31,18 @@ class Grilla extends Component
                 $linea_id = $servicio->linea_id;
                 //$meses[$mes][$dia][$linea_id][] = $servicio;
                 $this->meses[$dia][$linea_id][] = $servicio;
+                if($servicio->fecha_ini_serv != $servicio->fecha_fin_serv){
+                    //numbers of days between ini and fin
+                    $dias = $fecha_ini_serv->diffInDays($servicio->fecha_fin_serv);
+                    for ($i = 1; $i <= $dias; $i++) {
+                        $fecha_ini_serv->addDay();
+                        $dia = intval($fecha_ini_serv->format('d'));
+                        //$mes = $fecha_ini_serv->format('m');
+                        //$meses[$mes][$dia][$linea_id][] = $servicio;
+                        $this->meses[$dia][$linea_id][] = $servicio;
+                    }
+
+                }
             }
 
         $meses = $this->meses;

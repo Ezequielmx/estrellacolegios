@@ -1,6 +1,6 @@
 <div>
     <div class="row" style="padding:20px; align-items: center;">
-        <div class="col text-right"  style="max-width:40px">
+        <div class="col text-right" style="max-width:40px">
             <label for="mes">Mes:</label>
         </div>
         <div class="col-md-2">
@@ -28,62 +28,75 @@
             <tr>
                 <th>Día</th>
                 @foreach ($lineas as $linea)
-                    <th style="background-color: {{ $linea->color }}!important;
+                <th style="background-color: {{ $linea->color }}!important;
                         text-align:center">
-                        {{ $linea->nombre }}
-                    </th>
+                    {{ $linea->nombre }}
+                </th>
                 @endforeach
             </tr>
         </thead>
         <tbody>
-            @for ($dia = 1; $dia <= 31; $dia++)
-                @php
-                    if(date('w', strtotime(date('Y').'-' . $mesSel . '-' . $dia)) == 0 || date('w', strtotime(date('Y').'-' . $mesSel . '-' . $dia)) == 6)
-                    {
-                        $style="background-color: #f7a9a9 !important;";
-                    }
-                    else
-                    {
-                        $style="";
-                    }
-                @endphp
-                <tr style="{{ $style }}">
-                    <td style="font-weight:bolder; vertical-align:middle">
-                        {{ $dia }}
-                    </td>
-                    @foreach ($lineas as $linea)
-                        <td style="vertical-align:middle; 
+            @for ($dia = 1; $dia <= 31; $dia++) @php if(date('w', strtotime(date('Y').'-' . $mesSel . '-' . $dia))==0 ||
+                date('w', strtotime(date('Y').'-' . $mesSel . '-' . $dia))==6) {
+                $style="background-color: #f7a9a9 !important;" ; } else { $style="" ; } @endphp <tr
+                style="{{ $style }}">
+                <td style="font-weight:bolder; vertical-align:middle">
+                    {{ $dia }}
+                </td>
+                @foreach ($lineas as $linea)
+                <td style="vertical-align:middle; 
                                     border-right: 1px solid gray; 
                                     border-left: 1px solid gray;">
-                            @if (isset($meses[$dia][$linea->id]))
-                                @foreach ($meses[$dia][$linea->id] as $servicio)
-                                    @if ($servicio->tipo == 1)
-                                        @php
-                                            $title =  $servicio->establecimientos->first()->ciudad . ' - ' . $servicio->establecimientos->first()->prov . ' - ' . $servicio->establecimientos->first()->nombre;
-                                        @endphp
-                                    @else
-                                        @php
-                                            $title = $servicio->lugar;
-                                        @endphp
-                                    @endif
-                                    <a href="{{ route('admin.servicios.edit', $servicio->id) }}">
-                                        <div class="{{  'calEst' . $servicio->estado_id}}"
-                                            style="
+                    @if (isset($meses[$dia][$linea->id]))
+                    @foreach ($meses[$dia][$linea->id] as $servicio)
+                    @php
+                    switch ($servicio->tamano_id) {
+                    case 1:
+                    $icon = '❗';
+                    break;
+                    case 2:
+                    $icon = '❗-❌';
+                    break;
+                    case 3:
+                    $icon = '❌';
+                    break;
+                    case 4:
+                    $icon = '❌-⭕';
+                    break;
+                    case 5:
+                    $icon = '⭕';
+                    break;
+                    }
+                    if($servicio->fecha_ini_serv != $servicio->fecha_orig_ini){
+                    //Servicio que se reprogamó
+                    $icon .= '🔄';
+                    }
+                    @endphp
+                    <a href="{{ route('admin.servicios.edit', $servicio->id) }}">
+                        <div class="{{  'calEst' . $servicio->estado_id}}" style="
                                                 border: 1px solid;
                                                 border-right: 20px solid;
                                                 border-radius: 5px;
                                                 padding: 5px;
                                                 background-color: {{ $linea->color }};
                                                 color:white">
-                                            {{ $title }}
-                                        </div>
-                                    </a>
-                                @endforeach
+                            {{ $icon }}
+                            @if ($servicio->tipo == 1)
+                            {{ $servicio->establecimientos->first()->ciudad}} - {{
+                            $servicio->establecimientos->first()->prov }}
+                            <br><b> {{ $servicio->establecimientos->first()->nombre }} </b>
+                            @else
+                            <b>{{ $servicio->lugar }}</b>
                             @endif
-                        </td>
+
+                        </div>
+                    </a>
                     @endforeach
+                    @endif
+                </td>
+                @endforeach
                 </tr>
-            @endfor
+                @endfor
         </tbody>
     </table>
 
@@ -94,5 +107,5 @@
             </div>
         </div>
     </div>
-    
+
 </div>
