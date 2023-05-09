@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ComisioneController;
 use App\Http\Controllers\Admin\EstablecimientoController;
+use App\Http\Controllers\Admin\GrillaController;
 use App\Http\Controllers\Admin\LineaController;
 use App\Http\Controllers\Admin\PlanetarioController;
 use App\Http\Controllers\Admin\ServicioController;
@@ -20,3 +21,4 @@ Route::resource('temas', TemaController::class)->names('admin.temas')->middlewar
 Route::resource('comisiones', ComisioneController::class)->names('admin.comisiones')->middleware('can:editar comisiones');
 Route::resource('ventas', VentaController::class)->names('admin.ventas')->middleware('can:ver ventas');
 Route::resource('mapa', MapaController::class)->names('admin.mapa');
+Route::resource('grilla', GrillaController::class)->names('admin.grilla');

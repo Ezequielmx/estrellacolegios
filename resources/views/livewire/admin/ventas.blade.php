@@ -121,4 +121,12 @@
     </div>
 
 
+    <div wire:loading>
+        <div class="modload">
+            <div class="spinload">
+                <i class="fa fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    </div>
+
 </div>

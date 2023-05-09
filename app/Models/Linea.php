@@ -22,4 +22,10 @@ class Linea extends Model
         return $this->hasMany(Servicio::class);
     }
 
+    public function scopeConServiciosEntreFechas($query, $fechaInicio, $fechaFin)
+    {
+        return $query->whereHas('servicios', function ($query) use ($fechaInicio, $fechaFin) {
+            $query->whereBetween('fecha_ini_serv', [$fechaInicio, $fechaFin]);
+        });
+    }
 }

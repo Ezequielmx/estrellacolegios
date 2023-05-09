@@ -228,21 +228,14 @@ return [
 
     'menu' => [
         // Navbar items:
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
+
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
+
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
@@ -250,9 +243,18 @@ return [
         ],
 
         [
-            'text'        => 'Calendario',
-            'route'       => 'admin',
+            'text'        => 'Ver',
             'icon'        => 'fa fa-calendar',
+            'submenu'     => [
+                [
+                    'text'        => 'Calendario',
+                    'route'       => 'admin',
+                ],
+                [
+                    'text'        => 'Grilla',
+                    'route'       => 'admin.grilla.index',
+                ],
+            ],
         ],
 
         [
