@@ -25,15 +25,15 @@
             $caidas = 0;
 
             foreach ($meses as $dia => $lin) {
-                foreach ($lin as $id => $valor) {
-                    foreach ($valor as $serv) {
-                        if ($serv->estado_id != 8)
-                            $totalServ ++;
-                        else {
-                            $caidas++;
-                        }
-                    }
-                }
+            foreach ($lin as $id => $valor) {
+            foreach ($valor as $serv) {
+            if ($serv->estado_id != 8)
+            $totalServ ++;
+            else {
+            $caidas++;
+            }
+            }
+            }
             }
             @endphp
             <div class="alert alert-info" role="alert" style="margin: 0; padding: 5px;text-align: center;">
@@ -44,6 +44,15 @@
             <div class="alert alert-danger" role="alert" style="margin: 0; padding: 5px;text-align: center;">
                 Caidas: <b>{{ $caidas}}</b>
             </div>
+        </div>
+        <div class="col text-right">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" {{ $compact? 'checked' : '' }}
+                wire:model='compact'>
+                <label class="form-check-label" for="flexCheckDefault">
+                  Vista Compacta
+                </label>
+              </div>
         </div>
 
     </div>
@@ -67,29 +76,32 @@
                 date('w', strtotime(date('Y').'-' . $mesSel . '-' . $dia))==6) {
                 $style="background-color: #f7a9a9 !important;" ; } else { $style="" ; } @endphp <tr
                 style="{{ $style }}">
-                <td style="vertical-align:middle; text-align:center">
+                <td style="vertical-align:middle; text-align:center; white-space: nowrap;"
+                class="{{ $compact? 'small-font' : '' }}">
                     <b>{{ $dia }}</b>
-                    <br>
+                    @if(!$compact)
+                        <br>
+                    @endif
                     @if (isset($meses[$dia]))
-                        @php
-                        $cant=0;
-                        foreach ($meses[$dia] as $id => $valor) {
-                            foreach ($valor as $serv) {
-                                if ($serv->estado_id != 8)
-                                    $cant ++;
-                            }
-                        }
-                        @endphp    
-
-                        ({{ $cant }})
+                    @php
+                    $cant=0;
+                    foreach ($meses[$dia] as $id => $valor) {
+                    foreach ($valor as $serv) {
+                    if ($serv->estado_id != 8)
+                    $cant ++;
+                    }
+                    }
+                    @endphp
+                    ({{ $cant }})
                     @else
-                        (0)
+                    (0)
                     @endif
                 </td>
                 @foreach ($lineas as $linea)
                 <td style="vertical-align:middle; 
                                     border-right: 1px solid gray; 
-                                    border-left: 1px solid gray;">
+                                    border-left: 1px solid gray;" 
+                                    class="{{ $compact? 'small-font' : '' }}">
                     @if (isset($meses[$dia][$linea->id]))
                     @foreach ($meses[$dia][$linea->id] as $servicio)
                     @php
@@ -116,23 +128,31 @@
                     }
                     @endphp
                     <a href="{{ route('admin.servicios.edit', $servicio->id) }}">
-                        <div class="{{  'calEst' . $servicio->estado_id}}" style="
-                                                border: 1px solid;
-                                                border-right: 20px solid;
-                                                border-radius: 5px;
-                                                padding: 5px;
-                                                background-color: {{ $linea->color }};
-                                                color:white;
-                                                {{ $servicio->estado_id == 8? ' text-decoration: line-through' : '' }}">
+                        <div class="{{  'calEst' . $servicio->estado_id}}"
+                            style="
+                                    border: 1px solid;
+                                    border-right: 20px solid;
+                                    border-radius: 5px;
+                                    background-color: {{ $linea->color }};
+                                    color:white;
+                                    {{ $servicio->estado_id == 8? ' text-decoration: line-through' : '' }}
+                                    {{ $compact? 'padding:0' : 'padding: 5px;' }}">
                             {{ $icon }}
-                            @if ($servicio->tipo == 1)
-                            {{ $servicio->establecimientos->first()->ciudad}} - {{
-                            $servicio->establecimientos->first()->prov }}
-                            <br><b> {{ $servicio->establecimientos->first()->nombre }} </b>
+                            @if ($compact)
+                                @if ($servicio->tipo == 1)
+                                    {{ $servicio->establecimientos->first()->ciudad}}
+                                @else
+                                    {{ $servicio->lugar }}
+                                @endif
                             @else
-                            <b>{{ $servicio->lugar }}</b>
+                                @if ($servicio->tipo == 1)
+                                {{ $servicio->establecimientos->first()->ciudad}} - {{
+                                $servicio->establecimientos->first()->prov }}
+                                <br><b> {{ $servicio->establecimientos->first()->nombre }} </b>
+                                @else
+                                <b>{{ $servicio->lugar }}</b>
+                                @endif
                             @endif
-
                         </div>
                     </a>
                     @endforeach
@@ -151,5 +171,4 @@
             </div>
         </div>
     </div>
-
 </div>

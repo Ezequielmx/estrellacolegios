@@ -13,6 +13,7 @@ class Grilla extends Component
     protected $meses = array();
     public $lineas;
     public $mesSel;
+    public $compact = false;
 
     public function render()
     {
@@ -54,6 +55,4 @@ class Grilla extends Component
         $this->lineas = Linea::all();
         $this->mesSel = Carbon::now()->format('m');
     }
-
-
 }
