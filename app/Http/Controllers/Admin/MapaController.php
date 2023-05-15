@@ -21,8 +21,7 @@ class MapaController extends Controller
                ;
             }
         }
-        
-
+    
         return view('admin.mapa', compact('ubicaciones'));
     }
 }
