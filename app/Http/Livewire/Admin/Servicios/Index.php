@@ -170,4 +170,14 @@ class Index extends Component
         $servicio->delete();
         $this->emit('render');
     }
+
+    public function duplicateServicio(Servicio $servicio)
+    {
+        $servDuplic = $servicio->replicate();
+        $servDuplic->save();
+        $establecimientosIds = $servicio->establecimientos->pluck('id')->toArray();
+        $servDuplic->establecimientos()->sync($establecimientosIds);
+
+        return redirect()->route('admin.servicios.edit', $servDuplic->id);
+    }
 }

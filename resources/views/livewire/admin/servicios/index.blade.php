@@ -81,7 +81,8 @@
                 @foreach ($servicios as $servicio)
                 <tr class={{ "est" . $servicio->estado_id }}>
                     <td>{{ $servicio->id }}</td>
-                    <td style="white-space: nowrap;">{{ $servicio->fecha_ini_serv != $servicio->fecha_orig_ini? '🔄 ' : '' }}{{ strftime("%d/%m/%Y", strtotime($servicio->fecha_ini_serv)) }}</td>
+                    <td style="white-space: nowrap;">{{ $servicio->fecha_ini_serv != $servicio->fecha_orig_ini? '🔄 ' :
+                        '' }}{{ strftime("%d/%m/%Y", strtotime($servicio->fecha_ini_serv)) }}</td>
                     <td>
                         @if ($servicio->tipo == 1)
                         🏫
@@ -137,18 +138,23 @@
                     <td width="10px" style="white-space: nowrap">
                         @can('rendiciones')
                             <a class="btn btn-success btn-sm"
-                            href="{{ route('admin.servicios.edit', $servicio) }}">Rendicion</a>
+                                href="{{ route('admin.servicios.edit', $servicio) }}">Rendicion</a>
                         @endcan
                         @can('editar servicios')
                             <a class="btn btn-primary btn-sm"
-                            href="{{ route('admin.servicios.edit', $servicio) }}">Editar</a>
+                                href="{{ route('admin.servicios.edit', $servicio) }}">Editar</a>
                         @endcan
                         @can('eliminar servicios')
                             <button class="btn btn-danger btn-sm"
-                            wire:click="$emit('deleteServ', {{ $servicio->id }})">Eliminar</button>
+                                wire:click="$emit('deleteServ', {{ $servicio->id }})">Eliminar</button>
                         @endcan
-                            <a class="btn btn-secondary btn-sm" 
-                            href="{{ route('servicioprint', $servicio->id) }}" target="_blank">Imprimir</a>
+                            <a class="btn btn-secondary btn-sm" href="{{ route('servicioprint', $servicio->id) }}"
+                                target="_blank">Imprimir</a>
+                        @can('editar servicios')
+                            <a href="#" class="btn btn-warning btn-sm" wire:click="duplicateServicio({{ $servicio->id }})">
+                                <i class="fas fa-copy"></i>
+                            </a>
+                        @endcan
                     </td>
                 </tr>
 
@@ -168,9 +174,9 @@
                             <div class="card-header">
                                 <h3 class="card-title"><b>{{ $servAct->cont_1 }}</b>
                                     @if ($servAct->tipo == 1)
-                                      - {{ $servAct->establecimientos->first()->nombre}}<br>
+                                    - {{ $servAct->establecimientos->first()->nombre}}<br>
                                     @else
-                                        - {{ $servAct->lugar }}<br>  
+                                    - {{ $servAct->lugar }}<br>
                                     @endif
                                     {{ $servAct->cel_cont_1 }}
                                 </h3>
@@ -183,13 +189,14 @@
                                             <span class="direct-chat-timestamp float-left">{{ $ms->date }}</span>
                                         </div>
                                         <div class="direct-chat-text">
-                                            @if ($ms->type == 'text' || $ms->type == 'list_response' || $ms->type == 'list')
-                                                {{ $ms->body}}
+                                            @if ($ms->type == 'text' || $ms->type == 'list_response' || $ms->type ==
+                                            'list')
+                                            {{ $ms->body}}
                                             @elseif ($ms->type == 'image')
-                                                -multimedia- {{ $ms->media->caption }}
+                                            -multimedia- {{ $ms->media->caption }}
                                             @endif
                                         </div>
-                     
+
                                     </div>
                                     @endforeach
                                 </div>
@@ -197,7 +204,8 @@
                             <!-- /.card-body -->
                             <div class="card-footer">
                                 <div class="input-group">
-                                    <a type="button" class="btn btn-danger {{ count($mensAct)==0? 'disabled' : '' }}" wire:click="marcLeidos({{ $servAct }})" >
+                                    <a type="button" class="btn btn-danger {{ count($mensAct)==0? 'disabled' : '' }}"
+                                        wire:click="marcLeidos({{ $servAct }})">
                                         {{ $servAct->unreadwpp==1? 'Marcar como leidos' : 'Marcar como no leidos' }}
                                     </a>
                                 </div>
