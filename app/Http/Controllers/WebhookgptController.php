@@ -19,7 +19,6 @@ class WebhookgptController extends Controller
         }
 
         //return $msg;
-
         $msg = substr($msg, 4);
 
         $responseGpt = $this->chatGpt($msg);
@@ -133,7 +132,7 @@ class WebhookgptController extends Controller
 
     function chatGpt($msg)
     {
-        $api_key = "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";
+        $api_key = env('GPT_API_KEY');
         $model_name = "babbage:ft-personal:babbage-api-test-2023-04-13-00-28-00";
         $temperature = 0.5;
         $max_tokens = 50;

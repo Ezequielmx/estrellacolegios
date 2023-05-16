@@ -135,7 +135,7 @@
                                     border-radius: 5px;
                                     background-color: {{ $linea->color }};
                                     color:white;
-                                    {{ $servicio->estado_id == 8? ' text-decoration: line-through' : '' }}
+                                    {{ $servicio->estado_id == 8? ' text-decoration: line-through;' : '' }}
                                     {{ $compact? 'padding:0' : 'padding: 5px;' }}">
                             {{ $icon }}
                             @if ($compact)
