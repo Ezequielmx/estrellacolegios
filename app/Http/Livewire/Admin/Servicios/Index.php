@@ -126,6 +126,7 @@ class Index extends Component
         $this->servicios = $this->servicios->where('estado_id','>', 0);
         $this->servAct = Servicio::first();
         $this->asesores = User::role('Asesor')->get();
+        //asd;
     }
 
     public function marcLeidos(Servicio $servicio)
