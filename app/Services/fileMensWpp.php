@@ -6,6 +6,7 @@ class fileMensWpp
 {
     public function __construct(string $cel, string $fileId, string $message)
     {
+        /*
         $cel = '+549' . $cel;
 
 
@@ -40,5 +41,6 @@ class fileMensWpp
 
         curl_close($curl);
         return $response;
+        */
     }
 }

@@ -121,7 +121,11 @@ class Index extends Component
         }
 
         $this->estados = Estado::where('id','>', 0)->get();
-        $this->servicios = $this->servicios->where('estado_id','<', 7);
+        
+        $this->servicios = $this->servicios->where('estado_id','!=', 7)
+        ->where('estado_id','!=', 8)
+        ->where('estado_id','!=', 9);
+
         $this->servicios = $this->servicios->where('fecha_ini_serv','>=', '2023-01-01');
         $this->servicios = $this->servicios->where('estado_id','>', 0);
         $this->servAct = Servicio::first();

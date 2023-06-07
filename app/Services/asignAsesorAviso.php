@@ -12,6 +12,7 @@ class asignAsesorAviso
 {
     public function __construct(Servicio $servicio, int $id_user)
     {
+        /*
         $user = User::find($id_user);
         $message = '🤖 *SERVICIO ASIGNADO* \\n\\n';
 
@@ -57,6 +58,6 @@ class asignAsesorAviso
             
             
         new simpleMensWpp( $user->celular, $message);
-
+        */
     }
 }

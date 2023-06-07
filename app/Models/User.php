@@ -62,6 +62,14 @@ class User extends Authenticatable
     ];
 
     public function servicios(){
-        return $this->belongsToMany('App\Models\Servicio');
+        return $this->belongsToMany('App\Models\Servicio')->withPivot('role_id');
+    }
+
+    public function pluses(){
+        return $this->hasMany('App\Models\Pluse');
+    }
+
+    public function vales(){
+        return $this->hasMany('App\Models\Vale');
     }
 }

@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\TemaController;
 use App\Http\Controllers\Admin\VentaController;
 use App\Http\Controllers\Admin\MapaController;
+use App\Http\Controllers\Admin\ValeController;
+use App\Http\Controllers\Admin\LiquidacionController;
 
 Route::resource('establecimientos', EstablecimientoController::class)->names('admin.establecimientos');
 Route::resource('servicios', ServicioController::class)->names('admin.servicios');
@@ -22,3 +24,5 @@ Route::resource('comisiones', ComisioneController::class)->names('admin.comision
 Route::resource('ventas', VentaController::class)->names('admin.ventas')->middleware('can:ver ventas');
 Route::resource('mapa', MapaController::class)->names('admin.mapa');
 Route::resource('grilla', GrillaController::class)->names('admin.grilla');
+Route::resource('vales', ValeController::class)->names('admin.vales');
+Route::resource('liquidaciones', LiquidacionController::class)->names('admin.liquidaciones');

@@ -264,13 +264,30 @@ return [
             'can'         => 'editar usuarios',	
         ],
 
-        
         [
-            'text'        => 'Comisiones',
-            'route'       => 'admin.comisiones.index',
+            'text'        => 'Liquidaciones',
             'icon'        => 'fas fa-money-bill-alt',
-            'can'         => 'editar comisiones',	
+            'can'         => 'editar comisiones',
+            'submenu'     => [
+                [
+                    'text'        => 'Comisiones',
+                    'route'       => 'admin.comisiones.index',
+                    'can'         => 'editar comisiones',
+                ],
+                [
+                    'text'        => 'Vales - Pluses',
+                    'route'       => 'admin.vales.index',
+                    'can'         => 'editar comisiones',
+                ],
+                [
+                    'text'        => 'Liquidaciones',
+                    'route'       => 'admin.liquidaciones.index',
+                    'can'         => 'editar comisiones',
+                ],
+            ],
         ],
+
+
 
         [
             'text'        => 'Planetarios',

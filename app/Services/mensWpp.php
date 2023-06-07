@@ -16,6 +16,7 @@ class mensWpp
 
     public function __construct(Servicio $servicio)
     {
+        /*
         $id = $servicio->id;
         $cel = '+549' . $servicio->cel_cont_1;
         if($servicio->estado->estado == 'VENDIDO'){
@@ -95,7 +96,7 @@ class mensWpp
       
             curl_close($curl);
 
-        }
+        }*/
     }
-
+    
 }

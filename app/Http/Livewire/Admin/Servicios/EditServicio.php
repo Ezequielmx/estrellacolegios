@@ -132,7 +132,7 @@ class EditServicio extends Component
         $this->planetarios = Planetario::all();
         $this->estados = Estado::all();
         $this->espacios = Espacio::all();
-        $this->lineas = Linea::all();
+        $this->lineas = Linea::where('activa','=', '1')->orderBy('nombre')->get();
         $this->tamanos = Tamano::all();
     }
 

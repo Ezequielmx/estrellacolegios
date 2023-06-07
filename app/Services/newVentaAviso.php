@@ -12,6 +12,7 @@ class newVentaAviso
 {
     public function __construct(Servicio $servicio)
     {
+        /*
         $user = User::find(3);
         $message = '🤖 *Nueva Venta Ingresada* \\n\\n';
 
@@ -52,6 +53,6 @@ class newVentaAviso
             $message .= '💲 *Precio Total:* ' . number_format($servicio->precio_total, 0, ",", ".") . '\\n';
 
 
-        new simpleMensWpp($user->celular, $message);
+        new simpleMensWpp($user->celular, $message);*/
     }
 }

@@ -57,39 +57,56 @@
     z-index: 2;
 }
 
-.est1{
+.est1{ /*VENDIDO*/
     background-color: #ffffff!important;
 }
 
-.est2{
+.est2{ /*WPP ENVIADO*/
     background-color: #f0f182!important;
 }
 
-.est3{
+.est3{ /*WPP CONFIRMADO*/
     background-color: #82f1eb!important;
 }
 
-.est4{
+.est4{ /*WPP LLAMAR*/
     background-color: #f59a5d!important;
 }
 
-.est5{
+.est5{ /*CONFIRMADO*/
     background-color: #8bd475!important;
 }
 
-.est6{
+.est6{ /*LISTO*/
     background-color: #0099ff!important;
 }
 
-.est7{
+.est7{ /*REALIZADO*/
     background-color: #047a31!important;
     color: white;
 }
 
-.est8{
+.est8{ /*CAIDA*/
     background-color: #da4343!important;
     color: #d3d3d3;
 }
+
+.est9{ /*CONTROLADO*/
+    background-color: #474747!important;
+    color: #d3d3d3;
+}
+
+.est10{ /*A REPROGRAMAR*/
+    background-color: #ee6b37!important;
+    color: #d3d3d3;
+}
+
+.est11{ /*A LEVANTAR*/
+    background-color: #f727ec!important;
+    color: #d3d3d3;
+}
+
+
 
 .contSpans{
     display: flex;
@@ -142,6 +159,18 @@
 
 .calEst8{
     border-color: #da4343!important;
+}
+
+.calEst9{ /*CONTROLADO*/
+    border-color: #474747!important;
+}
+
+.calEst10{ /*A REPROGRAMAR*/
+    border-color: #ee6b37!important;
+}
+
+.calEst11{ /*A LEVANTAR*/
+    border-color: #f727ec!important;
 }
 
 .outl{

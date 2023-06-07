@@ -12,6 +12,7 @@ class aprobVentaAviso
 {
     public function __construct(Servicio $servicio)
     {
+        /*
         $user = User::find(13);
         $message = '🤖 *Nueva Venta Aprobada* \\n\\n';
         
@@ -52,5 +53,6 @@ class aprobVentaAviso
 
 
         new simpleMensWpp($user->celular, $message);
+        */
     }
 }

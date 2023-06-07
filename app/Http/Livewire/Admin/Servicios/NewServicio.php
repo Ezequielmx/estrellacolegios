@@ -117,7 +117,7 @@ class NewServicio extends Component
         $this->planetarios = Planetario::all();
         $this->estados = Estado::all();
         $this->espacios = Espacio::all();
-        $this->lineas = Linea::all();
+        $this->lineas = Linea::where('activa','=', '1')->orderBy('nombre')->get();
         $this->tamanos = Tamano::all();
         $this->fecha_venta = date('Y-m-d');
         $this->estado_id = 0;

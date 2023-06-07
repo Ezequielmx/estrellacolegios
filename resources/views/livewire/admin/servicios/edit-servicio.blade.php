@@ -307,6 +307,10 @@
                             @if (auth()->user()->cannot('asignar estado reprogramar'))
                                 disabled
                             @endif>A REPROGRAMAR</option>
+                            <option value="11"
+                            @if (auth()->user()->cannot('asignar estado a levantar'))
+                                disabled
+                            @endif>A LEVANTAR</option>
                         </select>
                     </div>
                     @error('servicio.estado_id')

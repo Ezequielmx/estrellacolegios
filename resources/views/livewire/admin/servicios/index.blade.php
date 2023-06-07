@@ -150,7 +150,7 @@
                         @endcan
                             <a class="btn btn-secondary btn-sm" href="{{ route('servicioprint', $servicio->id) }}"
                                 target="_blank">Imprimir</a>
-                        @can('editar servicios')
+                        @can('duplicar servicio')
                             <a href="#" class="btn btn-warning btn-sm" wire:click="duplicateServicio({{ $servicio->id }})">
                                 <i class="fas fa-copy"></i>
                             </a>
