@@ -23,21 +23,29 @@
             @php
             $totalServ = 0;
             $caidas = 0;
+            $reprog = 0;
 
             foreach ($meses as $dia => $lin) {
-            foreach ($lin as $id => $valor) {
-            foreach ($valor as $serv) {
-            if ($serv->estado_id != 8)
-            $totalServ ++;
-            else {
-            $caidas++;
-            }
-            }
-            }
+                foreach ($lin as $id => $valor) {
+                    foreach ($valor as $serv) {
+                        if ($serv->estado_id != 8 && $serv->estado_id != 10 && $serv->estado_id != 11 )
+                            $totalServ ++;
+                        elseif ($serv->estado_id == 10 || $serv->estado_id == 11) {
+                            $reprog++;
+                        } else {
+                            $caidas++;
+                        }
+                    }
+                }
             }
             @endphp
             <div class="alert alert-info" role="alert" style="margin: 0; padding: 5px;text-align: center;">
                 Total de servicios: <b>{{ $totalServ }}</b>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="alert alert-warning" role="alert" style="margin: 0; padding: 5px;text-align: center;">
+                Reprog/Levantar: <b>{{ $reprog}}</b>
             </div>
         </div>
         <div class="col-md-2">
