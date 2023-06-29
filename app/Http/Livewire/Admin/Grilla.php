@@ -14,6 +14,7 @@ class Grilla extends Component
     public $lineas;
     public $mesSel;
     public $compact = false;
+    public $personal = false;
 
     public function render()
     {
@@ -25,26 +26,25 @@ class Grilla extends Component
             ->where('estado_id', '>', 0)->get();
 
         $this->meses = [];
-            foreach ($this->servicios as $servicio) {
-                $fecha_ini_serv = Carbon::parse($servicio->fecha_ini_serv);
-                //$mes = $fecha_ini_serv->format('m');
-                $dia = intval($fecha_ini_serv->format('d'));
-                $linea_id = $servicio->linea_id;
-                //$meses[$mes][$dia][$linea_id][] = $servicio;
-                $this->meses[$dia][$linea_id][] = $servicio;
-                if($servicio->fecha_ini_serv != $servicio->fecha_fin_serv){
-                    //numbers of days between ini and fin
-                    $dias = $fecha_ini_serv->diffInDays($servicio->fecha_fin_serv);
-                    for ($i = 1; $i <= $dias; $i++) {
-                        $fecha_ini_serv->addDay();
-                        $dia = intval($fecha_ini_serv->format('d'));
-                        //$mes = $fecha_ini_serv->format('m');
-                        //$meses[$mes][$dia][$linea_id][] = $servicio;
-                        $this->meses[$dia][$linea_id][] = $servicio;
-                    }
-
+        foreach ($this->servicios as $servicio) {
+            $fecha_ini_serv = Carbon::parse($servicio->fecha_ini_serv);
+            //$mes = $fecha_ini_serv->format('m');
+            $dia = intval($fecha_ini_serv->format('d'));
+            $linea_id = $servicio->linea_id;
+            //$meses[$mes][$dia][$linea_id][] = $servicio;
+            $this->meses[$dia][$linea_id][] = $servicio;
+            if ($servicio->fecha_ini_serv != $servicio->fecha_fin_serv) {
+                //numbers of days between ini and fin
+                $dias = $fecha_ini_serv->diffInDays($servicio->fecha_fin_serv);
+                for ($i = 1; $i <= $dias; $i++) {
+                    $fecha_ini_serv->addDay();
+                    $dia = intval($fecha_ini_serv->format('d'));
+                    //$mes = $fecha_ini_serv->format('m');
+                    //$meses[$mes][$dia][$linea_id][] = $servicio;
+                    $this->meses[$dia][$linea_id][] = $servicio;
                 }
             }
+        }
 
         $meses = $this->meses;
         return view('livewire.admin.grilla', compact('meses'));
@@ -54,5 +54,18 @@ class Grilla extends Component
     {
         $this->lineas = Linea::all();
         $this->mesSel = Carbon::now()->format('m');
+    }
+
+    public function generateColor($userId)
+    {
+        // Convertir el identificador de usuario en un valor numérico
+        $numericValue = crc32($userId);
+
+        // Calcular componentes RGB basados en el valor numérico
+        $red = ($numericValue & 0xFF0000) >> 16;
+        $green = ($numericValue & 0x00FF00) >> 8;
+        $blue = $numericValue & 0x0000FF;
+
+        return "rgb($red, $green, $blue)";
     }
 }
