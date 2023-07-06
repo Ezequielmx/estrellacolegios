@@ -192,24 +192,24 @@ class HorarioServicio extends Component
 
 
             if ($horario->turno == 'm')
-                $horariosM .= $icon . " *" . strftime("%H:%M",strtotime($horario->hora)) . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos aprox.\\n\\n";
+                $horariosM .= $icon . " *" . strftime("%H:%M", strtotime($horario->hora)) . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos aprox.\\n\\n";
             if ($horario->turno == 't')
-                $horariosT .= $icon . " *" . strftime("%H:%M",strtotime($horario->hora))  . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos aprox.\\n\\n";
+                $horariosT .= $icon . " *" . strftime("%H:%M", strtotime($horario->hora))  . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos aprox.\\n\\n";
             if ($horario->turno == 'n')
-                $horariosN .= $icon . " *" . strftime("%H:%M",strtotime($horario->hora))  . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos aprox.\\n\\n";
+                $horariosN .= $icon . " *" . strftime("%H:%M", strtotime($horario->hora))  . "* - " . $horario->tema->titulo . " - " . $horario->cantidad . " alumnos aprox.\\n\\n";
 
-                
+
 
             setlocale(LC_TIME, "spanish");
 
             $messaje = "👋¡Hola! Te adjuntamos el cronograma para el 🚀 *Planetario Móvil* en tu institución el día *";
-            $messaje .= strftime('%A %d/%m/%Y' ,strtotime($this->servicio->fecha_ini_serv)) . "* \\n";
+            $messaje .= strftime('%A %d/%m/%Y', strtotime($this->servicio->fecha_ini_serv)) . "* \\n";
             if ($horariosM != "") {
                 $messaje .= "\\n➖➖🕒 *Turno Mañana:* ➖➖➖ \\n";
                 $messaje .= $horariosM;
             }
 
-            
+
             if ($horariosT != "") {
                 $messaje .= "\\n➖➖🕒 *Turno Tarde:*  ➖➖➖\\n";
                 $messaje .= $horariosT;
@@ -228,54 +228,62 @@ class HorarioServicio extends Component
         $cel = $this->servicio->cel_cont_1;
 
         new simpleMensWpp($cel, $messaje);
-        $this->servicio->crono_env=1;
+        $this->servicio->crono_env = 1;
         $this->servicio->save();
     }
 
-    public function enviarTarj(){
+    public function enviarTarj()
+    {
         $files = DB::select('SELECT DISTINCT temas.tarjeta_file_id, titulo FROM `servicios`
         JOIN horarioservicios on horarioservicios.servicio_id = servicios.id
         JOIN temas on temas.id = horarioservicios.tema_id
         where servicios.id = ' . $this->servicio->id . ';');
 
-        foreach($files as $file){
-            $img = $file->tarjeta_file_id;
-            $titulo = "Tarjeta " . $file->titulo;
-            new fileMensWpp($this->servicio->cel_cont_1, $img, $titulo);
+        foreach ($files as $file) {
+            if ($file->tarjeta_file_id != null) {
+                $img = $file->tarjeta_file_id;
+                $titulo = "Tarjeta " . $file->titulo;
+                new fileMensWpp($this->servicio->cel_cont_1, $img, $titulo);
+            }
         }
-        $this->servicio->tarj_env=1;
+        $this->servicio->tarj_env = 1;
         $this->servicio->save();
     }
 
-    public function enviarPost(){
+    public function enviarPost()
+    {
         $files = DB::select('SELECT DISTINCT temas.poster_file_id, titulo FROM `servicios`
         JOIN horarioservicios on horarioservicios.servicio_id = servicios.id
         JOIN temas on temas.id = horarioservicios.tema_id
         where servicios.id = ' . $this->servicio->id . ';');
 
-        foreach($files as $file){
-            $img = $file->poster_file_id;
-            $titulo = "Poster " . $file->titulo;
-            new fileMensWpp($this->servicio->cel_cont_1, $img, $titulo);
+        foreach ($files as $file) {
+            if ($file->poster_file_id != null) {
+                $img = $file->poster_file_id;
+                $titulo = "Poster " . $file->titulo;
+                new fileMensWpp($this->servicio->cel_cont_1, $img, $titulo);
+            }
         }
-        $this->servicio->post_env=1;
+        $this->servicio->post_env = 1;
         $this->servicio->save();
     }
 
-    public function enviarTem(){
+    public function enviarTem()
+    {
         $files = DB::select('SELECT DISTINCT temas.temario_file_id, titulo  FROM `servicios`
         JOIN horarioservicios on horarioservicios.servicio_id = servicios.id
         JOIN temas on temas.id = horarioservicios.tema_id
         where servicios.id = ' . $this->servicio->id . ';');
 
-        foreach($files as $file){
-            $img = $file->temario_file_id;
-            $titulo = "Temario " . $img->titulo;
-            new fileMensWpp($this->servicio->cel_cont_1, $file, $titulo);
+        foreach ($files as $file) {
+            if ($file->temario_file_id != null) {
+                $img = $file->temario_file_id;
+                $titulo = "Temario " . $file->titulo;
+                new fileMensWpp($this->servicio->cel_cont_1, $img, $titulo);
+            }
         }
 
-        $this->servicio->tem_env=1;
+        $this->servicio->tem_env = 1;
         $this->servicio->save();
     }
-
 }
