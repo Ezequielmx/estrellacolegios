@@ -186,6 +186,9 @@ class HorarioServicio extends Component
                 case 7:
                     $icon = "😢";
                     break;
+                case 14:
+                    $icon = "🦈";
+                    break;
                 default:
                     $icon = "◼";
             }
