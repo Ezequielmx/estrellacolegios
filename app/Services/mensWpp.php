@@ -16,7 +16,7 @@ class mensWpp
 
     public function __construct(Servicio $servicio)
     {
-        /*
+        
         $id = $servicio->id;
         $cel = '+549' . $servicio->cel_cont_1;
         if($servicio->estado->estado == 'VENDIDO'){
@@ -37,6 +37,7 @@ class mensWpp
 
             setlocale(LC_TIME, "spanish");
 
+        /*---------------------------MENSAJE LISTA DE OPCIONES----------------------------    
             $title = "¡Hola " . $servicio->cont_1 . "!";
             
             $mensaje = "🤖Este es un mensaje automatizado. Recibimos una solicitud de servicio para llevar el Planetario móvil a tu institución: \\n\\n";            
@@ -95,8 +96,52 @@ class mensWpp
             $err = curl_error($curl);
       
             curl_close($curl);
+            --------------------------- FIN MENSAJE LISTA DE OPCIONES---------------------------- */
 
-        }*/
+
+            $mensaje = "*¡Hola " . $servicio->cont_1 . "!*";
+            
+            $mensaje .= "🤖Este es un mensaje automatizado. Recibimos una solicitud de servicio para llevar el Planetario móvil a tu institución: \\n\\n";            
+            $mensaje .= "🗓️ *Fecha:* " . utf8_encode(strftime('%A %d de %B', strtotime($servicio->fecha_ini_serv))) . "\\n\\n";
+            $mensaje .= "🏫 *Establecimiento:* {$servicio->establecimientos->first()->nombre} \\n\\n";
+            $mensaje .= "📍 *Dirección:* {$servicio->establecimientos->first()->domicilio} \\n\\n";
+            $mensaje .= "🏙️ *Ciudad:* {$servicio->establecimientos->first()->ciudad} , {$servicio->establecimientos->first()->depto}, {$servicio->establecimientos->first()->prov}\\n\\n";
+            $mensaje .= "👨‍👩‍👦‍👦 *Cantidad de Alumnos:* " .  $cant_alumnos . " aprox.\\n\\n";
+            $mensaje .= " 💵 *Valor:* " . $precio . "\\n\\n";
+
+            $mensaje .= "Confirmanos por favor si es correcta esta información 🤔\\n";
+            $mensaje .= "\\n*A:* SI - Confirmar";
+            $mensaje .= "\\n*B:* NO - Hablar con asesor";
+            $mensaje .= "\\n\\nResponde sólo con la letra de la opción seleccionada. Gracias.";
+
+            $postFields = '{
+                "phone": "' . $cel . '",
+                "device": "' . env('WPP_DEVICE_ENC') . '",
+                "order": true,
+                "message": "' . $mensaje . '"
+            }';
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://api.wassenger.com/v1/messages",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => $postFields,
+                CURLOPT_HTTPHEADER => array(
+                    "Token: 066f35090cd6e1403c8c62cb8fdfbb2cec1afa37f8522d85200245997ad75130f889c44eeb732f4a",
+                    "Content-Type: application/json"
+                ),
+            ));
+    
+            $response = curl_exec($curl);
+    
+            curl_close($curl);
+        }
     }
     
 }

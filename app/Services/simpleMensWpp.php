@@ -11,7 +11,7 @@ class simpleMensWpp
 {
     public function __construct(string $cel, string $messaje)
     {
-        /*
+        
         $cel = '+549' . $cel;
         $postFields = '{
                 "phone": "' . $cel . '",
@@ -40,8 +40,6 @@ class simpleMensWpp
         $err = curl_error($curl);
 
         curl_close($curl);
-        return $response; 
-
-        */
+        echo $response; 
     }
 }

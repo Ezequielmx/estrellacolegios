@@ -247,12 +247,12 @@ return [
             'icon'        => 'fa fa-calendar',
             'submenu'     => [
                 [
-                    'text'        => 'Calendario',
-                    'route'       => 'admin',
-                ],
-                [
                     'text'        => 'Grilla',
                     'route'       => 'admin.grilla.index',
+                ],
+                [
+                    'text'        => 'Mapa',
+                    'route'       => 'admin.mapa.index',
                 ],
             ],
         ],

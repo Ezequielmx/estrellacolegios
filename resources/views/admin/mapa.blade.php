@@ -3,49 +3,14 @@
 @section('title','Estrella del Plata')
 
 @section('content')
-    <div id="map" style="height: calc(100vh - 60px);"></div>
+<div id="map" style="height: calc(100vh - 65px);">
+    <iframe
+        src="https://app.powerbi.com/view?r=eyJrIjoiYjJlZjJiMjYtN2RiNC00MmE5LThmN2MtNWQxMmE3MTU3MTE2IiwidCI6IjMxNWVjODU4LTYxZGUtNDJhNS1iNTEyLTNkOTQwNmI3MTJjMyJ9"
+        width="100%" height="100%"
+        frameborder="0">
+    </iframe>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
-    <script>
-        function initMap() {
-            var directionsService = new google.maps.DirectionsService;
-            var directionsDisplay = new google.maps.DirectionsRenderer;
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 8,
-                center: {lat: 37.7749, lng: -122.4194}
-            });
-            directionsDisplay.setMap(map);
-
-            calculateAndDisplayRoute(directionsService, directionsDisplay);
-        }
-
-        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-            var waypts = [];
-            var ubicaciones = @json($ubicaciones);
-            console.log(ubicaciones);
-
-            for (var i = 0; i < ubicaciones.length; i++) {
-                waypts.push({
-                    location: ubicaciones[i],
-                    stopover: true
-                });
-            }
-
-            directionsService.route({
-                origin: waypts[0].location,
-                destination: waypts[waypts.length - 1].location,
-                waypoints: waypts.slice(1, -1),
-                optimizeWaypoints: false,
-                travelMode: 'DRIVING'
-            }, function(response, status) {
-                if (status === 'OK') {
-                    directionsDisplay.setDirections(response);
-                } else {
-                    window.alert('Directions request failed due to ' + status);
-                }
-            });
-        }
-    </script>
+</div>
 @endsection
 
 @section('css')
