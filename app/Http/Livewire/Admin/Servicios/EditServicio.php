@@ -117,9 +117,11 @@ class EditServicio extends Component
     public function mount(Servicio $servicio)
     {
         
-        if(!(auth()->user()->hasAnyRole(['Super Admin', 'Administrador', 'Usuario Administrativo'])) && auth()->user()->id != $servicio->asesor_id)
-            Abort(403, 'No Autorizado');
+        /*if(!(auth()->user()->hasAnyRole(['Super Admin', 'Administrador', 'Usuario Administrativo'])) && auth()->user()->id != $servicio->asesor_id)
+            Abort(403, 'No Autorizado');*/
 
+        if(!(auth()->user()->can('Ver todos los Servicios')) && auth()->user()->id != $servicio->asesor_id)
+            Abort(403, 'No Autorizado');
      
         $this->servicio = $servicio;
         $this->asesores = User::role('Asesor')->get();
