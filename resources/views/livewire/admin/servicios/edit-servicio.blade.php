@@ -81,7 +81,7 @@
                 </div>
 
                 <div class="col" style="max-width:95px; margin-bottom: 1rem;">
-                    <button class="btn btn-danger" type="button" wire:click="$emit('deleteEstabl', {{ $loop->index }})"
+                    <button class="btn btn-danger" type="button" wire:click="$emit('deleteEstabl', {{ $establecimiento->id }})"
                         {{ $servicio->establecimientos->count()==1? 'disabled' : '' }}>
                         Eliminar
                     </button>

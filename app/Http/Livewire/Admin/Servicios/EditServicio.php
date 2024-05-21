@@ -53,7 +53,7 @@ class EditServicio extends Component
     public $lineas;
     public $tamanos;
 
-    protected $listeners = ['deleteEst', 'render'];
+    protected $listeners = ['deleteEst', 'deleteEst'];
 
 
     protected $rules = [
@@ -173,6 +173,7 @@ class EditServicio extends Component
 
     public function deleteEst($id)
     {
+        //dd($id);
         $this->servicio->establecimientos()->detach($id);
     }
 
