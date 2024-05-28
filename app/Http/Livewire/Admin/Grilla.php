@@ -18,8 +18,8 @@ class Grilla extends Component
 
     public function render()
     {
-        $fecha_ini = '2023-' . $this->mesSel . '-01';
-        $fecha_fin = '2023-' . $this->mesSel . '-31';
+        $fecha_ini = '2024-' . $this->mesSel . '-01';
+        $fecha_fin = '2024-' . $this->mesSel . '-31';
         $this->lineas = Linea::conServiciosEntreFechas($fecha_ini, $fecha_fin)->orderBy('nombre')->get();
 
         $this->servicios = Servicio::whereBetween('fecha_ini_serv', [$fecha_ini, $fecha_fin])
