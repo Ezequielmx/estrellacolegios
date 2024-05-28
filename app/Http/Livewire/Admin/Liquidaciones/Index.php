@@ -34,7 +34,7 @@ class Index extends Component
 
     public function mount()
     {
-        $this->users = User::role(['asesor', 'instructor', 'cobrador'])->orderBy('name')->get();
+        $this->users = User::role(['asesor', 'instructor','instructor nuevo', 'cobrador'])->where('activo',1)->orderBy('name')->get();
         $this->desde = date('Y-m-01');
         $this->hasta = date('Y-m-d');
     }
@@ -54,9 +54,11 @@ class Index extends Component
         //create a array of liquidaciondetalle
         $liquidaciondetalles = [];
         foreach ($servicios as $servicio) {
+            //dd($servicio);
             $servicioubicacione_id = $servicio->linea->servicioubicacione_id;
             $tiposervicio_id = $servicio->tipo;
             $role_id = $servicio->pivot->role_id;
+            //dd($servicio->pivot);
 
             $fecha_ini = Carbon::parse($servicio->fecha_ini_serv);
             $dias = $fecha_ini->diffInDays($servicio->fecha_fin_serv);
@@ -80,6 +82,7 @@ class Index extends Component
                     }
                 }
                 else{
+                    //dd($role_id, $servicioubicacione_id);
                     $frente = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->evento_frente;
                     $ficha = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->evento_ficha;
                 }

@@ -124,9 +124,9 @@ class EditServicio extends Component
             Abort(403, 'No Autorizado');
      
         $this->servicio = $servicio;
-        $this->asesores = User::role('Asesor')->get();
-        $this->personal = User::role(['Instructor','Cobrador'])->get();
-        $this->puestos = Role::whereIn('name', ['Instructor','Cobrador'])->get();
+        $this->asesores = User::role('Asesor')->where('activo', 1)->orderBy('name')->get();
+        $this->personal = User::role(['Instructor','instructor nuevo','Cobrador'])->where('activo', 1)->orderBy('name')->get();
+        $this->puestos = Role::whereIn('name', ['Instructor','instructor nuevo','Cobrador'])->get();
         $this->valoraciones = Valoracione::all();
 
         $this->vendedores = User::role('Vendedor')->get();
@@ -221,7 +221,16 @@ class EditServicio extends Component
             'newpers_id' => 'required',
             'newpers_rol_id' => 'required'
         ]);
-        $this->servicio->personal()->attach($this->newpers_id, ['role_id' => $this->newpers_rol_id]);
+
+        //si el newpers_rol_id es 6 (instructor), asignar a una variable rolper el id del rol del personal
+
+        if ($this->newpers_rol_id == 6) {
+            $rolper = User::find($this->newpers_id)->roles->first()->id;
+        } else {
+            $rolper = 7;
+        }
+
+        $this->servicio->personal()->attach($this->newpers_id, ['role_id' => $rolper]);
         $this->newpers_id = null;
         $this->newpers_rol_id = null;
 

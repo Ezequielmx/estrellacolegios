@@ -77,12 +77,13 @@
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Rol</th>
+                        <th>Activo</th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
                 @foreach ($usuarios as $usuario)
-                    <tr>
+                    <tr style="{{ $usuario->activo? '' : 'color: darkgray' }}">
                         <td>{{ $usuario->id }}</td>
                         <td>{{ $usuario->name }}</td>
                         <td>{{ $usuario->email }}</td>
@@ -90,6 +91,13 @@
                             @foreach ($usuario->roles as $rol)
                                 ◾ {{ $rol->name }}
                             @endforeach
+                        </td>
+                        <td>
+                            @if ($usuario->activo)
+                            ✅
+                            @else
+                            ❌
+                            @endif
                         </td>
                         
                         <td width="10px">

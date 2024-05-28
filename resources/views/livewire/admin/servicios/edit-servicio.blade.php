@@ -696,11 +696,8 @@
                     <td>
                         <select class="form-control" wire:model="newpers_rol_id">
                             <option value="0">Selecciona</option>
-                            @foreach ($puestos as $puesto)
-                            <option value="{{ $puesto->id }}">
-                                {{ $puesto->name }}
-                            </option>
-                            @endforeach
+                            <option value="6">Instructor</option>
+                            <option value="7">Cobrador</option>
                         </select>
                         @error('newpers_rol_id')
                         <span class="text-danger">{{ $message }}</span>
