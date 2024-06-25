@@ -34,7 +34,6 @@
             <h3><b> Establecimientos</h3></b>
         </div>
         <div class="card-body">
-
             @foreach ($servicio->establecimientos as $establecimiento)
             <div class="row" style="align-items: flex-end;">
                 <div class="col" style="max-width: 115px !important">
@@ -81,8 +80,9 @@
                 </div>
 
                 <div class="col" style="max-width:95px; margin-bottom: 1rem;">
-                    <button class="btn btn-danger" type="button" wire:click="$emit('deleteEstabl', {{ $establecimiento->id }})"
-                        {{ $servicio->establecimientos->count()==1? 'disabled' : '' }}>
+                    <button class="btn btn-danger" type="button"
+                        wire:click="$emit('deleteEstabl', {{ $establecimiento->id }})" {{
+                        $servicio->establecimientos->count()==1? 'disabled' : '' }}>
                         Eliminar
                     </button>
                 </div>
@@ -99,7 +99,8 @@
                     <div class="col">
                         <div class="form-group">
                             <label class="col-form-label-sm">Teléfono</label>
-                            <input class="form-control" value="{{ $establecimiento['cod_area'] . "-" . $establecimiento['tel'] }}" disabled>
+                            <input class="form-control" value="{{ $establecimiento['cod_area'] . " -" .
+                                $establecimiento['tel'] }}" disabled>
                         </div>
                     </div>
 
@@ -151,13 +152,11 @@
                     </div>
                 </div>
 
-
                 <div class="col">
                     <div class="form-group">
                         <label>Nombre del establecimiento</label>
                         <input class="form-control" wire:model="nombreNew" disabled>
                     </div>
-
                 </div>
 
                 <div class="col">
@@ -186,8 +185,6 @@
                         Agregar
                     </button>
                 </div>
-
-
             </div>
         </div>
         @else
@@ -260,20 +257,16 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="fecha_orig_ini">Fecha Inicio Original</label>
-                        <input type="date" class="form-control" wire:model="servicio.fecha_orig_ini"
-                        @if (auth()->user()->cannot('cambiar fecha original'))
-                            disabled
-                        @endif>
+                        <input type="date" class="form-control" wire:model="servicio.fecha_orig_ini" {{
+                            (auth()->user()->cannot('cambiar fecha original'))? 'disabled' : '' }}>
                     </div>
                 </div>
 
                 <div class="col">
                     <div class="form-group">
                         <label for="fecha_orig_fin">Fecha Fin Original</label>
-                        <input type="date" class="form-control" wire:model="servicio.fecha_orig_fin"
-                        @if (auth()->user()->cannot('cambiar fecha original'))
-                            disabled
-                        @endif>
+                        <input type="date" class="form-control" wire:model="servicio.fecha_orig_fin" {{
+                            (auth()->user()->cannot('cambiar fecha original'))? 'disabled' : '' }}>
                     </div>
                 </div>
 
@@ -281,36 +274,30 @@
                     <div class="form-group">
                         <label for="estado_id">Estado</label>
                         <select class="form-control" wire:model.defer="servicio.estado_id">
-                            <option value="0"
-                            @if (auth()->user()->cannot('asignar estado preventa'))
+                            <option value="0" @if (auth()->user()->cannot('asignar estado preventa'))
                                 disabled
-                            @endif>PRE-VENTA</option>
+                                @endif>PRE-VENTA</option>
                             <option value="1">VENDIDO</option>
                             <option value="2">WPP ENVIADO</option>
                             <option value="3">WPP CONFIRMADO</option>
                             <option value="4">WPP LLAMAR</option>
                             <option value="5">CONFIRMADO</option>
                             <option value="6">LISTO</option>
-                            <option value="7"
-                            @if (auth()->user()->cannot('asignar estado realizado'))
+                            <option value="7" @if (auth()->user()->cannot('asignar estado realizado'))
                                 disabled
-                            @endif>REALIZADO</option>
-                            <option value="8"
-                            @if (auth()->user()->cannot('asignar estado caida'))
+                                @endif>REALIZADO</option>
+                            <option value="8" @if (auth()->user()->cannot('asignar estado caida'))
                                 disabled
-                            @endif>CAIDA</option>
-                            <option value="9"
-                            @if (auth()->user()->cannot('asignar estado controlado'))
+                                @endif>CAIDA</option>
+                            <option value="9" @if (auth()->user()->cannot('asignar estado controlado'))
                                 disabled
-                            @endif>CONTROLADO</option>
-                            <option value="10"
-                            @if (auth()->user()->cannot('asignar estado reprogramar'))
+                                @endif>CONTROLADO</option>
+                            <option value="10" @if (auth()->user()->cannot('asignar estado reprogramar'))
                                 disabled
-                            @endif>A REPROGRAMAR</option>
-                            <option value="11"
-                            @if (auth()->user()->cannot('asignar estado a levantar'))
+                                @endif>A REPROGRAMAR</option>
+                            <option value="11" @if (auth()->user()->cannot('asignar estado a levantar'))
                                 disabled
-                            @endif>A LEVANTAR</option>
+                                @endif>A LEVANTAR</option>
                         </select>
                     </div>
                     @error('servicio.estado_id')
@@ -332,10 +319,10 @@
                         </select>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+
     <div class="card">
         <div class="card-body">
             <h4>Contacto 1</h4>
@@ -542,6 +529,8 @@
     </div>
     @endif
 
+
+    <!--ESPACIO MONTAJE - PRECIO --------------------------->
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -561,6 +550,7 @@
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="tamano_id">Planetario Tamaño Venta</label>
@@ -595,10 +585,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="asesor_id">Asesor</label>
-                                <select class="form-control" wire:model.defer="servicio.asesor_id"
-                                @if (auth()->user()->cannot('asignar asesores'))
-                                     disabled
-                                @endif>
+                                <select class="form-control" wire:model.defer="servicio.asesor_id" {{
+                                    (auth()->user()->cannot('asignar asesores'))? 'disabled' : '' }}>
                                     <option value="0">Selecciona</option>
                                     @foreach ($asesores as $asesor)
                                     <option value="{{ $asesor->id }}">{{ $asesor->name }}</option>
@@ -607,6 +595,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -630,7 +619,10 @@
                     </div>
                     @endif
 
-                    @if($servicio->tipo < 3) <div class="form-group">
+                    @if(($servicio->tipo == 2) || ($servicio->tipo == 1))
+                    <!--La opcion ->tipo < 3 genera error en el formatter por apertura de etiqueta-->
+
+                    <div class="form-group">
                         <label for="precio_total">Precio Total</label>
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
@@ -638,221 +630,240 @@
                             </div>
                             <input type="number" class="form-control" wire:model.defer="servicio.precio_total">
                         </div>
+                    </div>
+                    @endif
                 </div>
-                @endif
             </div>
         </div>
     </div>
-</div>
-
-@livewire('admin.servicios.horarios.horario-servicio', ['servicio' => $servicio], key($servicio->id))
 
 
-<div class="card">
-    <div class="card-header">
-        <h3><b>Personal</b></h3>
-    </div>
-    <div class="card-body">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Personal</th>
-                    <th>Puesto</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($servicio->personal as $servpersonal)
-                <tr>
-                    <td>
-                        {{ $servpersonal->name }}
-                    </td>
-                    <td>
-                        @foreach ($puestos as $puesto)
-                        @if($puesto->id==$servpersonal->pivot->role_id)
-                        {{ $puesto->name }}
-                        @endif
-                        @endforeach
-                    <td>
-                        <button class="btn btn-danger btn-sm"
-                            wire:click="eliminarPersonal({{ $servpersonal->id }})">Eliminar</button>
-                    </td>
-                </tr>
-                @endforeach
-                <tr>
-                    <td>
-                        <select class="form-control" wire:model="newpers_id">
-                            <option value="0">Selecciona</option>
-                            @foreach ($personal as $pers)
-                            <option value="{{ $pers->id }}">
-                                {{ $pers->name }}
-                            </option>
+    @livewire('admin.servicios.horarios.horario-servicio', ['servicio' => $servicio], key($servicio->id))
+
+    <!--PERSONAL------------------------------------->
+    <div class="card">
+        <div class="card-header">
+            <h3><b>Personal</b></h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Personal</th>
+                        <th>Puesto</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($servicio->personal as $servpersonal)
+                    <tr>
+                        <td>
+                            {{ $servpersonal->name }}
+                        </td>
+                        <td>
+                            @foreach ($puestos as $puesto)
+                            @if($puesto->id==$servpersonal->pivot->role_id)
+                            {{ $puesto->name }}
+                            @endif
                             @endforeach
-                        </select>
-                        @error('newpers_id')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </td>
-                    <td>
-                        <select class="form-control" wire:model="newpers_rol_id">
-                            <option value="0">Selecciona</option>
-                            <option value="6">Instructor</option>
-                            <option value="7">Cobrador</option>
-                        </select>
-                        @error('newpers_rol_id')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    <td>
-                        <button class="btn btn-success btn-sm" wire:click="agregarPersonal()">Agregar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <td>
+                            <button class="btn btn-danger btn-sm"
+                                wire:click="eliminarPersonal({{ $servpersonal->id }})">Eliminar</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                    <tr>
+                        <td>
+                            <select class="form-control" wire:model="newpers_id">
+                                <option value="0">Selecciona</option>
+                                @foreach ($personal as $pers)
+                                <option value="{{ $pers->id }}">
+                                    {{ $pers->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                            @error('newpers_id')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </td>
+                        <td>
+                            <select class="form-control" wire:model="newpers_rol_id">
+                                <option value="0">Selecciona</option>
+                                <option value="6">Instructor</option>
+                                <option value="7">Cobrador</option>
+                            </select>
+                            @error('newpers_rol_id')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </td>
+                        <td>
+                            <button class="btn btn-success btn-sm" wire:click="agregarPersonal()">Agregar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
-<div class="card">
-    <div class="card-header">
-        <h3><b>Rendicion - Evaluación</b></h3>
-        <a class="btn btn-secondary btn-sm" href="{{ route('rendicionprint', $servicio->id) }}"
-            target="_blank">Imprimir</a>
-    </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label for="alumnos_ing">Alumnos ingresados</label>
-                    <input type="number" class="form-control" wire:model.defer="servicio.alumnos_ing"
-                        wire:change='saveChange()'>
-                </div>
 
-                <div class="form-group">
-                    <label for="cobrado">Total Cobrado</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">$</div>
-                        </div>
-                        <input type="number" class="form-control" wire:model.defer="servicio.cobrado"
+    <!--RENDICION------------------------------------->
+    <div class="card">
+        <div class="card-header">
+            <h3><b>Rendicion - Evaluación</b></h3>
+            <a class="btn btn-secondary btn-sm" href="{{ route('rendicionprint', $servicio->id) }}"
+                target="_blank">Imprimir</a>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="alumnos_ing">Alumnos ingresados</label>
+                        <input type="number" class="form-control" wire:model.defer="servicio.alumnos_ing"
                             wire:change='saveChange()'>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group row mb-1">
-                    <label for="val_asesoramiento" class="col-form-label col-md-5 mr-2 text-right">Asesoramiento</label>
-                    <div class="col-md-6">
-                        <select class="form-control" wire:model.defer="servicio.val_asesoramiento">
-                            <option value="0">Selecciona</option>
-                            @foreach ($valoraciones as $valoracion)
-                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row mb-1">
-                    <label for="val_puntutalidad" class="col-form-label col-md-5 mr-2 text-right">Puntualidad</label>
-                    <div class="col-md-6">
-                        <select class="form-control" wire:model.defer="servicio.val_puntutalidad">
-                            <option value="0">Selecciona</option>
-                            @foreach ($valoraciones as $valoracion)
-                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row mb-1">
-                    <label for="val_trato" class="col-form-label col-md-5 mr-2 text-right">Trato</label>
-                    <div class="col-md-6">
-                        <select class="form-control" wire:model.defer="servicio.val_trato">
-                            <option value="0">Selecciona</option>
-                            @foreach ($valoraciones as $valoracion)
-                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row mb-1">
-                    <label for="val_higiene" class="col-form-label col-md-5 mr-2 text-right">Higiene</label>
-                    <div class="col-md-6">
-                        <select class="form-control" wire:model.defer="servicio.val_higiene">
-                            <option value="0">Selecciona</option>
-                            @foreach ($valoraciones as $valoracion)
-                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row mb-1">
-                    <label for="val_material" class="col-form-label col-md-5 mr-2 text-right">Material</label>
-                    <div class="col-md-6">
-                        <select class="form-control" wire:model.defer="servicio.val_material">
-                            <option value="0">Selecciona</option>
-                            @foreach ($valoraciones as $valoracion)
-                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row mb-1">
-                    <label for="val_general" class="col-form-label col-md-5 mr-2 text-right">Calidad General</label>
-                    <div class="col-md-6">
-                        <select class="form-control font-weight-bold" wire:model.defer="servicio.val_general">
-                            <option value="0">Selecciona</option>
-                            @foreach ($valoraciones as $valoracion)
-                            <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="rend_fte">Rendición frente:</label>
-                    <input type="file" id="rend_fte" name="rend_fte" wire:model="rend_fte">
-                    @error('rend_fte')
-                    <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div>
-                    @if ($servicio->rend_fte)
-                    <a href="{{ asset('storage/' . $servicio->rend_fte) }}" target="_blank">
-                        <img style="max-width: 100%" src="{{ asset('storage/' . $servicio->rend_fte) }}"
-                            alt="Rendición de frente">
-                    </a>
-                    @endif
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="rend_dorso">Rendición dorso:</label>
-                    <input type="file" id="rend_dorso" name="rend_dorso" wire:model="rend_dorso">
-                    @error('rend_dorso')
-                    <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
 
-                <div>
-                    @if ($servicio->rend_dorso)
-                    <a href="{{ asset('storage/' . $servicio->rend_dorso) }}" target="_blank">
-                        <img style="max-width: 100%" src="{{ asset('storage/' . $servicio->rend_dorso) }}"
-                            alt="Rendición de dorso">
-                    </a>
-                    @endif
+                    <div class="form-group">
+                        <label for="cobrado">Total Cobrado</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">$</div>
+                            </div>
+                            <input type="number" class="form-control" wire:model.defer="servicio.cobrado"
+                                wire:change='saveChange()'>
+                        </div>
+                    </div>
+
+                    <!--select para TipoPagos-->
+                    <div class="form-group">
+                        <label for="tipopago_id">Forma de Pago</label>
+                        <select class="form-control" wire:model.defer="servicio.tipopago_id">
+                            @foreach ($tipopagos as $tipopago)
+                            <option value="{{ $tipopago->id }}">{{ $tipopago->tipo }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!--textarea para observ_pago-->
+                    <div class="form-group">
+                        <label for="observ_pago">Observaciones Pago</label>
+                        <textarea class="form-control" wire:model.defer="servicio.observ_pago" rows="3"></textarea>
+                    </div>
+
+
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row mb-1">
+                        <label for="val_asesoramiento"
+                            class="col-form-label col-md-5 mr-2 text-right">Asesoramiento</label>
+                        <div class="col-md-6">
+                            <select class="form-control" wire:model.defer="servicio.val_asesoramiento">
+                                <option value="0">Selecciona</option>
+                                @foreach ($valoraciones as $valoracion)
+                                <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-1">
+                        <label for="val_puntutalidad"
+                            class="col-form-label col-md-5 mr-2 text-right">Puntualidad</label>
+                        <div class="col-md-6">
+                            <select class="form-control" wire:model.defer="servicio.val_puntutalidad">
+                                <option value="0">Selecciona</option>
+                                @foreach ($valoraciones as $valoracion)
+                                <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-1">
+                        <label for="val_trato" class="col-form-label col-md-5 mr-2 text-right">Trato</label>
+                        <div class="col-md-6">
+                            <select class="form-control" wire:model.defer="servicio.val_trato">
+                                <option value="0">Selecciona</option>
+                                @foreach ($valoraciones as $valoracion)
+                                <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-1">
+                        <label for="val_higiene" class="col-form-label col-md-5 mr-2 text-right">Higiene</label>
+                        <div class="col-md-6">
+                            <select class="form-control" wire:model.defer="servicio.val_higiene">
+                                <option value="0">Selecciona</option>
+                                @foreach ($valoraciones as $valoracion)
+                                <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-1">
+                        <label for="val_material" class="col-form-label col-md-5 mr-2 text-right">Material</label>
+                        <div class="col-md-6">
+                            <select class="form-control" wire:model.defer="servicio.val_material">
+                                <option value="0">Selecciona</option>
+                                @foreach ($valoraciones as $valoracion)
+                                <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-1">
+                        <label for="val_general" class="col-form-label col-md-5 mr-2 text-right">Calidad General</label>
+                        <div class="col-md-6">
+                            <select class="form-control font-weight-bold" wire:model.defer="servicio.val_general">
+                                <option value="0">Selecciona</option>
+                                @foreach ($valoraciones as $valoracion)
+                                <option value="{{ $valoracion->id }}">{{ $valoracion->valoracion }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="rend_fte">Rendición frente:</label>
+                        <input type="file" id="rend_fte" name="rend_fte" wire:model="rend_fte">
+                        @error('rend_fte')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        @if ($servicio->rend_fte)
+                        <a href="{{ asset('storage/' . $servicio->rend_fte) }}" target="_blank">
+                            <img style="max-width: 100%" src="{{ asset('storage/' . $servicio->rend_fte) }}"
+                                alt="Rendición de frente">
+                        </a>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="rend_dorso">Rendición dorso:</label>
+                        <input type="file" id="rend_dorso" name="rend_dorso" wire:model="rend_dorso">
+                        @error('rend_dorso')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div>
+                        @if ($servicio->rend_dorso)
+                        <a href="{{ asset('storage/' . $servicio->rend_dorso) }}" target="_blank">
+                            <img style="max-width: 100%" src="{{ asset('storage/' . $servicio->rend_dorso) }}"
+                                alt="Rendición de dorso">
+                        </a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="basebot">
-
-    <button class="btn btn-primary" wire:click="guardar()">Guardar</button>&nbsp;&nbsp;
-    <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>&nbsp;&nbsp;
-    <a class="btn btn-secondary" href="{{ route('servicioprint', $servicio->id) }}" target="_blank">Imprimir</a>
-</div>
-
-
-
-
+    <div class="basebot">
+        <button class="btn btn-primary" wire:click="guardar()">Guardar</button>&nbsp;&nbsp;
+        <a href="{{ route('admin.servicios.index') }}" class="btn btn-danger">Cancelar</a>&nbsp;&nbsp;
+        <a class="btn btn-secondary" href="{{ route('servicioprint', $servicio->id) }}" target="_blank">Imprimir</a>
+    </div>
 </div>

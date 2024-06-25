@@ -11,6 +11,7 @@ use App\Models\Estado;
 use App\Models\User;
 use App\Models\Linea;
 use App\Models\Tamano;
+use App\Models\Tipopago;
 use App\Models\Valoracione;
 use App\Services\asignAsesorAviso;
 use App\Services\mensWpp;
@@ -53,7 +54,9 @@ class EditServicio extends Component
     public $lineas;
     public $tamanos;
 
-    protected $listeners = ['deleteEst', 'deleteEst'];
+    public $tipopagos;
+
+    protected $listeners = ['deleteEst', 'render'];
 
 
     protected $rules = [
@@ -97,6 +100,8 @@ class EditServicio extends Component
         'servicio.tamano_id' => 'required',
         'servicio.alumnos_ing' => 'nullable',
         'servicio.cobrado' => 'nullable',
+        'servicio.tipopago_id' => 'nullable',
+        'servicio.observ_pago' => 'nullable',
         'servicio.val_asesoramiento' => 'nullable',
         'servicio.val_puntutalidad' => 'nullable',
         'servicio.val_trato' => 'nullable',
@@ -125,8 +130,9 @@ class EditServicio extends Component
      
         $this->servicio = $servicio;
         $this->asesores = User::role('Asesor')->where('activo', 1)->orderBy('name')->get();
-        $this->personal = User::role(['Instructor','instructor nuevo','Cobrador'])->where('activo', 1)->orderBy('name')->get();
-        $this->puestos = Role::whereIn('name', ['Instructor','instructor nuevo','Cobrador'])->get();
+        $this->personal = User::role(['Instructor','instructor nuevo', 'instructor intermedio', 'Cobrador'])->where('activo', 1)->orderBy('name')->get();
+        //$this->puestos = Role::whereIn('name', ['Instructor','instructor nuevo','Cobrador'])->get();
+        $this->puestos = Role::all();
         $this->valoraciones = Valoracione::all();
 
         $this->vendedores = User::role('Vendedor')->get();
@@ -136,6 +142,7 @@ class EditServicio extends Component
         $this->espacios = Espacio::all();
         $this->lineas = Linea::where('activa','=', '1')->orderBy('nombre')->get();
         $this->tamanos = Tamano::all();
+        $this->tipopagos = Tipopago::all();
     }
 
     public function buscCue()
@@ -169,12 +176,14 @@ class EditServicio extends Component
         $this->deptoNew = null;
         $this->localidadNew = null;
         $this->validCue = false;
+
+        $this->emit('render');
     }
 
     public function deleteEst($id)
     {
-        //dd($id);
         $this->servicio->establecimientos()->detach($id);
+        $this->emit('render');
     }
 
     public function changeFechaIni()

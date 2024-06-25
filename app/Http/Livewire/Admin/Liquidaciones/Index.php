@@ -34,7 +34,7 @@ class Index extends Component
 
     public function mount()
     {
-        $this->users = User::role(['asesor', 'instructor','instructor nuevo', 'cobrador'])->where('activo',1)->orderBy('name')->get();
+        $this->users = User::role(['asesor', 'instructor','instructor nuevo', 'instructor intermedio', 'cobrador'])->where('activo',1)->orderBy('name')->get();
         $this->desde = date('Y-m-01');
         $this->hasta = date('Y-m-d');
     }
@@ -124,6 +124,14 @@ class Index extends Component
             else{
                 $cont_serv++;  
             }
+        }
+
+        if($cont_serv==2){
+            //set plus_doble_serv=500 in the previous liquidaciondetalle
+            $liquidaciondetalles[count($liquidaciondetalles)-1]['plus_doble_serv']=$plus_doble;
+        }elseif($cont_serv==3){
+            //set plus_triple_serv=1000 in the previous liquidaciondetalle
+            $liquidaciondetalles[count($liquidaciondetalles)-1]['plus_triple_serv']=$plus_triple;
         }
 
         foreach($pluses as $plus)

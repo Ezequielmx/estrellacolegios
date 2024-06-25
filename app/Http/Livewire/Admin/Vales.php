@@ -111,16 +111,24 @@ class Vales extends Component
     //function if tipo_idPluse updated
     public function updatedTipoidPlus()
     {
+        //Find role id of user_idPlus
+        $user = User::find($this->user_idPlus);
+        $role_id = $user->roles->first()->id;
+        //Find comisiones of role_id
+
+        $comis = Comisione::Where('role_id', $role_id)->where('servicioubicacione_id', 2)->first();
+
         switch($this->tipoidPlus)
         {
+            
             case 1:
-                $this->montoPlus = Comisione::find(2)->dia_libre;
+                $this->montoPlus = $comis->dia_libre;
                 break;
             case 2:
-                $this->montoPlus = Comisione::find(2)->dia_viaje;
+                $this->montoPlus = $comis->dia_viaje;
                 break;
             case 3:
-                $this->montoPlus = Comisione::find(2)->servicio_suspendido;
+                $this->montoPlus = $comis->servicio_suspendido;
                 break;
             default:
                 $this->montoPlus = 0;
