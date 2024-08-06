@@ -40,7 +40,7 @@ class Vales extends Component
         $this->fechaVale = date('Y-m-d');
         $this->fechaPlus = date('Y-m-d');
         //user who has role 'asesor', 'instructor' or 'cobrador' ordered by name
-        $this->users = User::role(['asesor','instructor','instructor nuevo', 'cobrador'])->where('activo',1)->orderBy('name')->get();
+        $this->users = User::role(['asesor', 'instructor','instructor nuevo', 'instructor intermedio', 'cobrador'])->where('activo',1)->orderBy('name')->get();
         $this->plusTipos = Plustipo::all();
 
         $this->desdeFiltro = date('Y-m-01');

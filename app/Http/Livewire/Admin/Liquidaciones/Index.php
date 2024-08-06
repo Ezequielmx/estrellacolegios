@@ -92,6 +92,7 @@ class Index extends Component
                     'servicio' => $servicio,
                     'fecha' => $fecha,
                     'puesto' => Role::find($role_id),
+                    'puesto_id' => $role_id,
                     'frente' => $frente,
                     'ficha' => $ficha,
                     'plus_doble_serv' => 0,
@@ -105,18 +106,29 @@ class Index extends Component
             return $a['fecha'] <=> $b['fecha'];
         });
 
-        $plus_doble = Comisione::first()->servicio_doble;
-        $plus_triple = Comisione::first()->servicio_triple;
+        //$plus_doble = Comisione::first()->servicio_doble;
+        //$plus_triple = Comisione::first()->servicio_triple;
         $fechaCont = '';
         $cont_serv = 0;
         for($i=0; $i<count($liquidaciondetalles); $i++) {
             if($fechaCont != $liquidaciondetalles[$i]['fecha']){
+                
                 if($cont_serv==2){
+                    $plus_doble = Comisione::where('role_id', $liquidaciondetalles[$i-1]['puesto_id'])->where('servicioubicacione_id', $liquidaciondetalles[$i-1]['servicio']->linea->servicioubicacione_id)->first()->servicio_doble;
+                    $plus_triple = Comisione::where('role_id', $liquidaciondetalles[$i-1]['puesto_id'])->where('servicioubicacione_id', $liquidaciondetalles[$i-1]['servicio']->linea->servicioubicacione_id)->first()->servicio_triple;
                     //set plus_doble_serv=500 in the previous liquidaciondetalle
                     $liquidaciondetalles[$i-1]['plus_doble_serv']=$plus_doble;
+                    $liquidaciondetalles[$i-1]['frente'] = 0;
+                    $liquidaciondetalles[$i-1]['ficha'] = 0;
                 }elseif($cont_serv==3){
+                    $plus_doble = Comisione::where('role_id', $liquidaciondetalles[$i-1]['puesto_id'])->where('servicioubicacione_id', $liquidaciondetalles[$i-1]['servicio']->linea->servicioubicacione_id)->first()->servicio_doble;
+                    $plus_triple = Comisione::where('role_id', $liquidaciondetalles[$i-1]['puesto_id'])->where('servicioubicacione_id', $liquidaciondetalles[$i-1]['servicio']->linea->servicioubicacione_id)->first()->servicio_triple;
                     //set plus_triple_serv=1000 in the previous liquidaciondetalle
                     $liquidaciondetalles[$i-1]['plus_triple_serv']=$plus_triple;
+                    $liquidaciondetalles[$i-1]['frente'] = 0;
+                    $liquidaciondetalles[$i-1]['ficha'] = 0;
+                    $liquidaciondetalles[$i-2]['frente'] = 0;
+                    $liquidaciondetalles[$i-2]['ficha'] = 0;
                 }
                 $fechaCont = $liquidaciondetalles[$i]['fecha'];
                 $cont_serv = 1;
@@ -125,13 +137,24 @@ class Index extends Component
                 $cont_serv++;  
             }
         }
+    
 
         if($cont_serv==2){
+            $plus_doble = Comisione::where('role_id', $liquidaciondetalles[$i-1]['puesto_id'])->where('servicioubicacione_id', $liquidaciondetalles[$i-1]['servicio']->linea->servicioubicacione_id)->first()->servicio_doble;
+            $plus_triple = Comisione::where('role_id', $liquidaciondetalles[$i-1]['puesto_id'])->where('servicioubicacione_id', $liquidaciondetalles[$i-1]['servicio']->linea->servicioubicacione_id)->first()->servicio_triple;
             //set plus_doble_serv=500 in the previous liquidaciondetalle
-            $liquidaciondetalles[count($liquidaciondetalles)-1]['plus_doble_serv']=$plus_doble;
+            $liquidaciondetalles[$i-1]['plus_doble_serv']=$plus_doble;
+            $liquidaciondetalles[$i-1]['frente'] = 0;
+            $liquidaciondetalles[$i-1]['ficha'] = 0;
         }elseif($cont_serv==3){
+            $plus_doble = Comisione::where('role_id', $liquidaciondetalles[$i-1]['puesto_id'])->where('servicioubicacione_id', $liquidaciondetalles[$i-1]['servicio']->linea->servicioubicacione_id)->first()->servicio_doble;
+            $plus_triple = Comisione::where('role_id', $liquidaciondetalles[$i-1]['puesto_id'])->where('servicioubicacione_id', $liquidaciondetalles[$i-1]['servicio']->linea->servicioubicacione_id)->first()->servicio_triple;
             //set plus_triple_serv=1000 in the previous liquidaciondetalle
-            $liquidaciondetalles[count($liquidaciondetalles)-1]['plus_triple_serv']=$plus_triple;
+            $liquidaciondetalles[$i-1]['plus_triple_serv']=$plus_triple;
+            $liquidaciondetalles[$i-1]['frente'] = 0;
+            $liquidaciondetalles[$i-1]['ficha'] = 0;
+            $liquidaciondetalles[$i-2]['frente'] = 0;
+            $liquidaciondetalles[$i-2]['ficha'] = 0;
         }
 
         foreach($pluses as $plus)
