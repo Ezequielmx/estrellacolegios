@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\ServicioprintController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\WebhookgptController;
 use App\Http\Livewire\Admin\Servicios\EditServicio;
+use App\Http\Livewire\MapaRuta;
+use App\Http\Controllers\RutaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,15 +24,10 @@ use App\Http\Livewire\Admin\Servicios\EditServicio;
 */
 
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/', [IndexController::class, 'index'])->name('admin');
+Route::middleware(['auth:sanctum', 'verified'])->get('/', [GrillaController::class, 'index'])->name('admin');
 Route::middleware(['auth:sanctum', 'verified'])->get('/admin', [GrillaController::class, 'index'])->name('grilla');
 Route::post('/webhook', [WebHookController::class, 'handle']);
 Route::post('/webhookgpt', [WebhookgptController::class, 'handle']);
 Route::get('/admin/rendicionprint/{serv_id}', [RendicionController::class, 'print'])->name('rendicionprint');
 Route::get('/admin/servicioprint/{serv_id}', [ServicioprintController::class, 'print'])->name('servicioprint');
 Route::get('/admin/servicioprintv/{serv_id}', [ServicioprintController::class, 'show'])->name('servicioprintv');
-
-
-
-
-

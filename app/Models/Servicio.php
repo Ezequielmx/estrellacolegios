@@ -61,6 +61,10 @@ class Servicio extends Model
         return $this->cobrado;
     }
 
+    public function tipoServicio(){
+        return $this->belongsTo('App\Models\Tiposervicio', 'tipo');
+    }
+
     function numero_a_texto($numero) {
         $unidades = array("", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve");
         $decenas = array("", "diez", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa");
