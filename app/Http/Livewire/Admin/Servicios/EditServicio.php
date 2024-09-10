@@ -43,6 +43,7 @@ class EditServicio extends Component
 
     public $newpers_id;
     public $newpers_rol_id;
+    public $newpers_plus_ayud;
 
     public $validCue;
 
@@ -120,8 +121,7 @@ class EditServicio extends Component
     }
 
     public function mount(Servicio $servicio)
-    {
-        
+    {        
         /*if(!(auth()->user()->hasAnyRole(['Super Admin', 'Administrador', 'Usuario Administrativo'])) && auth()->user()->id != $servicio->asesor_id)
             Abort(403, 'No Autorizado');*/
 
@@ -228,10 +228,9 @@ class EditServicio extends Component
     {
         $this->validate([
             'newpers_id' => 'required',
-            'newpers_rol_id' => 'required'
+            'newpers_rol_id' => 'required',
+            'newpers_plus_ayud' => 'nullable',
         ]);
-
-        //si el newpers_rol_id es 6 (instructor), asignar a una variable rolper el id del rol del personal
 
         if ($this->newpers_rol_id == 6) {
             $rolper = User::find($this->newpers_id)->roles->first()->id;
@@ -239,12 +238,20 @@ class EditServicio extends Component
             $rolper = 7;
         }
 
-        $this->servicio->personal()->attach($this->newpers_id, ['role_id' => $rolper]);
+        $this->servicio->personal()->attach($this->newpers_id, ['role_id' => $rolper, 'sin_ayudante' => $this->newpers_plus_ayud? 1 : 0]);
         $this->newpers_id = null;
         $this->newpers_rol_id = null;
+        $this->newpers_plus_ayud = null;
 
         $this->emit('render');
     }
+
+    public function changeAyud($pers_id, $sinAyud)
+    {
+        $this->servicio->personal()->updateExistingPivot($pers_id, ['sin_ayudante' => !$sinAyud]);
+        $this->emit('render');
+    }
+
 
     public function saveChange(){
         $this->cobrado_txt = $this->numero_a_texto($this->servicio->cobrado);

@@ -12,6 +12,7 @@
                         <th>Servicio Triple</th>
                         <th>Evento Frente</th>
                         <th>Evento Ficha</th>
+                        <th>Plus sin Ayudante</th>
                         <th>Servicio Suspendido</th>
                         <th>Día Libre</th>
                         <th>Día de Viaje</th>
@@ -77,7 +78,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             @else
-                                ${{ $comision->colegio_frente }}
+                                ${{ number_format($comision->colegio_frente, 0, ',', '.') }}
                             @endif
                         </td>
                         <td>
@@ -92,7 +93,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             @else
-                                ${{ $comision->colegio_ficha }}
+                                ${{ number_format($comision->colegio_ficha, 0, ',', '.') }}
                             @endif
                         </td>
         
@@ -105,7 +106,7 @@
                                     <input type="number" class="form-control" wire:model="servicio_doble">
                                 </div>
                             @else
-                                ${{ $comision->servicio_doble }}
+                                ${{ number_format($comision->servicio_doble, 0, ',', '.') }}
                             @endif
                         </td>
                         <td>
@@ -117,7 +118,7 @@
                                     <input type="number" class="form-control" wire:model="servicio_triple">
                                 </div>
                             @else
-                                ${{ $comision->servicio_triple }}
+                                ${{ number_format($comision->servicio_triple, 0, ',', '.') }}
                             @endif
                         </td>
                         <td>
@@ -129,7 +130,7 @@
                                     <input type="number" class="form-control" wire:model="evento_frente">
                                 </div>
                             @else
-                                ${{ $comision->evento_frente }}
+                                ${{ number_format($comision->evento_frente, 0, ',', '.') }}
                             @endif
                         </td>
 
@@ -142,9 +143,24 @@
                                     <input type="number" class="form-control" wire:model="evento_ficha">
                                 </div>
                             @else
-                                ${{ $comision->evento_ficha }}
+                                ${{ number_format($comision->evento_ficha, 0, ',', '.') }}
                             @endif
                         </td>
+
+                        <td>
+                            @if($editing_id == $comision->id)
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">$</div>
+                                    </div>
+                                    <input type="number" class="form-control" wire:model="plus_sin_ayudante">
+                                </div>
+                            @else
+                                ${{ number_format($comision->plus_sin_ayudante, 0, ',', '.') }}
+                            @endif
+                        </td>
+
+
                         <td>
                             @if($editing_id == $comision->id)
                                 <div class="input-group mb-2">
@@ -154,7 +170,7 @@
                                     <input type="number" class="form-control" wire:model="servicio_suspendido">
                                 </div>
                             @else
-                                ${{ $comision->servicio_suspendido }}
+                                ${{ number_format($comision->servicio_suspendido, 0, ',', '.') }}
                             @endif
                         </td>
                         <td>
@@ -166,7 +182,7 @@
                                     <input type="number" class="form-control" wire:model="dia_libre">
                                 </div>
                             @else
-                                ${{ $comision->dia_libre }}
+                                ${{ number_format($comision->dia_libre, 0, ',', '.') }}
                             @endif
                         </td>
 
@@ -179,7 +195,7 @@
                                     <input type="number" class="form-control" wire:model="dia_viaje">
                                 </div>
                             @else
-                                ${{ $comision->dia_viaje }}
+                                ${{ number_format($comision->dia_viaje, 0, ',', '.') }}
                             @endif
                         </td>
                         <td>

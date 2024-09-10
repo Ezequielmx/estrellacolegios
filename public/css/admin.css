@@ -106,6 +106,10 @@
     color: #d3d3d3;
 }
 
+.est12{ /*SUSPENDIDO*/
+    background-color: #949494!important;
+}
+
 
 
 .contSpans{
@@ -173,6 +177,10 @@
     border-color: #f727ec!important;
 }
 
+.calEst12{ /*SUSPENDIDO*/
+    border-color: #949494!important;
+}
+
 .outl{
     outline: 1px solid rgb(136, 136, 136);
 }
@@ -200,6 +208,7 @@
     margin-left: 10px;
 }
 
+/*
 .badge {
     position: relative;
     border-radius: 50%;
@@ -209,6 +218,7 @@
     width: 20px;
     height: 20px;
    }
+*/
 
 .btnwpp {
     width: 30px;

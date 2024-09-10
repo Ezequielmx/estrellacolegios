@@ -10,6 +10,7 @@
                         <th>Colegio Ficha</th>
                         <th>Servicio Doble</th>
                         <th>Servicio Triple</th>
+                        <th>Plus sin Ayudante</th>
                         <th>Evento Frente</th>
                         <th>Evento Ficha</th>
                         <th>Servicio Suspendido</th>
@@ -101,6 +102,17 @@
                                     wire:change="changeComision({{ $comision->id }}, 'evento_ficha', $event.target.value)">
                             </div>
                         </td>
+
+                        <td>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">$</div>
+                                </div>
+                                <input type="number" class="form-control" value="{{ $comision->plus_sin_ayudante }}"
+                                    wire:change="changeComision({{ $comision->id }}, 'plus_sin_ayudante', $event.target.value)">
+                            </div>
+                        </td>
+
                         <td>
                             <div class="input-group mb-2">
                                 <div class="input-group-prepend">

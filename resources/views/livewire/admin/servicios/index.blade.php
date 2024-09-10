@@ -135,6 +135,7 @@
                         </a>
                     </td>
                     @endif
+
                     <td width="10px" style="white-space: nowrap">
                         @can('rendiciones')
                             <a class="btn btn-success btn-sm"
@@ -164,8 +165,8 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div>
+     <!-- Modal int-->
+     <div>
         <div class="modal fade" id="form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -186,7 +187,8 @@
                                     @foreach ($mensAct as $ms)
                                     <div class="direct-chat-msg {{ ($ms->flow == 'inbound')? 'left' : 'right' }}">
                                         <div class="direct-chat-infos clearfix">
-                                            <span class="direct-chat-timestamp float-left">{{ $ms->date }}</span>
+                                            <span class="direct-chat-timestamp float-left">{{ strftime("%d/%m/%Y %H:%M",
+                                                strtotime($ms->date)) }}</span>
                                         </div>
                                         <div class="direct-chat-text">
                                             @if ($ms->type == 'text' || $ms->type == 'list_response' || $ms->type ==
@@ -218,6 +220,7 @@
             </div>
         </div>
     </div>
+
     <div wire:loading>
         <div class="modload">
             <div class="spinload">

@@ -17,13 +17,13 @@
                 <div class="col col-md-2">
                     <div class="form-group">
                         <label for="desdeFiltro">Desde</label>
-                        <input type="date" class="form-control" wire:model.defer="desde"  style="font-weight: bold;">
+                        <input type="date" class="form-control" wire:model.defer="desde" style="font-weight: bold;">
                     </div>
                 </div>
                 <div class="col col-md-2">
                     <div class="form-group">
                         <label for="hastaFiltro">Hasta</label>
-                        <input type="date" class="form-control" wire:model.defer="hasta"  style="font-weight: bold;">
+                        <input type="date" class="form-control" wire:model.defer="hasta" style="font-weight: bold;">
                     </div>
 
                 </div>
@@ -33,7 +33,7 @@
 
                         <button onclick="window.print()" class="btn btn-secondary d-print-none">
                             <i class="fas fa-print"></i> Imprimir
-                          </button>
+                        </button>
                     </div>
                 </div>
 
@@ -52,7 +52,8 @@
                         <tbody>
                             <tr style="font-weight: bold;">
                                 <td>Total Servicios</td>
-                                <td class="text-right">$ {{ number_format($totalFrentes + $totalFichas + $totalDoble + $totalTriple, 0,",",".") }}</td>
+                                <td class="text-right">$ {{ number_format($totalFrentes + $totalFichas + $totalDoble +
+                                    $totalTriple, 0,",",".") }}</td>
                             </tr>
                             <tr>
                                 <td>Pagos Frentes</td>
@@ -67,7 +68,7 @@
                             <tr class="table-success" style="font-weight: bold;">
                                 <td>A Liquidar</td>
                                 <td class="text-right">$ {{ number_format( $totalFichas + $totalDoble + $totalTriple +
-                                     - $totalVales, 0,",",".") }}</td>
+                                    - $totalVales, 0,",",".") }}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -127,23 +128,29 @@
                 <tbody>
                     @foreach ($liquidaciondetalles as $liquidaciondetalle)
                     <tr class="{{ $liquidaciondetalle['tipo']=='plus'? 'table-info' : '' }}">
-                        <td style="white-space: nowrap" class="align-middle text-center">{{ date('d-m-Y',strtotime($liquidaciondetalle['fecha'])) }}</td>
+                        <td style="white-space: nowrap" class="align-middle text-center">{{
+                            date('d-m-Y',strtotime($liquidaciondetalle['fecha'])) }}</td>
                         <td class="align-middle">
                             @if($liquidaciondetalle['tipo']=='servicio')
-                                @if ($liquidaciondetalle['servicio']->tipo == 1)
-                                    🏫
-                                    {{ $liquidaciondetalle['servicio']->establecimientos->first()->nombre }}
-                                @else
-                                    @if ($liquidaciondetalle['servicio']->tipo == 2)
-                                    💰
-                                    @else
-                                    🎫
-                                    @endif
-                                    {{ $liquidaciondetalle['servicio']->lugar }}
-                                @endif
+                            @if ($liquidaciondetalle['servicio']->tipo == 1)
+                            🏫
+                            {{ $liquidaciondetalle['servicio']->establecimientos->first()->nombre }}
                             @else
-                                {{ $liquidaciondetalle['servicio']->tipo->tipo}} - {{
-                                $liquidaciondetalle['servicio']->descripcion }}
+                            @if ($liquidaciondetalle['servicio']->tipo == 2)
+                            💰
+                            @else
+                            🎫
+                            @endif
+                            {{ $liquidaciondetalle['servicio']->lugar }}
+                            @endif
+
+                            @if ($liquidaciondetalle['servicio']->estado_id == 12)
+                            <span class="badge badge-secondary">Suspendido</span>
+                            @endif
+
+                            @else
+                            {{ $liquidaciondetalle['servicio']->tipo->tipo}} - {{
+                            $liquidaciondetalle['servicio']->descripcion }}
                             @endif
                         </td>
                         <td class="align-middle">
@@ -157,15 +164,23 @@
                         <td class="align-middle">
                             @if($liquidaciondetalle['tipo']=='servicio')
                             {{ $liquidaciondetalle['puesto']->name }}
+                            @if($liquidaciondetalle['sin_ayud'])
+                            <br>
+                            <span class="badge badge-primary">Sin Ayudante</span>
+                            @endif
                             @endif
                         </td>
-                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($liquidaciondetalle['frente'], 0,",",".") }}
+                        <td style="white-space: nowrap" class="text-right align-middle">$ {{
+                            number_format($liquidaciondetalle['frente'], 0,",",".") }}
                         </td>
-                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($liquidaciondetalle['ficha'], 0,",",".") }}
+                        <td style="white-space: nowrap" class="text-right align-middle">$ {{
+                            number_format($liquidaciondetalle['ficha'], 0,",",".") }}
                         </td>
-                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($liquidaciondetalle['plus_doble_serv'],
+                        <td style="white-space: nowrap" class="text-right align-middle">$ {{
+                            number_format($liquidaciondetalle['plus_doble_serv'],
                             0,",",".") }}</td>
-                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($liquidaciondetalle['plus_triple_serv'],
+                        <td style="white-space: nowrap" class="text-right align-middle">$ {{
+                            number_format($liquidaciondetalle['plus_triple_serv'],
                             0,",",".") }}</td>
                     </tr>
                     @endforeach
@@ -174,10 +189,14 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($totalFrentes, 0,",",".") }}</td>
-                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($totalFichas, 0,",",".") }}</td>
-                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($totalDoble, 0,",",".") }}</td>
-                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($totalTriple, 0,",",".") }}</td>
+                        <td style="white-space: nowrap" class="text-right align-middle">$ {{
+                            number_format($totalFrentes, 0,",",".") }}</td>
+                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($totalFichas,
+                            0,",",".") }}</td>
+                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($totalDoble,
+                            0,",",".") }}</td>
+                        <td style="white-space: nowrap" class="text-right align-middle">$ {{ number_format($totalTriple,
+                            0,",",".") }}</td>
                     </tr>
                 </tbody>
             </table>

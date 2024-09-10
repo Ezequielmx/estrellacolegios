@@ -22,7 +22,6 @@ class Comisiones extends Component
     public function mount(){
         $this->roles = Role::all();
         $this->ubicaciones = Servicioubicacione::all();   
-
     }
 
     public function changeComision(Comisione $comision , $field, $value){

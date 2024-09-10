@@ -18,6 +18,7 @@ class Comisionesb extends Component
     public $servicioubicacione_id;
     public $colegio_frente;
     public $colegio_ficha;
+    public $plus_sin_ayudante;
     public $servicio_doble;
     public $servicio_triple;
     public $evento_frente;
@@ -53,6 +54,7 @@ class Comisionesb extends Component
         $this->servicio_triple = $comision->servicio_triple;
         $this->evento_frente = $comision->evento_frente;
         $this->evento_ficha = $comision->evento_ficha;
+        $this->plus_sin_ayudante = $comision->plus_sin_ayudante;
         $this->servicio_suspendido = $comision->servicio_suspendido;
         $this->dia_libre = $comision->dia_libre;
         $this->dia_viaje = $comision->dia_viaje;
@@ -73,6 +75,7 @@ class Comisionesb extends Component
         $comision->servicio_triple = $this->servicio_triple=="" ? null : $this->servicio_triple;
         $comision->evento_frente = $this->evento_frente=="" ? null : $this->evento_frente;
         $comision->evento_ficha = $this->evento_ficha=="" ? null : $this->evento_ficha;
+        $comision->plus_sin_ayudante = $this->plus_sin_ayudante=="" ? null : $this->plus_sin_ayudante;
         $comision->servicio_suspendido = $this->servicio_suspendido=="" ? null : $this->servicio_suspendido;
         $comision->dia_libre = $this->dia_libre=="" ? null : $this->dia_libre;
         $comision->dia_viaje = $this->dia_viaje=="" ? null : $this->dia_viaje;

@@ -17,7 +17,8 @@ class Servicio extends Model
 
     public function personal(){
         return $this->belongsToMany('App\Models\User')
-                    ->withPivot('role_id');
+                    ->withPivot('role_id')
+                    ->withPivot('sin_ayudante');
     }
 
     public function horarios(){

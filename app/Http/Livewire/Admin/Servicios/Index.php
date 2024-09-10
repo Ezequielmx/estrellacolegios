@@ -60,7 +60,7 @@ class Index extends Component
     public function updShow(){
         $this->nombusq = "";
         $this->servicios = Servicio::orderBy('fecha_ini_serv')
-                            ->where('fecha_ini_serv','>=', '2023-01-01')
+                            ->where('fecha_ini_serv','>=', '2024-01-01')
                             ->where('estado_id','>', 0)
                             ->get();
         

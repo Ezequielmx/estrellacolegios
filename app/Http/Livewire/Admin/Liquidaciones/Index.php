@@ -54,37 +54,52 @@ class Index extends Component
         //create a array of liquidaciondetalle
         $liquidaciondetalles = [];
         foreach ($servicios as $servicio) {
-            //dd($servicio);
             $servicioubicacione_id = $servicio->linea->servicioubicacione_id;
             $tiposervicio_id = $servicio->tipo;
             $role_id = $servicio->pivot->role_id;
             //dd($servicio->pivot);
 
+            $sin_ayud = $servicio->personal()->where('user_id', $this->userId)->withPivot('sin_ayudante')->first()->pivot->sin_ayudante;
+            if($sin_ayud == 1){
+                $plus_sin_ayud = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicio->linea->servicioubicacione_id)->first()->plus_sin_ayudante;
+            }
+
             $fecha_ini = Carbon::parse($servicio->fecha_ini_serv);
             $dias = $fecha_ini->diffInDays($servicio->fecha_fin_serv);
 
-            if ($servicio->estado_id != 7 && $servicio->estado_id != 9) {
+            if ($servicio->estado_id != 7 && $servicio->estado_id != 9 && $servicio->estado_id != 12) {
                 continue;
             }
 
             for ($i = 0; $i <= $dias; $i++) {
                 $fecha = $i==0? $fecha_ini->format('Y-m-d') : $fecha_ini->addDays()->format('Y-m-d');
-                if ($tiposervicio_id == 1) {
-                    $frente = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->colegio_frente;
-                    $ficha = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->colegio_ficha;
-                } elseif ($tiposervicio_id == 2) {
-                    if(date('w', strtotime(date($fecha)))==0 || date('w', strtotime(date($fecha)))==6){
-                        $frente = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->evento_frente;
-                        $ficha = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->evento_ficha;
-                    }else{
-                        $frente = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->colegio_frente;
-                        $ficha = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->colegio_ficha;
-                    }
+                if($servicio->estado_id ==12){
+                    $frente = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->servicio_suspendido;
+                    $ficha = 0;
                 }
                 else{
-                    //dd($role_id, $servicioubicacione_id);
-                    $frente = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->evento_frente;
-                    $ficha = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->evento_ficha;
+                    if ($tiposervicio_id == 1) {
+                        $frente = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->colegio_frente;
+                        $ficha = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->colegio_ficha;
+                    } elseif ($tiposervicio_id == 2) {
+                        if(date('w', strtotime(date($fecha)))==0 || date('w', strtotime(date($fecha)))==6){
+                            $frente = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->evento_frente;
+                            $ficha = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->evento_ficha;
+                        }else{
+                            $frente = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->colegio_frente;
+                            $ficha = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->colegio_ficha;
+                        }
+                    }
+                    else{
+                        //dd($role_id, $servicioubicacione_id);
+                        $frente = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->evento_frente;
+                        $ficha = Comisione::where('role_id', $role_id)->where('servicioubicacione_id', $servicioubicacione_id)->first()->evento_ficha;
+                    }
+
+                    if($sin_ayud == 1){
+                        $frente = $frente + $plus_sin_ayud;
+                    }
+
                 }
 
 
@@ -97,7 +112,8 @@ class Index extends Component
                     'ficha' => $ficha,
                     'plus_doble_serv' => 0,
                     'plus_triple_serv' => 0,
-                    'tipo' => 'servicio'
+                    'tipo' => 'servicio',
+                    'sin_ayud' => $sin_ayud
                 ];
             }
         }

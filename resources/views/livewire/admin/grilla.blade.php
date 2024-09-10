@@ -19,36 +19,43 @@
                 <option value="12">DICIEMBRE</option>
             </select>
         </div>
-        <div class="col-md-2">
+        <div class="col">
             @php
             $totalServ = 0;
             $caidas = 0;
             $reprog = 0;
+            $susp = 0;
 
             foreach ($meses as $dia => $lin) {
-            foreach ($lin as $id => $valor) {
-            foreach ($valor as $serv) {
-            if ($serv->estado_id != 8 && $serv->estado_id != 10 && $serv->estado_id != 11 )
-            $totalServ ++;
-            elseif ($serv->estado_id == 10 || $serv->estado_id == 11) {
-            $reprog++;
-            } else {
-            $caidas++;
-            }
-            }
-            }
+                foreach ($lin as $id => $valor) {
+                    foreach ($valor as $serv) {
+                        if ($serv->estado_id != 8 && $serv->estado_id != 10 && $serv->estado_id != 11 && $serv->estado_id != 12 )
+                            $totalServ ++;
+                        elseif ($serv->estado_id == 10 || $serv->estado_id == 11) 
+                            $reprog++;
+                        elseif ($serv->estado_id == 12) 
+                            $susp++;
+                        else 
+                            $caidas++;    
+                    }
+                }
             }
             @endphp
             <div class="alert alert-info" role="alert" style="margin: 0; padding: 5px;text-align: center;">
-                Total de servicios: <b>{{ $totalServ }}</b>
+                Serv. act/realiz: <b>{{ $totalServ }}</b>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col">
             <div class="alert alert-warning" role="alert" style="margin: 0; padding: 5px;text-align: center;">
                 Reprog/Levantar: <b>{{ $reprog}}</b>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col">
+            <div class="alert alert-secondary" role="alert" style="margin: 0; padding: 5px;text-align: center;">
+                Suspendidos: <b>{{ $susp}}</b>
+            </div>
+        </div>
+        <div class="col">
             <div class="alert alert-danger" role="alert" style="margin: 0; padding: 5px;text-align: center;">
                 Caidas: <b>{{ $caidas}}</b>
             </div>
@@ -89,7 +96,10 @@
             </tr>
         </thead>
         <tbody>
-            @for ($dia = 1; $dia <= 31; $dia++) @php if(date('w', strtotime(date('Y').'-' . $mesSel . '-' . $dia))==0 ||
+            @php
+                $days = cal_days_in_month(CAL_GREGORIAN, $mesSel, date('Y'));
+            @endphp
+            @for ($dia = 1; $dia <= $days ; $dia++) @php if(date('w', strtotime(date('Y').'-' . $mesSel . '-' . $dia))==0 ||
                 date('w', strtotime(date('Y').'-' . $mesSel . '-' . $dia))==6) {
                 $style="background-color: #f7a9a9 !important;" ; } else { $style="" ; } @endphp <tr
                 style="{{ $style }}">
@@ -160,6 +170,7 @@
                                     border: 1px solid;
                                     border-right: 20px solid;
                                     border-radius: 5px;
+                                    margin-bottom: 5px;
                                     background-color: {{ $linea->color }};
                                     color:white;
                                     {{ $servicio->estado_id == 8? ' text-decoration: line-through;' : '' }}

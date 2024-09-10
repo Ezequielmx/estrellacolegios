@@ -273,7 +273,7 @@
                 <div class="col">
                     <div class="form-group">
                         <label for="estado_id">Estado</label>
-                        <select class="form-control" wire:model.defer="servicio.estado_id">
+                        <select class="form-control" wire:model="servicio.estado_id">
                             <option value="0" @if (auth()->user()->cannot('asignar estado preventa'))
                                 disabled
                                 @endif>PRE-VENTA</option>
@@ -298,6 +298,10 @@
                             <option value="11" @if (auth()->user()->cannot('asignar estado a levantar'))
                                 disabled
                                 @endif>A LEVANTAR</option>
+                            <option value="12" @if (auth()->user()->cannot('asignar estado suspendido'))
+                                disabled
+                                @endif>SUSPENDIDO</option>
+
                         </select>
                     </div>
                     @error('servicio.estado_id')
@@ -651,6 +655,7 @@
                     <tr>
                         <th>Personal</th>
                         <th>Puesto</th>
+                        <th class="text-center">Plus Sin Ayudante</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -666,6 +671,14 @@
                             {{ $puesto->name }}
                             @endif
                             @endforeach
+                        </td>
+                        <td>
+                            <!--checkbox para plus_sin_ayudante-->
+                            <input type="checkbox" {{ $servpersonal->pivot->sin_ayudante? 'checked' : '' }}
+                            class="form-control"
+                                wire:change="changeAyud({{ $servpersonal->id}}, {{$servpersonal->pivot->sin_ayudante? '1' : '0' }})">
+                                
+                        </td>
                         <td>
                             <button class="btn btn-danger btn-sm"
                                 wire:click="eliminarPersonal({{ $servpersonal->id }})">Eliminar</button>
@@ -696,6 +709,12 @@
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </td>
+
+                        <td>
+                            <!--checkbox para plus_sin_ayudante-->
+                            <input type="checkbox" class="form-control" wire:model = "newpers_plus_ayud">
+                        </td>
+
                         <td>
                             <button class="btn btn-success btn-sm" wire:click="agregarPersonal()">Agregar</button>
                         </td>
