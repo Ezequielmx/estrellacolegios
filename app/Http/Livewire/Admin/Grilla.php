@@ -18,15 +18,30 @@ class Grilla extends Component
 
     public function render()
     {
-        $fecha_ini = '2024-' . $this->mesSel . '-01';
-        $fecha_fin = '2024-' . $this->mesSel . '-31';
+        $fecha_ini = Carbon::createFromDate(null, $this->mesSel, 1)->format('Y-m-d');
+        $fecha_fin = Carbon::parse($fecha_ini)->endOfMonth()->format('Y-m-d');
+
+
+
         $this->lineas = Linea::conServiciosEntreFechas($fecha_ini, $fecha_fin)->orderBy('nombre')->get();
 
-        $this->servicios = Servicio::whereBetween('fecha_ini_serv', [$fecha_ini, $fecha_fin])
-            ->where('estado_id', '>', 0)->get();
+        $this->servicios = Servicio::where(function($query) use ($fecha_ini, $fecha_fin) {
+            $query->where('fecha_ini_serv', '<=', $fecha_fin)
+                  ->where('fecha_fin_serv', '>=', $fecha_ini);
+        })
+        ->where('estado_id', '>', 0)
+        ->get();
+
+
 
         $this->meses = [];
         foreach ($this->servicios as $servicio) {
+            if ($servicio->fecha_ini_serv < $fecha_ini) {
+                $servicio->fecha_ini_serv = $fecha_ini;
+            }
+            if ($servicio->fecha_fin_serv > $fecha_fin) {
+                $servicio->fecha_fin_serv = $fecha_fin;
+            }
             $fecha_ini_serv = Carbon::parse($servicio->fecha_ini_serv);
             //$mes = $fecha_ini_serv->format('m');
             $dia = intval($fecha_ini_serv->format('d'));

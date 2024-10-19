@@ -148,7 +148,7 @@
                     $icon = '⭕';
                     break;
                     }
-                    if($servicio->fecha_ini_serv != $servicio->fecha_orig_ini){
+                    if($servicio->fecha_ini_serv != $servicio->fecha_orig_ini && $servicio->fecha_orig_ini >= date('Y') . '-' . $mesSel . '-01'){
                     //Servicio que se reprogamó
                     $icon .= '🔄';
                     }

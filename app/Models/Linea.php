@@ -25,7 +25,8 @@ class Linea extends Model
     public function scopeConServiciosEntreFechas($query, $fechaInicio, $fechaFin)
     {
         return $query->whereHas('servicios', function ($query) use ($fechaInicio, $fechaFin) {
-            $query->whereBetween('fecha_ini_serv', [$fechaInicio, $fechaFin]);
+            $query->where('fecha_ini_serv', '<=', $fechaFin)
+            ->where('fecha_fin_serv', '>=', $fechaInicio);
         });
     }
 }
