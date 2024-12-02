@@ -25,7 +25,7 @@ class EditServicio extends Component
 {
     //habilitar carga de archivos con use
     use WithFileUploads;
-    
+
 
     public $servicio;
     public $rend_fte;
@@ -121,16 +121,16 @@ class EditServicio extends Component
     }
 
     public function mount(Servicio $servicio)
-    {        
+    {
         /*if(!(auth()->user()->hasAnyRole(['Super Admin', 'Administrador', 'Usuario Administrativo'])) && auth()->user()->id != $servicio->asesor_id)
             Abort(403, 'No Autorizado');*/
 
-        if(!(auth()->user()->can('Ver todos los Servicios')) && auth()->user()->id != $servicio->asesor_id)
+        if (!(auth()->user()->can('Ver todos los Servicios')) && auth()->user()->id != $servicio->asesor_id)
             Abort(403, 'No Autorizado');
-     
+
         $this->servicio = $servicio;
         $this->asesores = User::role('Asesor')->where('activo', 1)->orderBy('name')->get();
-        $this->personal = User::role(['Instructor','instructor nuevo', 'instructor intermedio', 'Cobrador'])->where('activo', 1)->orderBy('name')->get();
+        $this->personal = User::role(['Instructor', 'instructor nuevo', 'instructor intermedio', 'Cobrador'])->where('activo', 1)->orderBy('name')->get();
         //$this->puestos = Role::whereIn('name', ['Instructor','instructor nuevo','Cobrador'])->get();
         $this->puestos = Role::all();
         $this->valoraciones = Valoracione::all();
@@ -140,7 +140,7 @@ class EditServicio extends Component
         $this->planetarios = Planetario::all();
         $this->estados = Estado::all();
         $this->espacios = Espacio::all();
-        $this->lineas = Linea::where('activa','=', '1')->orderBy('nombre')->get();
+        $this->lineas = Linea::where('activa', '=', '1')->orderBy('nombre')->get();
         $this->tamanos = Tamano::all();
         $this->tipopagos = Tipopago::all();
     }
@@ -205,15 +205,15 @@ class EditServicio extends Component
         }
 
         $this->servicio->save();
-        if (isset($this->servicio->getchanges()['estado_id'])){
+        if (isset($this->servicio->getchanges()['estado_id'])) {
             $this->servicio->cambio_estado = now();
             $this->servicio->save();
         }
 
-        if (isset($this->servicio->getchanges()['asesor_id'])){
+        if (isset($this->servicio->getchanges()['asesor_id'])) {
             new asignAsesorAviso($this->servicio, $this->servicio->asesor_id);
         }
-            
+
         //redirect to admin.servicios.index with info "Servicio creado"
         return redirect()->route('admin.servicios.index')->with('info', 'Servicio guardado con éxito');
     }
@@ -233,12 +233,15 @@ class EditServicio extends Component
         ]);
 
         if ($this->newpers_rol_id == 6) {
-            $rolper = User::find($this->newpers_id)->roles->first()->id;
+            $rolper = User::find($this->newpers_id)
+                ->roles
+                ->filter(fn($role) => $role->id > 5 && $role->id != 7)
+                ->first()->id;
         } else {
             $rolper = 7;
         }
 
-        $this->servicio->personal()->attach($this->newpers_id, ['role_id' => $rolper, 'sin_ayudante' => $this->newpers_plus_ayud? 1 : 0]);
+        $this->servicio->personal()->attach($this->newpers_id, ['role_id' => $rolper, 'sin_ayudante' => $this->newpers_plus_ayud ? 1 : 0]);
         $this->newpers_id = null;
         $this->newpers_rol_id = null;
         $this->newpers_plus_ayud = null;
@@ -253,41 +256,44 @@ class EditServicio extends Component
     }
 
 
-    public function saveChange(){
+    public function saveChange()
+    {
         $this->cobrado_txt = $this->numero_a_texto($this->servicio->cobrado);
         $this->servicio->save();
     }
 
-    public function envWpp(){
+    public function envWpp()
+    {
         new mensWpp($this->servicio);
         $this->servicio->estado_id = 2;
         $this->servicio->save();
     }
 
-    function numero_a_texto($numero) {
+    function numero_a_texto($numero)
+    {
         $unidades = array("", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve");
         $decenas = array("", "diez", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa");
         $especiales = array("once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve");
         $centenas = array("", "ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos");
-     
+
         if ($numero == 0) {
             return "cero";
         } else if ($numero < 0) {
             return "menos " . $this->numero_a_texto(abs($numero));
         }
-     
+
         $texto = "";
-     
+
         if (($numero / 1000) >= 1) {
             $texto .= $this->numero_a_texto(floor($numero / 1000)) . " mil ";
             $numero %= 1000;
         }
-     
+
         if (($numero / 100) >= 1) {
             $texto .= $centenas[floor($numero / 100)] . " ";
             $numero %= 100;
         }
-     
+
         if (($numero / 10) >= 1) {
             if ($numero >= 11 && $numero <= 19) {
                 $texto .= $especiales[$numero - 11] . " ";
@@ -300,11 +306,11 @@ class EditServicio extends Component
                 $numero %= 10;
             }
         }
-     
+
         if ($numero > 0) {
             $texto .= $unidades[$numero];
         }
-     
+
         return trim($texto);
     }
 }
